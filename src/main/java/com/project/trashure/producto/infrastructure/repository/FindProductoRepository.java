@@ -7,6 +7,9 @@ import com.project.trashure.producto.infrastructure.repository.port.FindProducto
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor
 public class FindProductoRepository implements FindProductoPort {
@@ -16,5 +19,12 @@ public class FindProductoRepository implements FindProductoPort {
         ProductoJpa productoJpa = productoRepositoryJpa.findById(idProducto)
                 .orElseThrow(()-> new Exception ("No se ha encontrado ningún producto con el id " + idProducto));
         return new Producto(productoJpa);
+    }
+
+    @Override
+    public List<Producto> findAll() {
+        List<ProductoJpa> productoJpaList= productoRepositoryJpa.findAll();
+        List<Producto> productoList = productoJpaList.stream().map(Producto::new).collect(Collectors.toList());
+        return productoList;
     }
 }
