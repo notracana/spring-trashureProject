@@ -5,12 +5,13 @@ import com.project.trashure.producto.domain.ProductoJpa;
 import com.project.trashure.producto.infrastructure.repository.jpa.ProductoRepositoryJpa;
 import com.project.trashure.producto.infrastructure.repository.port.FindProductoPort;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+@Repository
 @AllArgsConstructor
 public class FindProductoRepository implements FindProductoPort {
     private ProductoRepositoryJpa productoRepositoryJpa;

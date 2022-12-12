@@ -6,6 +6,7 @@ import com.project.trashure.producto.infrastructure.repository.jpa.ProductoRepos
 import com.project.trashure.producto.infrastructure.repository.port.SaveProductoPort;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 @Repository
 @AllArgsConstructor

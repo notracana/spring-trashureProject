@@ -6,7 +6,11 @@ import com.project.trashure.producto.domain.ProductoJpa;
 import com.project.trashure.producto.infrastructure.controller.dto.input.ProductoInputDTO;
 import com.project.trashure.producto.infrastructure.repository.port.FindProductoPort;
 import com.project.trashure.producto.infrastructure.repository.port.SaveProductoPort;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
+@Service
+@AllArgsConstructor
 public class CreateProductoUseCase implements CreateProductoPort {
 
     //MIRAR ESTO:
