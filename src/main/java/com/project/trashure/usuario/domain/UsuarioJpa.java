@@ -14,7 +14,7 @@ public class UsuarioJpa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "id_usuario")
-    private Integer idUser;
+    private String idUser;
 
     @Column(name="nombre")
     private String name;

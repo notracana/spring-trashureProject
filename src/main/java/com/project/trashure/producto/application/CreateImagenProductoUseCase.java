@@ -1,5 +1,6 @@
 package com.project.trashure.producto.application;
 
+import com.project.trashure.producto.application.port.CreateImagenProductoPort;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,7 +13,7 @@ import java.nio.file.Paths;
 
 @Service
 @AllArgsConstructor
-public class CreateImagenProductoUseCase {
+public class CreateImagenProductoUseCase implements CreateImagenProductoPort {
 
     //Se crea una variable de tipo String que contiene la ubicación donde se van a cargar las imágenes
     //en el proyecto
@@ -21,6 +22,7 @@ public class CreateImagenProductoUseCase {
 
     //El primer método sirve para subir imágenes y como parámetro recibe un objeto de tipo MultipartFile
 
+    @Override
     public String saveImagen(MultipartFile multipartFile) throws IOException {
         //Si se carga la imagen del producto...
         if (!multipartFile.isEmpty()){
@@ -45,22 +47,5 @@ public class CreateImagenProductoUseCase {
         return "defaultImagenProducto.jpg";
 
     }
-    //MIRAR ESTO:
 
-    //DEBERÍA ESTAR EN DELETEIMAGENPRODUCTO??
-    //Método para borrar una imagen de producto
-    //Recibe como parámetro el nombre de la imagen
-    //Si, pore ejemplo, se borra el producto, también se tiene que borrar su imagen
-    //y si quiero borrar la foto para subir otra?
-    public void deleteImagenProducto (String nombreImagen){
-        //Variable String con la ruta donde está guardada la imagen
-
-        String carpetaImagenes = "imagenes//";
-        String rutaCompleta = carpetaImagenes + nombreImagen;
-        //Variable de tipo File al que le pasamos como parámetro la ruta de la imagen y el nombre de la imagen
-        File fileImagen = new File(rutaCompleta);
-        //se borra la imagen
-        fileImagen.delete();
-
-    }
 }

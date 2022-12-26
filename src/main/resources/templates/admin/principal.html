@@ -37,13 +37,18 @@
     <!-- Page Features -->
     <div class="row text-center">
 
-        <div class="col-lg-3 col-md-6 mb-4" th:each="producto: ${productos}">
+        <!-- recorremos para que en cada variable producto aparezca lo que trae la variable productoList desde
+         AdminController para mostrar su imagen y su nombre-->
+        <div class="col-lg-3 col-md-6 mb-4" th:each="producto: ${productoList}">
             <div class="card h-100">
+                <!-- se establece el source de donde obtiene las imágenes: el directorio imagenes
+                llamamos img a la variable-->
                 <img class="card-img-top"
-                     th:src="@{/images/{img} (img=${producto.imagen})} " alt="">
+                     th:src="@{/imagenes/{img} (img=${producto.imagen})} " alt="">
                 <div class="card-body">
                     <p class="card-text" th:text="${producto.nombre}"></p>
                 </div>
+                <!-- así se muestra la imagen y el nombre del producto-->
                 <div class="card-footer">
                     <a href="productohome.html" class="btn btn-success">Ver
                         producto</a>

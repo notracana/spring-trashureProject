@@ -1,5 +1,7 @@
 package com.project.trashure.producto.infrastructure.controller;
 
+import com.project.trashure.producto.application.CreateImagenProductoUseCase;
+import com.project.trashure.producto.application.port.CreateImagenProductoPort;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,5 +17,6 @@ import java.nio.file.Paths;
 @AllArgsConstructor
 public class CreateImagenProductoController {
 
+private CreateImagenProductoPort createImagenProductoPort;
 
 }
