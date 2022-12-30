@@ -6,6 +6,7 @@ import com.project.trashure.producto.infrastructure.repository.jpa.ProductoRepos
 import com.project.trashure.producto.infrastructure.repository.port.FindProductoPort;
 import com.project.trashure.producto.infrastructure.repository.port.SaveProductoPort;
 import com.project.trashure.usuario.domain.Usuario;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,11 +29,14 @@ public class SaveProductoController {
     @PostMapping("/saveProducto")
     public String saveProducto(
             Producto producto,
-            @RequestParam ("imgProducto") MultipartFile imgFile) throws Exception {
+            @RequestParam ("imgProducto") MultipartFile imgFile,
+            HttpSession httpSession) throws Exception {
         //El nombre del imgFile entre paréntesis es el nombre que se le da en la vista crear.html
         //el noombre del campo en el formulario --> víd 16 min 4.50
-        Usuario user = new Usuario();
-        producto.setIdUsuario(user.getIdUsuario());
+
+        String idUsuario = httpSession.getAttribute("idUsuario").toString();
+       //Al producto se le setea el id del usuario logueado
+        producto.setIdUsuario(idUsuario);
 
         //Para cargar una imagen pueden darse varios casos
         //si el producto se está creando...

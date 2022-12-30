@@ -1,6 +1,7 @@
 package com.project.trashure.usuario.domain;
 
 import com.project.trashure.producto.domain.Producto;
+import com.project.trashure.producto.domain.ProductoJpa;
 import com.project.trashure.transaccion.domain.Transaccion;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,6 +42,22 @@ public class Usuario {
 
     List<Transaccion> listaVentas;
 
+    public Usuario (UsuarioJpa usuarioJpa){
+        if(usuarioJpa == null) return;
+
+        this.setIdUsuario(usuarioJpa.getIdUsuario());
+        this.setNombre(usuarioJpa.getNombre());
+        this.setApellidos(usuarioJpa.getApellidos());
+        this.setUsername(usuarioJpa.getUsername());
+        this.setPassword(usuarioJpa.getPassword());
+        this.setEmail(usuarioJpa.getEmail());
+        this.setDireccion(usuarioJpa.getDireccion());
+        this.setTelefono(usuarioJpa.getTelefono());
+        this.setTipoUsuario(usuarioJpa.getTipoUsuario());
+        this.setListaProductos(usuarioJpa.getListaProductos());
+        this.setListaCompras(usuarioJpa.getListaCompras());
+        this.setListaVentas(usuarioJpa.getListaVentas());
+    }
 
 
 

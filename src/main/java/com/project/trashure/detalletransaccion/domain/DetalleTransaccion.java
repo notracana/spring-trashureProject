@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DetalleTransaccion {
     private String idDetalleTransaccion;
-    private String nombre;
+    private String idTransaccion;
     private int cantidad;
     private double precio;
     private double total;

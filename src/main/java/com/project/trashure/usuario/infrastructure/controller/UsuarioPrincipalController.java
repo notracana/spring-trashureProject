@@ -1,9 +1,13 @@
-package com.project.trashure.usuario.infrastructure;
+package com.project.trashure.usuario.infrastructure.controller;
 
 import com.project.trashure.detalletransaccion.domain.DetalleTransaccion;
 import com.project.trashure.producto.domain.Producto;
+import com.project.trashure.producto.infrastructure.controller.dto.input.ProductoInputDTO;
 import com.project.trashure.producto.infrastructure.repository.port.FindProductoPort;
 import com.project.trashure.transaccion.domain.Transaccion;
+import com.project.trashure.usuario.domain.Usuario;
+import com.project.trashure.usuario.infrastructure.repository.port.FindUsuarioPort;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -27,12 +32,17 @@ public class UsuarioPrincipalController {
     Transaccion transaccion = new Transaccion();
 
     private FindProductoPort findProductoPort;
+    private FindUsuarioPort findUsuarioPort;
+
+
     //Este método retorna a la vista de la página principal del usuario
 
     @GetMapping("")
-    public String principal(Model model){
+    public String principal(Model model, HttpSession httpSession){
         List<Producto> productoList = findProductoPort.findAll();
         model.addAttribute("productos", productoList);
+        //Hay que enviar la sesión a la vista de la página principal para saber si el usuario está logueado o no
+        model.addAttribute("idUsuario", httpSession.getAttribute("idUsuario").toString());
         return "usuario/principal";
     }
 
@@ -99,4 +109,44 @@ public class UsuarioPrincipalController {
         return "/usuario/favoritos";
 
     }
+
+    //Método que redirige a la vista de resumen_compra
+    @GetMapping("/resumenCompra/{idProducto}")
+    public String resumenCompra(@RequestParam String idProducto, Model model, HttpSession httpSession) throws Exception {
+        Producto producto = findProductoPort.findById(idProducto);
+        String idUsuario = httpSession.getAttribute("idUsuario").toString();
+        Usuario usuarioActual = findUsuarioPort.findById(idUsuario);
+        model.addAttribute("producto", producto);
+        model.addAttribute("usuario", usuarioActual);
+        return "usuario/resumen_compra";
+    }
+
+    //MIRAR ESTO V 33 IS THIS EVEN FINISHED??
+    @GetMapping("/generarTransaccion")
+    public String generarTransaccion(@RequestParam String idProducto, Model model, HttpSession httpSession) throws Exception{
+        Producto producto = findProductoPort.findById(idProducto);
+        String idUsuario = httpSession.getAttribute("idUsuario").toString();
+        Usuario usuarioActual = findUsuarioPort.findById(idUsuario);
+        return "";
+
+
+    }
+
+    //Método para buscar un producto en la barra de búsqueda de la pantalla principal
+    @PostMapping("/buscarProducto")
+    public String buscarProducto(@RequestParam String textoBusqueda, Model model){
+
+        //Se va a recoger en una lista todos los productos que contengan en el nombre el textBusqueda
+        //se cogen todos los productos de la base de datos y luego se filtran por el nombre
+        List<Producto> productoBusquedaList = findProductoPort.findAll().stream().filter
+                (x -> x.getNombre().contains(textoBusqueda)).collect(Collectors.toList());
+
+        //Ahora hay que enviar la lista hacia la vista con model
+        model.addAttribute("productoList", productoBusquedaList);
+
+        //redirige a la vista
+        return "usuario/principal";
+    }
+
+
 }

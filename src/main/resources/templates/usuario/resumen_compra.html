@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Trashure App</title>
+
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{css/heroic-features.css}" rel="stylesheet">
+</head>
+<body>
+<div th:include="usuario/template_usuario.html::header"></div>
+
+
+<!-- Page Content -->
+<div class="container">
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3">
+        Trashure App <small>Resumen Compra</small>
+    </h1>
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a th:href="@{/}">Página principal</a></li>
+        <li class="breadcrumb-item active">Resumen compra</li>
+    </ol>
+
+    <!-- Blog Post -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="card-body">
+                        <h5 class="card-title">Resumen de la compra</h5>
+
+                        <!-- ESTO NO SÉ SI LO QUIERO -->
+
+                        <h6 th:text="'Nombre: '+ ${usuario.nombre} + ${usuario.apellidos} "> </h6>
+                        <h6 th:text="'Correo electrónico: '+  ${usuario.email}"></h6>
+                        <h6 th:text="'Dirección: '+ ${usuario.direccion}" ></h6>
+
+
+
+                        <!--h5 class="card-title"> Producto: </h5-->
+                        <div class="alert alert-light" role="alert">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Producto</th>
+                                    <th scope="col">Imagen</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">Usuario</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td th:text="${producto.nombre}"></td>
+                                    <td> <a th:href="#"> <img class="img-fluid rounded" th:src="@{/imagenes/{imagenProducto}
+                    (imagenProducto=${producto.imagen})}" alt="Imagen producto"></a></td>
+                                    <td th:text="${producto.estado}"></td>
+                                    <td th:text="${producto.idUsuario}"></td>
+
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-lg-3">
+                    <h2 class="card-title">Resumen Orden</h2>
+
+                    <!-- ESTO NO SÉ SI DEBERÍA SER UNA LISTA-->
+                    <ul class="list-group">
+                        <!--li class="list-group-item"><h5 th:text=" 'Total: '+ ${orden.total} "> </h5></li-->
+                        <a th:href="@{/salvarTransaccion}" class="btn btn-dark">Finalizar compra</a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Footer-->
+<div th:include="usuario/template_usuario.html::footer"></div>
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

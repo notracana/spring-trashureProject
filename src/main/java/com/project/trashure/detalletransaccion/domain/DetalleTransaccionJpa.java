@@ -11,8 +11,8 @@ public class DetalleTransaccionJpa {
     @Column(name = "id_detalle_transaccion")
     private String idDetalleTransaccion;
 
-    @Column(name = "nombre")
-    private String nombre;
+    @Column(name = "id_transaccion")
+    private String getIdTransaccion;
 
     @Column(name = "cantidad")
     private int cantidad;
