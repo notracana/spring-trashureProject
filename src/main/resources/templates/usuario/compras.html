@@ -4,12 +4,11 @@
 <head>
 
   <meta charset="utf-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Trashure</title>
+  <title>Trashure App</title>
 
 
   <!-- Bootstrap core CSS -->
@@ -29,44 +28,44 @@
 
 <!-- Page Content -->
 <div class="container">
+
+
   <!-- Page Heading/Breadcrumbs -->
-  <h1 class="mt-4 mb-3">
-    Trashure App <small>Favoritos <3</small>
+  <h1 class="mt-4 mb-3">Trashure<small>Historial de compras</small>
   </h1>
 
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a th:href="@{/}">Página Principal</a></li>
-    <li class="breadcrumb-item active">Favoritos</li>
+    <li class="breadcrumb-item"><a th:href="@{/}">Página principal</a></li>
+    <li class="breadcrumb-item active">Historial de compras</li>
   </ol>
 
   <!-- Blog Post -->
   <div class="card mb-4">
     <div class="card-body">
       <div class="row">
-        <div class="col-lg-9">
+        <div class="col-lg-12">
           <table class="table">
             <thead>
             <tr>
-              <th scope="col">Producto</th>
-              <th scope="col">Estado</th> <!-- AÑADIR ESTADO DEL PRODUCTO Y PUEDE QUE USUARIO?-->
-              <th scope="col">Imagen</th> <!-- AÑADIR IMAGEN DEL PRODUCTO EN PEQUEÑITO-->
-              <th scope="col">Acción</th>
+              <th scope="col">ID Transacción</th>
+              <th scope="col">Fecha transacción</th>
+              <th scope="col">Vendedor</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Detalles transacción</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="favorito:${listaFavoritos}">
-              <td th:src="@{/imagenes/{img} (img=${favorito.imagen})} " alt="Imagen producto"></td>
-              <td th:text="${favorito.nombre}"></td>
-              <td th:text="${favorito.estado}"></td>
-              <td th:text="${favorito.idUsuario}"></td>
-              <td><a th:href="@{/deleteFavorito/{idProducto} (idProducto=${favorito.idProducto})}"
-                     class="btn btn-danger">Eliminar</a></td>
+            <tr th:each="compra: ${historialCompras}">
+              <td th:text="${compra.idTransaccion}"></td>
+              <td th:text="${compra.fechaTransaccion}" ></td>
+              <td th:text="${compra.idVendedor}" ></td>
+              <td th:text="${compra.estado}" ></td>
+              <td><a th:href="@{/getDetalleCompra/{idTransaccion} (idTransaccion=${compra.idTransaccion})}"
+                     class="btn btn-success">Ver detalles compra</a></td>
             </tr>
             </tbody>
           </table>
         </div>
-
-
       </div>
     </div>
   </div>
@@ -79,7 +78,6 @@
 <!-- Bootstrap core JavaScript -->
 <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
 <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
-
 </body>
 
 </html>

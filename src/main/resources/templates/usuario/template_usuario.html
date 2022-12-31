@@ -8,9 +8,9 @@
 
       <form class="form-inline my-2 my-lg-0" method="post" th:action="@{/buscarProducto}">
         <input class="form-control mr-sm-2" type="search"
-               placeholder="Buscar" aria-label="Search" name="nombre"
+               placeholder="Buscar tesoros" aria-label="Search" name="textoBusqueda"
                autocomplete="off">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">BUSCAR</button>
       </form>
 
 
@@ -19,10 +19,10 @@
               aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive2">
+      <div class="collapse navbar-collapse" id="navegationBar">
         <ul class="navbar-nav ml-auto">
-          <!--li class="nav-item"><a class="nav-link" th:href="@{/getCart}">Favoritos</a></li-->
-          <li class="nav-item"><a class="nav-link" th:href="@{/usuario/login}">Login</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{api/v0/usuarios/logIn}">Iniciar sesión</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{api/v0/usuarios/signUp}">Registrarse</a></li>
         </ul>
       </div>
     </div>
@@ -30,7 +30,7 @@
 
 </div>
 
-<div th:fragment="headeUuarioLogged">
+<div th:fragment="headerUsuarioLogged">
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <div class="container">
       <a class="navbar-brad" th:href="@{/}">Trashure</a>
@@ -45,7 +45,7 @@
               aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
+      <div class="collapse navbar-collapse" id="navegBar">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown"><a
                   class="nav-link dropdown-toggle" href="#"
@@ -55,6 +55,10 @@
             <div class="dropdown-menu"
                  aria-labelledby="navbarDropdownMenuLink">
               <a class="dropdown-item" th:href="@{/getFavoritos}">Favoritos</a>
+              <a class="dropdown-item" th:href="@{/getCompras}">Historial de compras</a>
+              <a class="dropdown-item" th:href="@{/getVentas}">Historial de ventas</a>
+
+
             </div>
 
           </li>

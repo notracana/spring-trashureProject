@@ -5,6 +5,7 @@ import com.project.trashure.producto.domain.Producto;
 import com.project.trashure.producto.infrastructure.controller.dto.input.ProductoInputDTO;
 import com.project.trashure.producto.infrastructure.repository.port.FindProductoPort;
 import com.project.trashure.transaccion.domain.Transaccion;
+import com.project.trashure.transaccion.infrastructure.repository.port.FindTransaccionPort;
 import com.project.trashure.usuario.domain.Usuario;
 import com.project.trashure.usuario.infrastructure.repository.port.FindUsuarioPort;
 import jakarta.servlet.http.HttpSession;
@@ -34,6 +35,8 @@ public class UsuarioPrincipalController {
     private FindProductoPort findProductoPort;
     private FindUsuarioPort findUsuarioPort;
 
+    private FindTransaccionPort findTransaccionPort;
+
 
     //Este método retorna a la vista de la página principal del usuario
 
@@ -42,7 +45,7 @@ public class UsuarioPrincipalController {
         List<Producto> productoList = findProductoPort.findAll();
         model.addAttribute("productos", productoList);
         //Hay que enviar la sesión a la vista de la página principal para saber si el usuario está logueado o no
-        model.addAttribute("idUsuario", httpSession.getAttribute("idUsuario").toString());
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
         return "usuario/principal";
     }
 
@@ -60,7 +63,7 @@ public class UsuarioPrincipalController {
     //Método para añadir un producto a favoritos, como parámetro le llega el id del producto
     //En vez de @PathVariable usamos @RequestParam ?????????? MIRAR ESTO
     @PostMapping("/annadirFavorito/{idProducto}")
-    public String annadirFavorito(@RequestParam String idProducto, Model model) throws Exception {
+    public String annadirFavorito(@RequestParam String idProducto, Model model, HttpSession httpSession) throws Exception {
         Producto producto = findProductoPort.findById(idProducto);
 
         //Se define un boolean que es true si en la lista de favoritos ya existe un match con el idProducto que
@@ -76,7 +79,7 @@ public class UsuarioPrincipalController {
 
         //se envía la lista a la vista
         model.addAttribute("listaFavoritos", listaFavoritos);
-
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
         //Hace return hacia la vista de favoritos dentro de usuario
         return "usuario/favoritos";
     }
@@ -147,6 +150,59 @@ public class UsuarioPrincipalController {
         //redirige a la vista
         return "usuario/principal";
     }
+
+    //Método que redirige a la vista de compras del usuario logueado
+    @GetMapping("/getCompras")
+    public String historialCompras(Model model, HttpSession httpSession) throws Exception {
+        String idUsuario = httpSession.getAttribute("idUsuario").toString();
+
+        if(idUsuario != null){
+            //recuperamos la lista de transacciones realizadas como comprador por parte del usuario
+            List<Transaccion> historialCompras = findTransaccionPort.findAllByIdComprador(idUsuario);
+            model.addAttribute("historialCompras", historialCompras);
+        }
+
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+
+        //Redirige a la vista de compras del usuario
+        return "usuario/compras";
+    }
+
+    //Método que redirige a la vista de ventas del usuario logueado ?????
+    @GetMapping("/getVentas")
+    public String historialVentas(Model model, HttpSession httpSession){
+        String idUsuario = httpSession.getAttribute("idUsuario").toString();
+
+        if(idUsuario != null){
+            //recuperamos la lista de transacciones realizadas como vendedor por parte del usuario
+            List<Transaccion> historialVentas = findTransaccionPort.findAllByIdVendedor(idUsuario);
+            model.addAttribute("historialVentas", historialVentas);
+        }
+
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+
+        //Redirige a la vista de ventas del usuario
+        return "usuario/ventas";
+    }
+
+    @GetMapping("getDetalleCompra/{idTransaccion}")
+    public String getDetalleCompra(@PathVariable String idTransaccion, Model model, HttpSession httpSession){
+       // Transaccion compra = findTransaccionPort.findById(idTransaccion);
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+
+        model.addAttribute("compra", idTransaccion);
+        return "usuario/detalle_compra";
+
+    }
+
+    @GetMapping("getDetalleVenta/{idTransaccion}")
+    public String getDetalleVenta(@PathVariable String idTransaccion, Model model, HttpSession httpSession){
+        model.addAttribute("idTransaccion", idTransaccion);
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+        return "usuario/detalle_venta";
+
+    }
+
 
 
 }

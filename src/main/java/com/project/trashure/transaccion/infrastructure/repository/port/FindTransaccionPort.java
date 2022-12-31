@@ -7,4 +7,9 @@ import java.util.List;
 public interface FindTransaccionPort {
 
     List<Transaccion> findAll();
+
+    List<Transaccion> findAllByIdComprador(String idComprador);
+
+    List<Transaccion> findAllByIdVendedor(String idVendedor);
+
 }
