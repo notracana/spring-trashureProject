@@ -51,7 +51,6 @@ public class WebSecurityConfig {
 
     /*
     In antMatchers() (as well as mvcMathcers() and regexMatchers()) have been deprecated and removed with Spring Security 6.0
-
 Overloaded method requesMatchers() was provided as a uniform mean for securing requests.
  It facilitates all the functionality of the configuration methods that have been removed from the API.
 
