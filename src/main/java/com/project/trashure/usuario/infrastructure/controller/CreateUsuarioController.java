@@ -80,4 +80,13 @@ public class CreateUsuarioController {
         return "redirect :/";
     }
 
+    @GetMapping("logOut")
+    public String logOut(HttpSession httpSession){
+        //Hacemos que la variable idUsuario sea null, de manera que ya no se tenga acceso a
+        //apartados destinados para los usuarios logueados
+        httpSession.removeAttribute("idUsuario");
+        //Tras cerrar sesión, se devuelve a la página principal
+        return "redirect:/";
+    }
+
 }

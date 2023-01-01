@@ -8,9 +8,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TransaccionRepositoryJpa extends JpaRepository<Transaccion, String> {
+public interface TransaccionRepositoryJpa extends JpaRepository<TransaccionJpa, String> {
     List<TransaccionJpa> findAllByIdComprador(String idComprador);
 
     List<TransaccionJpa> findAllByIdVendedor(String idVendedor);
+
+    List<TransaccionJpa> findAll();
+
 
 }

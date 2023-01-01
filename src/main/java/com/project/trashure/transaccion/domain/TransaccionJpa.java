@@ -32,9 +32,6 @@ public class TransaccionJpa {
     @Column (name = "fecha_transaccion")
     private Date fechaTransaccion;
 
-    @Column (name = "fecha_recepcion")
-    private Date fechaRecepcion;
-
     @Column (name = "total")
     private double total;
 

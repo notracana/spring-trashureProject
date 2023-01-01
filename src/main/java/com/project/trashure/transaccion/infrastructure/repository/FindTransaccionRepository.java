@@ -18,7 +18,9 @@ public class FindTransaccionRepository implements FindTransaccionPort {
     private TransaccionRepositoryJpa transaccionRepositoryJpa;
     @Override
     public List<Transaccion> findAll() {
-        return transaccionRepositoryJpa.findAll();
+        List<TransaccionJpa> transaccionJpaList = transaccionRepositoryJpa.findAll();
+
+        return transaccionJpaList.stream().map(Transaccion::new).collect(Collectors.toList());
     }
 
     @Override

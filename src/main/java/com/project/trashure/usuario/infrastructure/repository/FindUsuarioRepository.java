@@ -7,6 +7,9 @@ import com.project.trashure.usuario.infrastructure.repository.port.FindUsuarioPo
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Repository
 @AllArgsConstructor
 public class FindUsuarioRepository implements FindUsuarioPort {
@@ -24,6 +27,12 @@ public class FindUsuarioRepository implements FindUsuarioPort {
     public Usuario findByUsername(String username) {
         return usuarioRepositoryJpa.findByUsername(username);
 
+    }
+
+    @Override
+    public List<Usuario> findAll() {
+        List<UsuarioJpa> usuarioJpaList = usuarioRepositoryJpa.findAll();
+        return usuarioJpaList.stream().map(Usuario::new).collect(Collectors.toList());
     }
 
 

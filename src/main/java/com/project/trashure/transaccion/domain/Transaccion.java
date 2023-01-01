@@ -21,7 +21,6 @@ public class Transaccion {
     private String estado;
     private String numero;
     private Date fechaTransaccion;
-    private Date fechaRecepcion;
 
     private double total;
 

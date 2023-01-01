@@ -21,11 +21,15 @@
                     <li class="nav-item dropdown"><a
                             class="nav-link dropdown-toggle" href="#"
                             id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false"> Administrador </a>
+                            aria-haspopup="true" aria-expanded="false">Admin</a>
 
                         <div class="dropdown-menu"
                              aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" th:href="@{/productos/getProductos}">Productos</a>
+                            <a class="dropdown-item" th:href="@{api/v0/admin/getUsuarios}">Usuarios</a>
+                            <a class="dropdown-item" th:href="@{api/v0/productos/getProductos}">Productos</a>
+                            <a class="dropdown-item" th:href="@{api/v0/admin/getTransacciones}">Transacciones</a>
+                            <a class="dropdown-item" th:href="@{api/v0/usuarios/logOut}">Cerrar sesión</a>
+
                         </div>
                     </li>
                 </ul>

@@ -39,7 +39,7 @@ public class SaveTransaccionController {
         DetalleTransaccion detalleTransaccion = new DetalleTransaccion();
         detalleTransaccion.setIdTransaccion(transaccionSaved.getIdTransaccion());
         //MIRAR ESTO HACE FALTA HACER ESTO..LO COMENTO PARA EL COMMIT
-         //detalleTransaccion.setIdProducto(___);
+         detalleTransaccion.setIdProducto(___);
         saveDetalleTransaccionRepository.save(detalleTransaccion);
 
         //tras finalizar la compra, se debe devolver a la pantalla principal

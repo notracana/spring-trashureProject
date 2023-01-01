@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/productos")
+@RequestMapping("api/v0/productos")
 public class GetProductoController {
 
     private FindProductoRepository findProductoRepository;
