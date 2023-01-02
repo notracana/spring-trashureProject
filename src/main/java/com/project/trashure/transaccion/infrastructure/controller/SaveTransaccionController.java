@@ -36,11 +36,12 @@ public class SaveTransaccionController {
 
         //Se ha de generar un objeto de tipo DetalleTransaccion
 
+        /*
         DetalleTransaccion detalleTransaccion = new DetalleTransaccion();
         detalleTransaccion.setIdTransaccion(transaccionSaved.getIdTransaccion());
         //MIRAR ESTO HACE FALTA HACER ESTO..LO COMENTO PARA EL COMMIT
          detalleTransaccion.setIdProducto(___);
-        saveDetalleTransaccionRepository.save(detalleTransaccion);
+        saveDetalleTransaccionRepository.save(detalleTransaccion);*/
 
         //tras finalizar la compra, se debe devolver a la pantalla principal
         return "redirect:/";

@@ -1,4 +1,4 @@
-package com.project.trashure.perfil.infrastructure.controller;
+package com.project.trashure.usuario.infrastructure.controller;
 
 import com.project.trashure.producto.domain.Producto;
 import com.project.trashure.producto.infrastructure.repository.port.FindProductoPort;

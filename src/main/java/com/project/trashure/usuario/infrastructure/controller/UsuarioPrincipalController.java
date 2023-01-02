@@ -186,7 +186,7 @@ public class UsuarioPrincipalController {
     }
 
     @GetMapping("getDetalleCompra/{idTransaccion}")
-    public String getDetalleCompra(@PathVariable String idTransaccion, Model model, HttpSession httpSession){
+    public String getDetalleCompra(@PathVariable String idTransaccion, Model model, HttpSession httpSession) throws Exception {
        Transaccion compra = findTransaccionPort.findById(idTransaccion);
         model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
 

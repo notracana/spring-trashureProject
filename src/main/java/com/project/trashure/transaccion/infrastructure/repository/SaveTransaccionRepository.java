@@ -21,10 +21,10 @@ public class SaveTransaccionRepository implements SaveTransaccionPort {
     private FindTransaccionPort findTransaccionPort;
     @Override
     public Transaccion save(Transaccion transaccion) {
-        //TransaccionJpa transaccionJpa = new TransaccionJpa(transaccion);
-        //Transaccion transaccionJpaSaved = transaccionRepositoryJpa.saveAndFlush(transaccionJpa);
-        //return new Producto(transaccionJpaSaved);
-        return transaccionRepositoryJpa.save(transaccion);
+        TransaccionJpa transaccionJpa = new TransaccionJpa(transaccion);
+        TransaccionJpa transaccionJpaSaved = transaccionRepositoryJpa.saveAndFlush(transaccionJpa);
+        return new Transaccion(transaccionJpaSaved);
+        //return transaccionRepositoryJpa.save(transaccion);
     }
 
 

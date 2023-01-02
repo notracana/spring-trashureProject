@@ -1,7 +1,8 @@
 package com.project.trashure.transaccion.domain;
 
-import com.project.trashure.detalletransaccion.domain.DetalleTransaccion;
-import com.project.trashure.detalletransaccion.domain.DetalleTransaccionJpa;
+import com.project.trashure.producto.domain.Producto;
+import com.project.trashure.producto.domain.ProductoJpa;
+import com.project.trashure.usuario.domain.UsuarioJpa;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,17 +27,23 @@ public class TransaccionJpa {
     @Column (name = "estado")
     private String estado;
 
-    @Column (name = "numero")
-    private String numero;
+    /*
+    @Column (name = "id_producto")
+    private String idProducto;*/
 
     @Column (name = "fecha_transaccion")
     private Date fechaTransaccion;
 
-    @Column (name = "total")
-    private double total;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_usuario", updatable = false, insertable = false)
+    private UsuarioJpa usuarioJpa;
 
-    @OneToOne (mappedBy = "id_transaccion")
-    private DetalleTransaccion detalleTransaccion;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name="id_producto")
+    private ProductoJpa productoJpa;
+
+    //@OneToOne (mappedBy = "id_transaccion")
+    //private DetalleTransaccion detalleTransaccion;
 
     public TransaccionJpa (Transaccion transaccion){
         if(transaccion == null){return;}
@@ -44,7 +51,19 @@ public class TransaccionJpa {
         this.setIdVendedor(transaccion.getIdVendedor());
         this.setIdComprador(transaccion.getIdComprador());
         this.setEstado(transaccion.getEstado());
-        this.setNumero(transaccion.getNumero());
+        //this.setIdProducto(transaccion.getIdProducto());
         this.setFechaTransaccion(transaccion.getFechaTransaccion());
+
+        Producto producto = transaccion.getProducto();
+        updateProducto(producto);
+
+    }
+    public void updateProducto(Producto producto){
+        if(producto == null){
+            this.setProductoJpa(null);
+            return;
+        }
+        ProductoJpa productoJpa1 = new ProductoJpa(producto);
+        this.setProductoJpa(productoJpa1);
     }
 }

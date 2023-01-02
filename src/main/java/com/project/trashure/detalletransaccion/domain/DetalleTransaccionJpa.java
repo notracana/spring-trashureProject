@@ -2,10 +2,10 @@ package com.project.trashure.detalletransaccion.domain;
 
 import jakarta.persistence.*;
 
-@Entity
-@Table(name="detalles_transacciones")
+//@Entity
+//@Table(name="detalles_transacciones")
 public class DetalleTransaccionJpa {
-
+/*
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_detalle_transaccion")
@@ -28,4 +28,6 @@ public class DetalleTransaccionJpa {
 
     @OneToMany
     private String idProducto;
+
+ */
 }

@@ -36,7 +36,9 @@ public class CreateProductoController {
         //al crear un producto, se debería guardar con el id del usuario que lo sube
         //cómo hacer esto??
 
-        producto.setIdUsuario(idUsuario);
+
+        //producto.setIdUsuario(idUsuario);
+        producto.setPropietario(usuario);
         //video 11 minuto 3
 
         createProductoPort.create(producto);

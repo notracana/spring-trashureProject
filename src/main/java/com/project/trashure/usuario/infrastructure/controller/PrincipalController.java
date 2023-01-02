@@ -1,4 +1,4 @@
-package com.project.trashure.perfil.infrastructure.controller;
+package com.project.trashure.usuario.infrastructure.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;

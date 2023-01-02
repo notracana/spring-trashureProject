@@ -34,4 +34,11 @@ public class FindTransaccionRepository implements FindTransaccionPort {
         List<TransaccionJpa> transaccionJpaList = transaccionRepositoryJpa.findAllByIdComprador(idVendedor);
         return transaccionJpaList.stream().map(Transaccion::new).collect(Collectors.toList());
     }
+
+    @Override
+    public Transaccion findById(String idTransaccion) throws Exception {
+        TransaccionJpa transaccionJpa = transaccionRepositoryJpa.findById(idTransaccion).orElseThrow(
+                ()-> new Exception("No se ha encontrado una transacción con ese id"));
+        return new Transaccion(transaccionJpa);
+    }
 }

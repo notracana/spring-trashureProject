@@ -6,6 +6,7 @@ import com.project.trashure.producto.infrastructure.repository.jpa.ProductoRepos
 import com.project.trashure.producto.infrastructure.repository.port.FindProductoPort;
 import com.project.trashure.producto.infrastructure.repository.port.SaveProductoPort;
 import com.project.trashure.usuario.domain.Usuario;
+import com.project.trashure.usuario.infrastructure.repository.port.FindUsuarioPort;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,8 @@ public class SaveProductoController {
 
     private FindProductoPort findProductoPort;
 
+    private FindUsuarioPort findUsuarioPort;
+
     @PostMapping("/saveProducto")
     public String saveProducto(
             Producto producto,
@@ -36,7 +39,10 @@ public class SaveProductoController {
 
         String idUsuario = httpSession.getAttribute("idUsuario").toString();
        //Al producto se le setea el id del usuario logueado
-        producto.setIdUsuario(idUsuario);
+        //producto.setIdUsuario(idUsuario);
+
+        Usuario usuarioLogged = findUsuarioPort.findById(idUsuario);
+        producto.setPropietario(usuarioLogged);
 
         //Para cargar una imagen pueden darse varios casos
         //si el producto se está creando...

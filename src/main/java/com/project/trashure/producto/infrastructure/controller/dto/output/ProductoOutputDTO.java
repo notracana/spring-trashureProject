@@ -30,13 +30,13 @@ public class ProductoOutputDTO implements Serializable {
         this.descripcion = producto.getDescripcion();
         this.estado = producto.getEstado();
         this.imagen = producto.getImagen();
-        this.precio = producto.getPrecio();
-        this.cantidad = producto.getCantidad();
+        //this.precio = producto.getPrecio();
+        //this.cantidad = producto.getCantidad();
 
         //MIRAR ESTO:
         // NO SÉ SI INTERESA TENER EL ID DEL USUARIO O MÁS BIEN EL NOMNRE, DE MANERA QUE HABRÍA QUE ENCONTRAR LA FORMA
         //DE OBTENERLO
-        this.idUsuario = producto.getIdUsuario();
+        //this.idUsuario = producto.getIdUsuario();
     }
 
 }
