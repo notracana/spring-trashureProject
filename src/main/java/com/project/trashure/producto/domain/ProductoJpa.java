@@ -17,9 +17,29 @@ public class ProductoJpa {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    /*
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PRODUCTO_SEQ")
+    @GenericGenerator(
+            name = "PRODUCTO_SEQ",
+            strategy = "com.package com.project.trashure.sequences.SequenceIdGenerator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(
+                            name = SequenceIdGenerator.INCREMENT_PARAM,
+                            value = "1"
+                    ),
+                    @org.hibernate.annotations.Parameter(
+                            name = SequenceIdGenerator.VALUE_PREFIX_PARAMETER,
+                            value="PRO"
+                    ),
+                    @org.hibernate.annotations.Parameter(
+                            name = SequenceIdGenerator.NUMBER_FORMAT_PARAMETER,
+                            value = "%08d"
+                    )
+            }
+    )*/
     @Column(name="id_producto")
-    private String idProducto;
+    private Integer idProducto;
 
     @Column(name="nombre")
     private String nombre;

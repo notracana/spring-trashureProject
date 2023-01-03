@@ -3,14 +3,14 @@ package com.project.trashure.usuario.infrastructure.repository;
 import com.project.trashure.usuario.domain.Usuario;
 import com.project.trashure.usuario.infrastructure.repository.port.FindUsuarioPort;
 import jakarta.servlet.http.HttpSession;
-import lombok.AllArgsConstructor;
+import lombok.AllArgsConstructor;/*
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;*/
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -20,7 +20,13 @@ import java.util.stream.Collectors;
 
 @Repository
 @AllArgsConstructor
+
+public class UserDetailsRepository{
+
+/*
 public class UserDetailsRepository implements UserDetailsService {
+
+    /*
 
     private FindUsuarioPort findUsuarioPort;
 
@@ -45,5 +51,5 @@ public class UserDetailsRepository implements UserDetailsService {
         else{
             throw new UsernameNotFoundException("No existe ningún usuario con ese username.");
         }
-    }
+    }*/
 }

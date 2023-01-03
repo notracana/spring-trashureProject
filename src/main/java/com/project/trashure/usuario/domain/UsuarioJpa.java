@@ -2,8 +2,6 @@ package com.project.trashure.usuario.domain;
 
 import com.project.trashure.producto.domain.Producto;
 import com.project.trashure.producto.domain.ProductoJpa;
-import com.project.trashure.review.domain.Review;
-import com.project.trashure.review.domain.ReviewJpa;
 import com.project.trashure.transaccion.domain.Transaccion;
 import com.project.trashure.transaccion.domain.TransaccionJpa;
 import jakarta.persistence.*;
@@ -11,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,9 +22,29 @@ import java.util.stream.Collectors;
 public class UsuarioJpa {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+/*
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USUARIO_SEQ")
+    @GenericGenerator(
+            name = "USUARIO_SEQ",
+            strategy = "com.package com.project.trashure.sequences.SequenceIdGenerator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(
+                            name = SequenceIdGenerator.INCREMENT_PARAM,
+                            value = "1"
+                    ),
+                    @org.hibernate.annotations.Parameter(
+                            name = SequenceIdGenerator.VALUE_PREFIX_PARAMETER,
+                            value="USU"
+                    ),
+                    @org.hibernate.annotations.Parameter(
+                            name = SequenceIdGenerator.NUMBER_FORMAT_PARAMETER,
+                            value = "%08d"
+                    )
+            }
+    )*/
     @Column (name = "id_usuario")
-    private String idUsuario;
+    private int idUsuario;
 
     @Column(name="nombre")
     private String nombre;
@@ -58,7 +75,7 @@ public class UsuarioJpa {
     //Definimos una relación de uno a muchos entre usuario y productos y determinados que está mapeada por el campo
     //id_usuario, que es un campo definido en la clase Producto
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_producto")
+    @JoinColumn(name = "id_usuario")
     List<ProductoJpa> productosSubidosJpa;
 
     //Relación de uno a muchos entre usuario y las compras, que es una lista de tipo Transaccion
@@ -67,7 +84,7 @@ public class UsuarioJpa {
     List<Transaccion> listaCompras;*/
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_transaccion")
+    @JoinColumn(name = "id_usuario")
     List<TransaccionJpa> transaccionJpas;
 
     //Relación de uno a muchos entre usuario y las ventas, que es una lista de tipo Transaccion

@@ -2,8 +2,7 @@ package com.project.trashure.producto.application;
 
 import com.project.trashure.producto.application.port.CreateProductoPort;
 import com.project.trashure.producto.domain.Producto;
-import com.project.trashure.producto.domain.ProductoJpa;
-import com.project.trashure.producto.infrastructure.controller.dto.input.ProductoInputDTO;
+
 import com.project.trashure.producto.infrastructure.repository.port.FindProductoPort;
 import com.project.trashure.producto.infrastructure.repository.port.SaveProductoPort;
 import lombok.AllArgsConstructor;

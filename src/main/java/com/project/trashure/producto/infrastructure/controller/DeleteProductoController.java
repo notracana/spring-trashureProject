@@ -22,13 +22,13 @@ public class DeleteProductoController {
 
     @DeleteMapping("{idProducto}")
     @Transactional(rollbackFor = Exception.class)
-    public void delete(@PathVariable("idProducto") String idProducto){
+    public void delete(@PathVariable("idProducto") Integer idProducto){
         deleteProductoPort.deleteById(idProducto);
     }
 
     //endpoint para redirigir a la vista de todos los productos una vez borrado un producto
     @GetMapping("/delete/{idProducto}")
-    public String deleteProducto(@PathVariable String idProducto) throws Exception {
+    public String deleteProducto(@PathVariable Integer idProducto) throws Exception {
 
         //antes de borrar el producto, borramos la imagen
         Producto producto = new Producto();

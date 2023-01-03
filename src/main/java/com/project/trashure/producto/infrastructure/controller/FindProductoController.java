@@ -15,7 +15,7 @@ public class FindProductoController {
 
     @GetMapping("{idProducto}")
     @Transactional(rollbackFor = Exception.class, readOnly = true)
-    public ProductoOutputDTO findById(@PathVariable("idProducto") String idProducto) throws Exception {
+    public ProductoOutputDTO findById(@PathVariable("idProducto") Integer idProducto) throws Exception {
         Producto producto = findProductoPort.findById(idProducto);
         return new ProductoOutputDTO(producto);
     }

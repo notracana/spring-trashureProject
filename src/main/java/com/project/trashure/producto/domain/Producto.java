@@ -1,6 +1,5 @@
 package com.project.trashure.producto.domain;
 
-import com.project.trashure.producto.infrastructure.controller.dto.input.ProductoInputDTO;
 import com.project.trashure.usuario.domain.Usuario;
 import com.project.trashure.usuario.domain.UsuarioJpa;
 import lombok.AllArgsConstructor;
@@ -14,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Producto {
 
-    private String idProducto;
+    private Integer idProducto;
 
     private String nombre;
 

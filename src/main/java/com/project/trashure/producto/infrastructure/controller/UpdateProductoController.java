@@ -28,7 +28,7 @@ public class UpdateProductoController {
     @PutMapping("{idProducto}")
     @Transactional(rollbackFor = Exception.class)
     public ProductoOutputDTO update(
-            @PathVariable("idProducto") String idProducto,
+            @PathVariable("idProducto") Integer idProducto,
             @RequestBody ProductoInputDTO productoInputDTO) throws Exception {
 
         Producto producto = findProductoPort.findById(idProducto);
@@ -44,7 +44,7 @@ public class UpdateProductoController {
     //es decir, traslada el producto encontrado en la bdd a la vista
     @GetMapping("/editarProducto/{idProducto}")
     public String editarProducto(
-            @PathVariable String idProducto, Model model) throws Exception {
+            @PathVariable Integer idProducto, Model model) throws Exception {
 
 
         //Se guarda el producto encontrado con el id en un objeto de tipo Producto

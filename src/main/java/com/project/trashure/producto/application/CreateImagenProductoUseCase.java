@@ -12,7 +12,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Service
-@AllArgsConstructor
 public class CreateImagenProductoUseCase implements CreateImagenProductoPort {
 
     //Se crea una variable de tipo String que contiene la ubicación donde se van a cargar las imágenes

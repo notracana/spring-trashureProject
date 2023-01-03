@@ -6,7 +6,6 @@ import com.project.trashure.usuario.domain.UsuarioJpa;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.Date;
 
 @Entity
@@ -15,9 +14,29 @@ import java.util.Date;
 @Setter
 public class TransaccionJpa {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+/*
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TRANSACCION_SEQ")
+    @GenericGenerator(
+            name = "TRANSACCION_SEQ",
+            strategy = "com.package com.project.trashure.sequences.SequenceIdGenerator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(
+                            name = SequenceIdGenerator.INCREMENT_PARAM,
+                            value = "1"
+                    ),
+                    @org.hibernate.annotations.Parameter(
+                            name = SequenceIdGenerator.VALUE_PREFIX_PARAMETER,
+                            value="TRA"
+                    ),
+                    @org.hibernate.annotations.Parameter(
+                            name = SequenceIdGenerator.NUMBER_FORMAT_PARAMETER,
+                            value = "%08d"
+                    )
+            }
+    )*/
     @Column (name = "id_transaccion")
-    private String idTransaccion;
+    private int idTransaccion;
 
     @Column (name = "id_vendedor")
     private String idVendedor;

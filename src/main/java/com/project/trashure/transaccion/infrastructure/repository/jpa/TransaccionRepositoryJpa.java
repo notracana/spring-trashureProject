@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TransaccionRepositoryJpa extends JpaRepository<TransaccionJpa, String> {
+public interface TransaccionRepositoryJpa extends JpaRepository<TransaccionJpa, Integer> {
     List<TransaccionJpa> findAllByIdComprador(String idComprador);
 
     List<TransaccionJpa> findAllByIdVendedor(String idVendedor);

@@ -13,7 +13,7 @@ public interface FindTransaccionPort {
 
     List<Transaccion> findAllByIdVendedor(String idVendedor);
 
-    Transaccion findById(String idTransaccion) throws Exception;
+    Transaccion findById(Integer idTransaccion) throws Exception;
 
 
 }

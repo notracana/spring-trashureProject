@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class FindProductoRepository implements FindProductoPort {
     private ProductoRepositoryJpa productoRepositoryJpa;
     @Override
-    public Producto findById(String idProducto) throws Exception {
+    public Producto findById(Integer idProducto) throws Exception {
         ProductoJpa productoJpa = productoRepositoryJpa.findById(idProducto)
                 .orElseThrow(()-> new Exception ("No se ha encontrado ningún producto con el id " + idProducto));
         return new Producto(productoJpa);

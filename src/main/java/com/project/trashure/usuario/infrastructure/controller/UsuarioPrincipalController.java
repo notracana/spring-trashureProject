@@ -1,8 +1,6 @@
 package com.project.trashure.usuario.infrastructure.controller;
 
-import com.project.trashure.detalletransaccion.domain.DetalleTransaccion;
 import com.project.trashure.producto.domain.Producto;
-import com.project.trashure.producto.infrastructure.controller.dto.input.ProductoInputDTO;
 import com.project.trashure.producto.infrastructure.repository.port.FindProductoPort;
 import com.project.trashure.transaccion.domain.Transaccion;
 import com.project.trashure.transaccion.infrastructure.repository.port.FindTransaccionPort;
@@ -24,13 +22,13 @@ import java.util.stream.Collectors;
 public class UsuarioPrincipalController {
 
     //MIRAR ESTO: CREO QUE NO LO NECESITO PORQUE NO TENGO CARRITO > COMPRA
-    List<DetalleTransaccion> detalleTransaccionList = new ArrayList<DetalleTransaccion>();
+   // List<DetalleTransaccion> detalleTransaccionList = new ArrayList<DetalleTransaccion>();
 
     //MIRAR ESTO: LO QUE SÍ NECESITO ES UNA LISTA DE LOS PRODUCTOS FAVORITOS
     List<Producto> listaFavoritos = new ArrayList<Producto>();
 
     //MIRAR ESTO: ES POSIBLE QUE SÍ LO NECESITE CUANDO AÑADA EL BOTÓN DE COMPRAR EN EL DETALLE DE UN PRODUCTO
-    Transaccion transaccion = new Transaccion();
+    //Transaccion transaccion = new Transaccion();
 
     private FindProductoPort findProductoPort;
     private FindUsuarioPort findUsuarioPort;
@@ -45,7 +43,12 @@ public class UsuarioPrincipalController {
         List<Producto> productoList = findProductoPort.findAll();
         model.addAttribute("productos", productoList);
         //Hay que enviar la sesión a la vista de la página principal para saber si el usuario está logueado o no
-        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+        if(httpSession.getAttribute("idUsuario")!=null){
+            model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+        }
+        else{
+            model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario"));
+        }
         return "usuario/principal";
     }
 
@@ -53,7 +56,7 @@ public class UsuarioPrincipalController {
     //sobre el botón de detalle desde la vista principal del usuario
     //como parámetro se le pasa el idProducto del producto que se quiere ver en detalle
     @GetMapping("detalleProducto/{idProducto}")
-    public String detalleProducto(@PathVariable String idProducto, Model model) throws Exception {
+    public String detalleProducto(@PathVariable Integer idProducto, Model model) throws Exception {
         Producto producto = findProductoPort.findById(idProducto);
         model.addAttribute("producto", producto);
         //nos retorna a la vista de detalle del producto
@@ -63,12 +66,12 @@ public class UsuarioPrincipalController {
     //Método para añadir un producto a favoritos, como parámetro le llega el id del producto
     //En vez de @PathVariable usamos @RequestParam ?????????? MIRAR ESTO
     @PostMapping("/annadirFavorito/{idProducto}")
-    public String annadirFavorito(@RequestParam String idProducto, Model model, HttpSession httpSession) throws Exception {
+    public String annadirFavorito(@RequestParam Integer idProducto, Model model, HttpSession httpSession) throws Exception {
         Producto producto = findProductoPort.findById(idProducto);
 
         //Se define un boolean que es true si en la lista de favoritos ya existe un match con el idProducto que
         //viene por parámetro y false si no está en la lista
-        boolean yaEsFavorito = listaFavoritos.stream().anyMatch(producto1 -> producto1.getIdProducto().equals(producto.getIdProducto()));
+        boolean yaEsFavorito = listaFavoritos.stream().anyMatch(producto1 -> String.valueOf(producto1.getIdProducto()).equals(String.valueOf(producto.getIdProducto())));
 
         //en caso de que no esté ese idProducto en la lista de favoritos, entonces se añade
         if(!yaEsFavorito){
@@ -86,11 +89,12 @@ public class UsuarioPrincipalController {
 
     //Método para eliminar un producto de la lista de favoritos
     @GetMapping("/deleteFavorito/{idProducto}")
-    public String deleteFavorito(@PathVariable String idProducto, Model model) throws Exception {
+    public String deleteFavorito(@PathVariable Integer idProducto, Model model) throws Exception {
         Producto productoToDelete = findProductoPort.findById(idProducto);
 
         for(Producto p : listaFavoritos){
-            if(p.getIdProducto().equals(idProducto)){
+            String id = String.valueOf(p.getIdProducto());
+            if(id.equals(idProducto)){
                 //se obtiene el índice del producto a borrar dentro de la lista
                 //o directamente se borra ese prodcuto de la lista
                 listaFavoritos.remove(p);
@@ -115,10 +119,11 @@ public class UsuarioPrincipalController {
 
     //Método que redirige a la vista de resumen_compra
     @GetMapping("/resumenCompra/{idProducto}")
-    public String resumenCompra(@RequestParam String idProducto, Model model, HttpSession httpSession) throws Exception {
+    public String resumenCompra(@RequestParam Integer idProducto, Model model, HttpSession httpSession) throws Exception {
         Producto producto = findProductoPort.findById(idProducto);
         String idUsuario = httpSession.getAttribute("idUsuario").toString();
-        Usuario usuarioActual = findUsuarioPort.findById(idUsuario);
+        Integer idUsuarioInt = Integer.parseInt(idUsuario);
+        Usuario usuarioActual = findUsuarioPort.findById(idUsuarioInt);
         model.addAttribute("producto", producto);
         model.addAttribute("usuario", usuarioActual);
         return "usuario/resumen_compra";
@@ -126,10 +131,11 @@ public class UsuarioPrincipalController {
 
     //MIRAR ESTO V 33 IS THIS EVEN FINISHED??
     @GetMapping("/generarTransaccion")
-    public String generarTransaccion(@RequestParam String idProducto, Model model, HttpSession httpSession) throws Exception{
+    public String generarTransaccion(@RequestParam Integer idProducto, Model model, HttpSession httpSession) throws Exception{
         Producto producto = findProductoPort.findById(idProducto);
         String idUsuario = httpSession.getAttribute("idUsuario").toString();
-        Usuario usuarioActual = findUsuarioPort.findById(idUsuario);
+        Integer idUsuarioInt = Integer.parseInt(idUsuario);
+        Usuario usuarioActual = findUsuarioPort.findById(idUsuarioInt);
         return "";
 
 
@@ -186,7 +192,7 @@ public class UsuarioPrincipalController {
     }
 
     @GetMapping("getDetalleCompra/{idTransaccion}")
-    public String getDetalleCompra(@PathVariable String idTransaccion, Model model, HttpSession httpSession) throws Exception {
+    public String getDetalleCompra(@PathVariable Integer idTransaccion, Model model, HttpSession httpSession) throws Exception {
        Transaccion compra = findTransaccionPort.findById(idTransaccion);
         model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
 
@@ -196,7 +202,7 @@ public class UsuarioPrincipalController {
     }
 
     @GetMapping("getDetalleVenta/{idTransaccion}")
-    public String getDetalleVenta(@PathVariable String idTransaccion, Model model, HttpSession httpSession){
+    public String getDetalleVenta(@PathVariable Integer idTransaccion, Model model, HttpSession httpSession){
         model.addAttribute("idTransaccion", idTransaccion);
         model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
         return "usuario/detalle_venta";

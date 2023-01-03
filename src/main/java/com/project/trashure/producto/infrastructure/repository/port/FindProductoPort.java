@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface FindProductoPort {
 
-    Producto findById(String idProducto) throws Exception;
+    Producto findById(Integer idProducto) throws Exception;
 
     List<Producto> findAll ();
 }

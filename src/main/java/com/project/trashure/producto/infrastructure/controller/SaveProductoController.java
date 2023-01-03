@@ -41,7 +41,8 @@ public class SaveProductoController {
        //Al producto se le setea el id del usuario logueado
         //producto.setIdUsuario(idUsuario);
 
-        Usuario usuarioLogged = findUsuarioPort.findById(idUsuario);
+        Integer idUsuarioInt = Integer.parseInt(idUsuario);
+        Usuario usuarioLogged = findUsuarioPort.findById(idUsuarioInt);
         producto.setPropietario(usuarioLogged);
 
         //Para cargar una imagen pueden darse varios casos

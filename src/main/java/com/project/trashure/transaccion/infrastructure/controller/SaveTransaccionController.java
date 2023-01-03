@@ -1,7 +1,5 @@
 package com.project.trashure.transaccion.infrastructure.controller;
 
-import com.project.trashure.detalletransaccion.domain.DetalleTransaccion;
-import com.project.trashure.detalletransaccion.infrastructure.repository.SaveDetalleTransaccionRepository;
 import com.project.trashure.transaccion.domain.Transaccion;
 import com.project.trashure.transaccion.infrastructure.repository.port.SaveTransaccionPort;
 import lombok.AllArgsConstructor;
@@ -18,7 +16,7 @@ public class SaveTransaccionController {
 
     private SaveTransaccionPort saveTransaccionPort;
 
-    private SaveDetalleTransaccionRepository saveDetalleTransaccionRepository;
+    //private SaveDetalleTransaccionRepository saveDetalleTransaccionRepository;
 
     //A este método se llama cuando se da a finalizar compra de un producto
     @GetMapping("/salvarTransaccion")

@@ -16,7 +16,7 @@ public class FindUsuarioRepository implements FindUsuarioPort {
     private UsuarioRepositoryJpa usuarioRepositoryJpa;
 
     @Override
-    public Usuario findById(String idUsuario) throws Exception {
+    public Usuario findById(Integer idUsuario) throws Exception {
         UsuarioJpa usuarioJpa = usuarioRepositoryJpa.findById(idUsuario)
                 .orElseThrow(()-> new Exception ("No se ha encontrado ningún usuario con el id "
                         + idUsuario));

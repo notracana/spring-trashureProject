@@ -26,7 +26,7 @@ public class Usuario {
     //atributos
 
     //Igual ocurre con las notaciones @AllArgsConstructor y @NoArgsConstructor
-    private String idUsuario;
+    private int idUsuario;
     private String nombre;
     private String apellidos;
     private String username;

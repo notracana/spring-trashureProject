@@ -17,7 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 
 public class Transaccion {
-    private String idTransaccion;
+    private Integer idTransaccion;
     private String idVendedor;
     private String idComprador;
 

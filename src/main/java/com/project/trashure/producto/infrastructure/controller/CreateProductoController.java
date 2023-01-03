@@ -31,7 +31,8 @@ public class CreateProductoController {
 
 
         String idUsuario = httpsession.getAttribute("idUsuario").toString();
-        Usuario usuario = findUsuarioPort.findById(idUsuario);
+        Integer idUsuarioInt = Integer.parseInt(idUsuario);
+        Usuario usuario = findUsuarioPort.findById(idUsuarioInt);
         //MIRAR ESTO:
         //al crear un producto, se debería guardar con el id del usuario que lo sube
         //cómo hacer esto??

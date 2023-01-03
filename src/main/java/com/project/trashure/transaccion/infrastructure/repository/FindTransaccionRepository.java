@@ -36,7 +36,7 @@ public class FindTransaccionRepository implements FindTransaccionPort {
     }
 
     @Override
-    public Transaccion findById(String idTransaccion) throws Exception {
+    public Transaccion findById(Integer idTransaccion) throws Exception {
         TransaccionJpa transaccionJpa = transaccionRepositoryJpa.findById(idTransaccion).orElseThrow(
                 ()-> new Exception("No se ha encontrado una transacción con ese id"));
         return new Transaccion(transaccionJpa);

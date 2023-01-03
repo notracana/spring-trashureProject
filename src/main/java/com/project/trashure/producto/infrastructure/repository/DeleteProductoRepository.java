@@ -12,7 +12,7 @@ public class DeleteProductoRepository implements DeleteProductoPort {
 
     private ProductoRepositoryJpa productoRepositoryJpa;
     @Override
-    public void deleteById(String idProducto) {
+    public void deleteById(Integer idProducto) {
         productoRepositoryJpa.deleteById(idProducto);
 
     }

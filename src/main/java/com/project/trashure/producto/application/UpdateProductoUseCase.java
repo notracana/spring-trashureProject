@@ -14,7 +14,7 @@ public class UpdateProductoUseCase implements UpdateProductoPort {
     private FindProductoPort findProductoPort;
     private SaveProductoPort saveProductoPort;
     @Override
-    public Producto update(String idProducto, String nombre, String descripcion, String estado, String imagen) throws Exception {
+    public Producto update(Integer idProducto, String nombre, String descripcion, String estado, String imagen) throws Exception {
         Producto producto = findProductoPort.findById(idProducto);
         if(nombre!=null) producto.setNombre(nombre);
         if(descripcion!=null) producto.setDescripcion(descripcion);

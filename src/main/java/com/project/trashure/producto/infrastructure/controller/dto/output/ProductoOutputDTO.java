@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class ProductoOutputDTO implements Serializable {
-    private String idProducto;
+    private int idProducto;
 
     private String nombre;
 
