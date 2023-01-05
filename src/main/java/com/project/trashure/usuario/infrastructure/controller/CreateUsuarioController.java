@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@AllArgsConstructor
 @RestController
 @RequestMapping("api/v0/usuarios")
+@AllArgsConstructor
 public class CreateUsuarioController {
 
     private CreateUsuarioPort createUsuarioPort;
