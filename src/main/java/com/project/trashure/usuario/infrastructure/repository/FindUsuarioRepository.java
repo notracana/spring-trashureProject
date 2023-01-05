@@ -25,7 +25,8 @@ public class FindUsuarioRepository implements FindUsuarioPort {
 
     @Override
     public Usuario findByUsername(String username) {
-        return usuarioRepositoryJpa.findByUsername(username);
+
+        return new Usuario(usuarioRepositoryJpa.findByUsername(username));
 
     }
 

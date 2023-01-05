@@ -67,4 +67,5 @@ public class AdminController {
         //Redirige a la vista de las transacciones de Admin
         return "admin/transacciones";
     }
+
 }

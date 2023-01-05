@@ -209,6 +209,27 @@ public class UsuarioPrincipalController {
 
     }
 
+    //Método que redirige a la vista de los productos de un usuario
+    @GetMapping("/getProductos")
+    public String getProductos (Model model, HttpSession httpSession) throws Exception {
+        Usuario usuario = new Usuario();
+        if(httpSession.getAttribute("idUsuario")!=null){
+            model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+            String idUsuario = httpSession.getAttribute("idUsuario").toString();
+            Integer id = Integer.parseInt(idUsuario);
+            usuario = findUsuarioPort.findById(id);
+        }
+        else{
+            model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario"));
+        }
+
+        List<Producto> listaProductos = new ArrayList<>();
+        listaProductos = findProductoPort.findAllByPropietario(usuario);
+        model.addAttribute("listaProductos", listaProductos);
+        //Hace return hacia la vista de favoritos dentro de usuario
+        return "/usuario/productos";
+
+    }
 
 
 }

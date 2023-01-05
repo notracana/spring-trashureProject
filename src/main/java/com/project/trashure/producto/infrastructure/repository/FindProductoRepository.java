@@ -4,6 +4,7 @@ import com.project.trashure.producto.domain.Producto;
 import com.project.trashure.producto.domain.ProductoJpa;
 import com.project.trashure.producto.infrastructure.repository.jpa.ProductoRepositoryJpa;
 import com.project.trashure.producto.infrastructure.repository.port.FindProductoPort;
+import com.project.trashure.usuario.domain.Usuario;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -28,4 +29,12 @@ public class FindProductoRepository implements FindProductoPort {
         List<Producto> productoList = productoJpaList.stream().map(Producto::new).collect(Collectors.toList());
         return productoList;
     }
+
+    @Override
+    public List<Producto> findAllByPropietario(Usuario propietario) {
+        List<ProductoJpa> productoJpaList = productoRepositoryJpa.findAllByPropietario(propietario);
+        return productoJpaList.stream().map(Producto::new).collect(Collectors.toList());
+    }
+
+
 }
