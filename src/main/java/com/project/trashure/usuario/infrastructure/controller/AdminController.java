@@ -37,7 +37,7 @@ public class AdminController {
         //y el contenido de la lista
         //de esta forma, al llamar a este método, se obtendrían los productos
         //y pasan a la vista principal
-        model.addAttribute("productos", productoList);
+        model.addAttribute("productoList", productoList);
 
         //es necesario que en la vista principal.html para iterar sobre los cards a lo largo de la lista de productos
     return "admin/principal";

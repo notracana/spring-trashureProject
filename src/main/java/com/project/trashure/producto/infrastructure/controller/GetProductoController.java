@@ -30,7 +30,7 @@ public class GetProductoController {
         if(listaProductos.isEmpty()){
             model.addAttribute("listaProductos", new ArrayList<Producto>());
         }
-        else{        model.addAttribute("listaProductos", findProductoRepository.findAll());
+        else{        model.addAttribute("listaProductos", listaProductos);
         }
         //La lista de productos va a ser enviada a la vista producto/mostrar
         return "producto/mostrar";

@@ -19,6 +19,7 @@ public class Producto {
 
     private String descripcion;
 
+    private Integer idUsuario;
     private String estado;
 
     private String imagen;
@@ -50,6 +51,7 @@ public class Producto {
         //this.setCantidad(productoJpa.getCantidad());
         //this.setIdUsuario(productoJpa.getIdUsuario());
         this.setDisponibilidad(productoJpa.getDisponibilidad());
+        this.setIdUsuario(productoJpa.getIdUsuario());
     }
 
 

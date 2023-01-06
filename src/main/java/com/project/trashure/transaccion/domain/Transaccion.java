@@ -18,8 +18,8 @@ import java.util.Date;
 
 public class Transaccion {
     private Integer idTransaccion;
-    private String idVendedor;
-    private String idComprador;
+    private Integer idVendedor;
+    private Integer idComprador;
 
     //El estado puede ser "pendiente", "aceptada", "rechazada"
     private String estado;

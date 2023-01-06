@@ -8,13 +8,14 @@ import com.project.trashure.producto.infrastructure.controller.dto.output.Produc
 import com.project.trashure.producto.infrastructure.repository.port.DeleteImagenProductoPort;
 import com.project.trashure.producto.infrastructure.repository.port.FindProductoPort;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @AllArgsConstructor
-@RestController
+@Controller
 @RequestMapping("api/v0/productos")
 public class UpdateProductoController {
 
@@ -69,7 +70,7 @@ public class UpdateProductoController {
 
         //Redirect porque es una petición a GetProductoController
         //es decir, llama al método mostrar del controlador
-        return "redirect:/producto/editar";
+        return "producto/editar";
     }
 
     //MIRAR ESTO:

@@ -2,10 +2,14 @@ package com.project.trashure.usuario.infrastructure.controller;
 
 import com.project.trashure.producto.domain.Producto;
 import com.project.trashure.producto.infrastructure.repository.port.FindProductoPort;
+import com.project.trashure.producto.infrastructure.repository.port.SaveProductoPort;
+import com.project.trashure.transaccion.application.port.CreateTransaccionPort;
 import com.project.trashure.transaccion.domain.Transaccion;
 import com.project.trashure.transaccion.infrastructure.repository.port.FindTransaccionPort;
+import com.project.trashure.transaccion.infrastructure.repository.port.SaveTransaccionPort;
 import com.project.trashure.usuario.domain.Usuario;
 import com.project.trashure.usuario.infrastructure.repository.port.FindUsuarioPort;
+import com.project.trashure.usuario.infrastructure.repository.port.SaveUsuarioPort;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -13,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,13 +40,20 @@ public class UsuarioPrincipalController {
 
     private FindTransaccionPort findTransaccionPort;
 
+    private SaveProductoPort saveProductoPort;
+
+    private SaveTransaccionPort saveTransaccionPort;
+
+    private CreateTransaccionPort createTransaccionPort;
+
+    private SaveUsuarioPort saveUsuarioPort;
 
     //Este método retorna a la vista de la página principal del usuario
 
     @GetMapping("")
     public String principal(Model model, HttpSession httpSession){
         List<Producto> productoList = findProductoPort.findAll();
-        model.addAttribute("productos", productoList);
+        model.addAttribute("productoList", productoList);
         //Hay que enviar la sesión a la vista de la página principal para saber si el usuario está logueado o no
         if(httpSession.getAttribute("idUsuario")!=null){
             model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
@@ -130,13 +142,29 @@ public class UsuarioPrincipalController {
     }
 
     //MIRAR ESTO V 33 IS THIS EVEN FINISHED??
-    @GetMapping("/generarTransaccion")
+    @PostMapping("/generarTransaccion/{idProducto}")
     public String generarTransaccion(@RequestParam Integer idProducto, Model model, HttpSession httpSession) throws Exception{
         Producto producto = findProductoPort.findById(idProducto);
+        producto.setDisponibilidad("No disponible");
+        Integer idVendedor = producto.getIdUsuario();
+        saveProductoPort.save(producto);
         String idUsuario = httpSession.getAttribute("idUsuario").toString();
         Integer idUsuarioInt = Integer.parseInt(idUsuario);
         Usuario usuarioActual = findUsuarioPort.findById(idUsuarioInt);
-        return "";
+
+        Transaccion transaccionCompra = new Transaccion();
+        transaccionCompra.setFechaTransaccion(new Date());
+        transaccionCompra.setIdComprador(idUsuarioInt);
+        transaccionCompra.setIdVendedor(idVendedor);
+        transaccionCompra.setEstado("Pendiente");
+        transaccionCompra.setProducto(producto);
+        Transaccion transaccionCreated = createTransaccionPort.create(transaccionCompra);
+
+        usuarioActual.getListaCompras().add(transaccionCreated);
+        saveUsuarioPort.save(usuarioActual);
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+
+        return "usuario/compras";
 
 
     }
@@ -227,7 +255,7 @@ public class UsuarioPrincipalController {
         listaProductos = findProductoPort.findAllByPropietario(usuario);
         model.addAttribute("listaProductos", listaProductos);
         //Hace return hacia la vista de favoritos dentro de usuario
-        return "/usuario/productos";
+        return "usuario/productos";
 
     }
 

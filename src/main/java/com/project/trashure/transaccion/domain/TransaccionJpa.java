@@ -39,9 +39,9 @@ public class TransaccionJpa {
     private int idTransaccion;
 
     @Column (name = "id_vendedor")
-    private String idVendedor;
+    private Integer idVendedor;
     @Column (name = "id_comprador")
-    private String idComprador;
+    private Integer idComprador;
 
     @Column (name = "estado")
     private String estado;

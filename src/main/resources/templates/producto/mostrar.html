@@ -43,10 +43,11 @@
     <table class="table">
         <thead>
         <tr>
+            <th scope="col">Imagen</th>
             <th scope="col">Nombre</th>
             <th scope="col">Descripción</th>
-            <th scope="col">Inventario</th>
-            <th scope="col">Precio</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Disponibilidad</th>
             <th scope="col">Acción</th>
             <th scope="col">Acción</th>
         </tr>
@@ -55,13 +56,14 @@
 
         <!-- Con th:each se recorre una lista de los productos que le llegan del GetProductoController-->
         <tr th:each="producto:${listaProductos}">
+            <td th:file="${producto.imagen}"></td>
             <td th:text="${producto.nombre}"></td>
             <td th:text="${producto.descripcion}"></td>
-            <td th:text="${producto.cantidad}"></td>
-            <td th:text="${producto.precio}"></td>
+            <td th:text="${producto.estado}"></td>
+            <td th:text="${producto.disponibilidad}"></td>
 
-            <td><a  class="btn btn-warning" th:href="@{api/v0/productos/editarProducto/{idProducto} (idProducto=${producto.idProducto}) }">Editar</a> </td>
-            <td><a  class="btn btn-danger" th:href="@{api/v0/productos/delete/{idProducto} (idProducto=${producto.idProducto}) }">Eliminar</a> </td>
+            <td><a  class="btn btn-warning" th:href="@{/api/v0/productos/editarProducto/{idProducto} (idProducto=${producto.idProducto}) }">Editar</a> </td>
+            <td><a  class="btn btn-danger" th:href="@{/api/v0/productos/delete/{idProducto} (idProducto=${producto.idProducto}) }">Eliminar</a> </td>
         </tr>
         </tbody>
     </table>

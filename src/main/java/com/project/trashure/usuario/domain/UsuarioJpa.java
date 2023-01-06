@@ -74,7 +74,7 @@ public class UsuarioJpa {
 
     //Definimos una relación de uno a muchos entre usuario y productos y determinados que está mapeada por el campo
     //id_usuario, que es un campo definido en la clase Producto
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_usuario")
     List<ProductoJpa> productosSubidosJpa;
 

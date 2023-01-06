@@ -47,10 +47,12 @@
           <table class="table">
             <thead>
             <tr>
+              <th scope="col">Imagen</th> <!-- AÑADIR IMAGEN DEL PRODUCTO EN PEQUEÑITO-->
               <th scope="col">Producto</th>
               <th scope="col">Estado</th> <!-- AÑADIR ESTADO DEL PRODUCTO Y PUEDE QUE USUARIO?-->
-              <th scope="col">Imagen</th> <!-- AÑADIR IMAGEN DEL PRODUCTO EN PEQUEÑITO-->
-              <th scope="col">Acción</th>
+              <th scope="col">Disponibilidad</th>
+              <th scope="col">Propietario</th>
+              <th scope="col">   </th>
             </tr>
             </thead>
             <tbody>
@@ -58,6 +60,8 @@
               <td th:src="@{/imagenes/{img} (img=${favorito.imagen})} " alt="Imagen producto"></td>
               <td th:text="${favorito.nombre}"></td>
               <td th:text="${favorito.estado}"></td>
+              <td th:text="${favorito.disponibilidad}"></td>
+
               <td th:text="${favorito.idUsuario}"></td>
               <td><a th:href="@{/deleteFavorito/{idProducto} (idProducto=${favorito.idProducto})}"
                      class="btn btn-danger">Eliminar</a></td>

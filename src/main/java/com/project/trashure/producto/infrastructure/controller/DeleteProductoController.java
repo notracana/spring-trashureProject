@@ -5,11 +5,12 @@ import com.project.trashure.producto.infrastructure.repository.port.DeleteImagen
 import com.project.trashure.producto.infrastructure.repository.port.DeleteProductoPort;
 import com.project.trashure.producto.infrastructure.repository.port.FindProductoPort;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
-@RestController
+@Controller
 @RequestMapping("api/v0/productos")
 public class DeleteProductoController {
     private DeleteProductoPort deleteProductoPort;

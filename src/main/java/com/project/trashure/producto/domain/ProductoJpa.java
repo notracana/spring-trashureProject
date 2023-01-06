@@ -50,6 +50,8 @@ public class ProductoJpa {
     @Column(name="estado")
     private String estado;
 
+    @Column(name="id_usuario")
+    Integer idUsuario;
     @Column(name="imagen")
     private String imagen;
 
@@ -83,5 +85,6 @@ public class ProductoJpa {
         //this.setCantidad(producto.getCantidad());
         //this.setIdUsuario(producto.getIdUsuario());
         this.setDisponibilidad(producto.getDisponibilidad());
+        this.setIdUsuario(producto.getIdUsuario());
     }
 }

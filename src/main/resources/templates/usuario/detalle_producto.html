@@ -23,7 +23,8 @@
 <body>
 
 <!-- Navigation -->
-<div th:include="usuario/template_usuario.html::header"></div>
+<div th:include="usuario/template_usuario.html::headerUsuarioLogged" th:unless="${usuarioLogged==null}"></div>
+<div th:include="usuario/template_usuario.html::headerUsuarioNoLogged" th:if="${usuarioLogged==null}"></div>
 
 <!-- Page Content -->
 <div class="container">
@@ -43,7 +44,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-6">
-                    <a th:href="#"> <img class="img-fluid rounded" th:src="@{/imagenes/{imagenProducto}
+                    <a > <img class="img-fluid rounded" th:src="@{/imagenes/{imagenProducto}
                     (imagenProducto=${producto.imagen})}" alt="Imagen producto">
                     </a>
                 </div>
@@ -56,13 +57,22 @@
                             <li class="list-group-item">
                                 <h5 th:text="'Descripción: '+ ${producto.descripcion} "></h5>
                             </li>
-                            <li class="list-group-item"><h5 th:text="'Precio: '+ ${producto.precio} "></h5></li>
+                            <li class="list-group-item"><h5 th:text="'Disponibilidad: '+ ${producto.disponibilidad} "></h5></li>
+                            <li class="list-group-item"><h5 th:text="'Propietario: '+ ${producto.idUsuario} "></h5></li>
+
                         </ul>
 
 
                         <button type="submit" class="btn btn-dark">Añadir a favoritos</button>
 
                     </form>
+
+                    <form th:action="@{/generarTransaccion/{idProducto}}" method="POST">
+                        <input type="hidden" th:value="${producto.idProducto}" name="idProducto">
+                        <button type="submit" class="btn btn-dark">Comprar</button>
+
+                    </form>
+
                 </div>
             </div>
         </div>

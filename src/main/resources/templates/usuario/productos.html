@@ -56,11 +56,10 @@
 
         <!-- Con th:each se recorre una lista de los productos que le llegan del GetProductoController-->
         <tr th:each="producto:${listaProductos}">
+            <td th:file="${producto.imagen}"></td>
             <td th:text="${producto.nombre}"></td>
             <td th:text="${producto.estado}"></td>
             <td th:text="${producto.disponibilidad}"></td>
-            <td th:text="${producto.precio}"></td>
-
             <td><a  class="btn btn-warning" th:href="@{api/v0/productos/editarProducto/{idProducto} (idProducto=${producto.idProducto}) }">Editar</a> </td>
             <td><a  class="btn btn-danger" th:href="@{api/v0/productos/delete/{idProducto} (idProducto=${producto.idProducto}) }">Eliminar</a> </td>
         </tr>

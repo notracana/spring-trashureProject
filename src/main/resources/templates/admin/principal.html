@@ -50,7 +50,7 @@
                 </div>
                 <!-- así se muestra la imagen y el nombre del producto-->
                 <div class="card-footer">
-                    <a href="productohome.html" class="btn btn-success">Ver producto</a>
+                    <a th:href="@{/detalleProducto/{idProducto} (idProducto=${producto.idProducto})}" class="btn btn-success">Ver producto</a>
                 </div>
             </div>
         </div>

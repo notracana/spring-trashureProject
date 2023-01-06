@@ -27,7 +27,7 @@ public class SaveTransaccionController {
         //Se tiene que crear un objeto de tipo Transacción
         Transaccion transaccion = new Transaccion();
         transaccion.setFechaTransaccion(fechaTransaccion);
-        transaccion.setIdComprador("idComprador"); //esto se tiene que sacar la de información de la sesión
+        transaccion.setIdComprador(1); //esto se tiene que sacar la de información de la sesión
         //transaccion.setIdVendedor(); ESTO LO PODRÍAMOS PONER EN LOS DETALLES
         //transaccion.setIdTransaccion(saveTransaccionPort.generarNumeroOrden(0));
         Transaccion transaccionSaved = saveTransaccionPort.save(transaccion);
