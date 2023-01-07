@@ -9,9 +9,9 @@ public interface FindTransaccionPort {
 
     List<Transaccion> findAll();
 
-    List<Transaccion> findAllByIdComprador(String idComprador);
+    List<Transaccion> findAllByIdComprador(Integer idComprador);
 
-    List<Transaccion> findAllByIdVendedor(String idVendedor);
+    List<Transaccion> findAllByIdVendedor(Integer idVendedor);
 
     Transaccion findById(Integer idTransaccion) throws Exception;
 

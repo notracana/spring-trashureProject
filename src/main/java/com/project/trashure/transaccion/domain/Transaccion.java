@@ -34,6 +34,8 @@ public class Transaccion {
 
     public Transaccion (TransaccionJpa transaccionJpa){
         if(transaccionJpa == null){return;}
+        this.transaccionJpa = transaccionJpa;
+
         this.setIdTransaccion(transaccionJpa.getIdTransaccion());
         this.setIdVendedor(transaccionJpa.getIdVendedor());
         this.setIdComprador(transaccionJpa.getIdComprador());

@@ -9,9 +9,9 @@ import java.util.List;
 
 @Repository
 public interface TransaccionRepositoryJpa extends JpaRepository<TransaccionJpa, Integer> {
-    List<TransaccionJpa> findAllByIdComprador(String idComprador);
+    List<TransaccionJpa> findAllByIdComprador(Integer idComprador);
 
-    List<TransaccionJpa> findAllByIdVendedor(String idVendedor);
+    List<TransaccionJpa> findAllByIdVendedor(Integer idVendedor);
 
     List<TransaccionJpa> findAll();
 

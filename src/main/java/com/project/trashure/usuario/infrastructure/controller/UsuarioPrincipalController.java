@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class UsuarioPrincipalController {
 
     //MIRAR ESTO: CREO QUE NO LO NECESITO PORQUE NO TENGO CARRITO > COMPRA
-   // List<DetalleTransaccion> detalleTransaccionList = new ArrayList<DetalleTransaccion>();
+    // List<DetalleTransaccion> detalleTransaccionList = new ArrayList<DetalleTransaccion>();
 
     //MIRAR ESTO: LO QUE SÍ NECESITO ES UNA LISTA DE LOS PRODUCTOS FAVORITOS
     List<Producto> listaFavoritos = new ArrayList<Producto>();
@@ -51,14 +51,13 @@ public class UsuarioPrincipalController {
     //Este método retorna a la vista de la página principal del usuario
 
     @GetMapping("")
-    public String principal(Model model, HttpSession httpSession){
+    public String principal(Model model, HttpSession httpSession) {
         List<Producto> productoList = findProductoPort.findAll();
         model.addAttribute("productoList", productoList);
         //Hay que enviar la sesión a la vista de la página principal para saber si el usuario está logueado o no
-        if(httpSession.getAttribute("idUsuario")!=null){
+        if (httpSession.getAttribute("idUsuario") != null) {
             model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
-        }
-        else{
+        } else {
             model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario"));
         }
         return "usuario/principal";
@@ -68,9 +67,10 @@ public class UsuarioPrincipalController {
     //sobre el botón de detalle desde la vista principal del usuario
     //como parámetro se le pasa el idProducto del producto que se quiere ver en detalle
     @GetMapping("detalleProducto/{idProducto}")
-    public String detalleProducto(@PathVariable Integer idProducto, Model model) throws Exception {
+    public String detalleProducto(@PathVariable Integer idProducto, Model model, HttpSession httpSession) throws Exception {
         Producto producto = findProductoPort.findById(idProducto);
         model.addAttribute("producto", producto);
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
         //nos retorna a la vista de detalle del producto
         return "usuario/detalle_producto";
     }
@@ -86,7 +86,7 @@ public class UsuarioPrincipalController {
         boolean yaEsFavorito = listaFavoritos.stream().anyMatch(producto1 -> String.valueOf(producto1.getIdProducto()).equals(String.valueOf(producto.getIdProducto())));
 
         //en caso de que no esté ese idProducto en la lista de favoritos, entonces se añade
-        if(!yaEsFavorito){
+        if (!yaEsFavorito) {
             //Este producto se añade a la lista de favoritos
             listaFavoritos.add(producto);
         }
@@ -104,9 +104,9 @@ public class UsuarioPrincipalController {
     public String deleteFavorito(@PathVariable Integer idProducto, Model model) throws Exception {
         Producto productoToDelete = findProductoPort.findById(idProducto);
 
-        for(Producto p : listaFavoritos){
+        for (Producto p : listaFavoritos) {
             String id = String.valueOf(p.getIdProducto());
-            if(id.equals(idProducto)){
+            if (id.equals(idProducto)) {
                 //se obtiene el índice del producto a borrar dentro de la lista
                 //o directamente se borra ese prodcuto de la lista
                 listaFavoritos.remove(p);
@@ -122,7 +122,8 @@ public class UsuarioPrincipalController {
 
     //Método que redirige a la vista de favoritos desde cualquier parte de la app
     @GetMapping("/getFavoritos")
-    public String getFavoritos (Model model){
+    public String getFavoritos(Model model,HttpSession httpSession) {
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
         model.addAttribute("listaFavoritos", listaFavoritos);
         //Hace return hacia la vista de favoritos dentro de usuario
         return "/usuario/favoritos";
@@ -143,7 +144,7 @@ public class UsuarioPrincipalController {
 
     //MIRAR ESTO V 33 IS THIS EVEN FINISHED??
     @PostMapping("/generarTransaccion/{idProducto}")
-    public String generarTransaccion(@RequestParam Integer idProducto, Model model, HttpSession httpSession) throws Exception{
+    public String generarTransaccion(@RequestParam Integer idProducto, Model model, HttpSession httpSession) throws Exception {
         Producto producto = findProductoPort.findById(idProducto);
         producto.setDisponibilidad("No disponible");
         Integer idVendedor = producto.getIdUsuario();
@@ -160,7 +161,13 @@ public class UsuarioPrincipalController {
         transaccionCompra.setProducto(producto);
         Transaccion transaccionCreated = createTransaccionPort.create(transaccionCompra);
 
-        usuarioActual.getListaCompras().add(transaccionCreated);
+        if (usuarioActual.getListaCompras() == null) {
+            List<Transaccion> listaCompras = new ArrayList<>();
+            listaCompras.add(transaccionCreated);
+            usuarioActual.setListaCompras(listaCompras);
+        } else {
+            usuarioActual.getListaCompras().add(transaccionCreated);
+        }
         saveUsuarioPort.save(usuarioActual);
         model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
 
@@ -171,7 +178,7 @@ public class UsuarioPrincipalController {
 
     //Método para buscar un producto en la barra de búsqueda de la pantalla principal
     @PostMapping("/buscarProducto")
-    public String buscarProducto(@RequestParam String textoBusqueda, Model model){
+    public String buscarProducto(@RequestParam String textoBusqueda, Model model) {
 
         //Se va a recoger en una lista todos los productos que contengan en el nombre el textBusqueda
         //se cogen todos los productos de la base de datos y luego se filtran por el nombre
@@ -190,9 +197,10 @@ public class UsuarioPrincipalController {
     public String historialCompras(Model model, HttpSession httpSession) throws Exception {
         String idUsuario = httpSession.getAttribute("idUsuario").toString();
 
-        if(idUsuario != null){
+        Integer idUsuarioInt = Integer.parseInt(idUsuario);
+        if (idUsuario != null) {
             //recuperamos la lista de transacciones realizadas como comprador por parte del usuario
-            List<Transaccion> historialCompras = findTransaccionPort.findAllByIdComprador(idUsuario);
+            List<Transaccion> historialCompras = findTransaccionPort.findAllByIdComprador(idUsuarioInt);
             model.addAttribute("historialCompras", historialCompras);
         }
 
@@ -204,12 +212,13 @@ public class UsuarioPrincipalController {
 
     //Método que redirige a la vista de ventas del usuario logueado ?????
     @GetMapping("/getVentas")
-    public String historialVentas(Model model, HttpSession httpSession){
+    public String historialVentas(Model model, HttpSession httpSession) {
         String idUsuario = httpSession.getAttribute("idUsuario").toString();
 
-        if(idUsuario != null){
+        Integer idUsuarioInt = Integer.parseInt(idUsuario);
+        if (idUsuario != null) {
             //recuperamos la lista de transacciones realizadas como vendedor por parte del usuario
-            List<Transaccion> historialVentas = findTransaccionPort.findAllByIdVendedor(idUsuario);
+            List<Transaccion> historialVentas = findTransaccionPort.findAllByIdVendedor(idUsuarioInt);
             model.addAttribute("historialVentas", historialVentas);
         }
 
@@ -221,7 +230,7 @@ public class UsuarioPrincipalController {
 
     @GetMapping("getDetalleCompra/{idTransaccion}")
     public String getDetalleCompra(@PathVariable Integer idTransaccion, Model model, HttpSession httpSession) throws Exception {
-       Transaccion compra = findTransaccionPort.findById(idTransaccion);
+        Transaccion compra = findTransaccionPort.findById(idTransaccion);
         model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
 
         model.addAttribute("compra", idTransaccion);
@@ -230,7 +239,7 @@ public class UsuarioPrincipalController {
     }
 
     @GetMapping("getDetalleVenta/{idTransaccion}")
-    public String getDetalleVenta(@PathVariable Integer idTransaccion, Model model, HttpSession httpSession){
+    public String getDetalleVenta(@PathVariable Integer idTransaccion, Model model, HttpSession httpSession) {
         model.addAttribute("idTransaccion", idTransaccion);
         model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
         return "usuario/detalle_venta";
@@ -239,15 +248,14 @@ public class UsuarioPrincipalController {
 
     //Método que redirige a la vista de los productos de un usuario
     @GetMapping("/getProductos")
-    public String getProductos (Model model, HttpSession httpSession) throws Exception {
+    public String getProductos(Model model, HttpSession httpSession) throws Exception {
         Usuario usuario = new Usuario();
-        if(httpSession.getAttribute("idUsuario")!=null){
+        if (httpSession.getAttribute("idUsuario") != null) {
             model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
             String idUsuario = httpSession.getAttribute("idUsuario").toString();
             Integer id = Integer.parseInt(idUsuario);
             usuario = findUsuarioPort.findById(id);
-        }
-        else{
+        } else {
             model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario"));
         }
 
@@ -257,6 +265,32 @@ public class UsuarioPrincipalController {
         //Hace return hacia la vista de favoritos dentro de usuario
         return "usuario/productos";
 
+    }
+
+    @PostMapping("rechazar/{idTransaccion}")
+    public String rechazarTransaccion(@PathVariable Integer idTransaccion, Model model, HttpSession httpSession) throws Exception {
+        Transaccion transaccion = findTransaccionPort.findById(idTransaccion);
+        transaccion.setEstado("RECHAZADA");
+        saveTransaccionPort.save(transaccion);
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+        return "usuario/ventas";
+    }
+
+    @PostMapping("aceptar/{idTransaccion}")
+    public String aceptarTransaccion(@PathVariable Integer idTransaccion, Model model, HttpSession httpSession) throws Exception {
+        Transaccion transaccion = findTransaccionPort.findById(idTransaccion);
+        transaccion.setEstado("ACEPTADA");
+        saveTransaccionPort.save(transaccion);
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+        return "usuario/ventas";
+    }
+
+    @GetMapping("visitarPefil/{idUsuario}")
+    public String visitarPerfil(@PathVariable Integer idUsuario, Model model, HttpSession httpSession) throws Exception {
+        Usuario usuario = findUsuarioPort.findById(idUsuario);
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+        return "usuario/ver_perfil";
     }
 
 

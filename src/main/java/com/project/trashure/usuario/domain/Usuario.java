@@ -35,6 +35,8 @@ public class Usuario {
     private String email;
 
     private String direccion;
+
+    private String localidad;
     private String telefono;
 
 
@@ -62,6 +64,7 @@ public class Usuario {
         this.setApellidos(usuarioJpa.getApellidos());
         this.setUsername(usuarioJpa.getUsername());
         this.setPassword(usuarioJpa.getPassword());
+        this.setLocalidad(usuarioJpa.getLocalidad());
         this.setEmail(usuarioJpa.getEmail());
         this.setDireccion(usuarioJpa.getDireccion());
         this.setTelefono(usuarioJpa.getTelefono());

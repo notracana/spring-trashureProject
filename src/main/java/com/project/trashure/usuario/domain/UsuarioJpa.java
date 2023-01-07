@@ -64,6 +64,9 @@ public class UsuarioJpa {
     @Column(name="direccion")
     private String direccion;
 
+    @Column(name = "localidad")
+    private String localidad;
+
     @Column(name = "telefono")
     private String telefono;
 
@@ -111,6 +114,7 @@ public class UsuarioJpa {
         this.setApellidos(usuario.getApellidos());
         this.setUsername(usuario.getUsername());
         this.setPassword(usuario.getPassword());
+        this.setLocalidad(usuario.getLocalidad());
         this.setEmail(usuario.getEmail());
         this.setDireccion(usuario.getDireccion());
         this.setTelefono(usuario.getTelefono());

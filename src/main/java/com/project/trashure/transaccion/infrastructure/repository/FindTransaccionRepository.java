@@ -23,15 +23,17 @@ public class FindTransaccionRepository implements FindTransaccionPort {
         return transaccionJpaList.stream().map(Transaccion::new).collect(Collectors.toList());
     }
 
+
+
     @Override
-    public List<Transaccion> findAllByIdComprador(String idComprador) {
+    public List<Transaccion> findAllByIdComprador(Integer idComprador) {
         List<TransaccionJpa> transaccionJpaList = transaccionRepositoryJpa.findAllByIdComprador(idComprador);
         return transaccionJpaList.stream().map(Transaccion::new).collect(Collectors.toList());
     }
 
     @Override
-    public List<Transaccion> findAllByIdVendedor(String idVendedor) {
-        List<TransaccionJpa> transaccionJpaList = transaccionRepositoryJpa.findAllByIdComprador(idVendedor);
+    public List<Transaccion> findAllByIdVendedor(Integer idVendedor) {
+        List<TransaccionJpa> transaccionJpaList = transaccionRepositoryJpa.findAllByIdVendedor(idVendedor);
         return transaccionJpaList.stream().map(Transaccion::new).collect(Collectors.toList());
     }
 

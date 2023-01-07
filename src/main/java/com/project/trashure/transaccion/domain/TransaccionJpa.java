@@ -4,7 +4,9 @@ import com.project.trashure.producto.domain.Producto;
 import com.project.trashure.producto.domain.ProductoJpa;
 import com.project.trashure.usuario.domain.UsuarioJpa;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.Date;
 
@@ -12,6 +14,8 @@ import java.util.Date;
 @Table(name="transacciones")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class TransaccionJpa {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -36,7 +40,7 @@ public class TransaccionJpa {
             }
     )*/
     @Column (name = "id_transaccion")
-    private int idTransaccion;
+    private Integer idTransaccion;
 
     @Column (name = "id_vendedor")
     private Integer idVendedor;
@@ -57,7 +61,7 @@ public class TransaccionJpa {
     @JoinColumn(name="id_usuario", updatable = false, insertable = false)
     private UsuarioJpa usuarioJpa;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name="id_producto")
     private ProductoJpa productoJpa;
 
