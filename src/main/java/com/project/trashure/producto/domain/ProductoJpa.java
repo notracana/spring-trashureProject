@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -69,6 +71,14 @@ public class ProductoJpa {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_usuario", updatable = false, insertable = false)
     private UsuarioJpa propietarioJpa;
+
+    @JoinTable(
+            name = "rel_usuario_producto_favorito",
+            joinColumns = @JoinColumn(name = "id_producto", nullable = false),
+            inverseJoinColumns = @JoinColumn(name="id_usuario", nullable = false)
+    )
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<UsuarioJpa> usuariosJpa;
 
     @Column(name="disponibilidad")
     private String disponibilidad;

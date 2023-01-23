@@ -145,13 +145,20 @@ public class UsuarioPrincipalController {
     //MIRAR ESTO V 33 IS THIS EVEN FINISHED??
     @PostMapping("/generarTransaccion/{idProducto}")
     public String generarTransaccion(@RequestParam Integer idProducto, Model model, HttpSession httpSession) throws Exception {
-        Producto producto = findProductoPort.findById(idProducto);
-        producto.setDisponibilidad("No disponible");
-        Integer idVendedor = producto.getIdUsuario();
-        saveProductoPort.save(producto);
         String idUsuario = httpSession.getAttribute("idUsuario").toString();
         Integer idUsuarioInt = Integer.parseInt(idUsuario);
         Usuario usuarioActual = findUsuarioPort.findById(idUsuarioInt);
+
+        Producto producto = findProductoPort.findById(idProducto);
+
+        if(producto.getIdUsuario().equals(idUsuarioInt)){
+            throw new Exception ("No puedes comprar este objeto puesto que tú eres el propietario.");
+        }
+
+        producto.setDisponibilidad("No disponible");
+        Integer idVendedor = producto.getIdUsuario();
+        saveProductoPort.save(producto);
+
 
         Transaccion transaccionCompra = new Transaccion();
         transaccionCompra.setFechaTransaccion(new Date());
@@ -177,13 +184,15 @@ public class UsuarioPrincipalController {
     }
 
     //Método para buscar un producto en la barra de búsqueda de la pantalla principal
-    @PostMapping("/buscarProducto")
+    @PostMapping("buscarProducto")
     public String buscarProducto(@RequestParam String textoBusqueda, Model model) {
-
+        System.out.println("HOLA");
         //Se va a recoger en una lista todos los productos que contengan en el nombre el textBusqueda
         //se cogen todos los productos de la base de datos y luego se filtran por el nombre
         List<Producto> productoBusquedaList = findProductoPort.findAll().stream().filter
-                (x -> x.getNombre().contains(textoBusqueda)).collect(Collectors.toList());
+                (x -> x.getNombre().toLowerCase().contains((textoBusqueda).toLowerCase())).collect(Collectors.toList() );
+
+        System.out.println("tamaño lista " + productoBusquedaList.size());
 
         //Ahora hay que enviar la lista hacia la vista con model
         model.addAttribute("productoList", productoBusquedaList);
@@ -272,6 +281,9 @@ public class UsuarioPrincipalController {
         Transaccion transaccion = findTransaccionPort.findById(idTransaccion);
         transaccion.setEstado("RECHAZADA");
         saveTransaccionPort.save(transaccion);
+        Producto producto = findProductoPort.findById(transaccion.getProducto().getIdProducto());
+        producto.setDisponibilidad("Disponible");
+        saveProductoPort.save(producto);
         model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
         return "usuario/ventas";
     }
@@ -281,6 +293,9 @@ public class UsuarioPrincipalController {
         Transaccion transaccion = findTransaccionPort.findById(idTransaccion);
         transaccion.setEstado("ACEPTADA");
         saveTransaccionPort.save(transaccion);
+        Producto producto = findProductoPort.findById(transaccion.getProducto().getIdProducto());
+        producto.setDisponibilidad("Vendido");
+        saveProductoPort.save(producto);
         model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
         return "usuario/ventas";
     }

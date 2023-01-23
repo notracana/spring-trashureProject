@@ -34,6 +34,7 @@ public class SaveProductoController {
             Producto producto,
             @RequestParam ("imgProducto") MultipartFile imgFile,
             HttpSession httpSession) throws Exception {
+
         //El nombre del imgFile entre paréntesis es el nombre que se le da en la vista crear.html
         //el noombre del campo en el formulario --> víd 16 min 4.50
 
@@ -51,6 +52,8 @@ public class SaveProductoController {
              //Se guarda el nombre de la imagen en una variable String
             //la imgFile es un objeto de tipo MultipartFile que entra como RequestParam
             String nombreImg = createImagenProductoPort.saveImagen(imgFile);
+            System.out.println("nombre foto " + nombreImg);
+
             //ahora se setea ese nombre en el campo imagen de Producto
             producto.setImagen(nombreImg);
         }
@@ -65,6 +68,7 @@ public class SaveProductoController {
             if(!imgFile.isEmpty()){
                 //Cuando modificamos el producto y también la imagen..
                 String nombreImg = createImagenProductoPort.saveImagen(imgFile);
+                System.out.println("nombre foto " + nombreImg);
                 //ahora se setea ese nombre en el campo imagen de Producto
                 producto.setImagen(nombreImg);
 

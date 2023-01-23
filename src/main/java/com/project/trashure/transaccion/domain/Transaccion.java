@@ -56,4 +56,16 @@ public class Transaccion {
 
     }
 
+    public Producto getProducto() {
+        if(producto != null) return producto;
+        if(transaccionJpa == null) return null;
+        ProductoJpa productoJpa = transaccionJpa.getProductoJpa();
+
+        if(productoJpa == null) return null;
+        Producto producto1 = new Producto(productoJpa);
+        this.setProducto(producto1);
+        return producto1;
+
+    }
+
 }

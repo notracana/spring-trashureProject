@@ -3,7 +3,6 @@ package com.project.trashure.usuario.domain;
 import com.project.trashure.producto.domain.Producto;
 import com.project.trashure.producto.domain.ProductoJpa;
 import com.project.trashure.review.domain.Review;
-import com.project.trashure.review.domain.ReviewJpa;
 import com.project.trashure.transaccion.domain.Transaccion;
 import com.project.trashure.transaccion.domain.TransaccionJpa;
 import lombok.AllArgsConstructor;
@@ -52,7 +51,7 @@ public class Usuario {
 
     List<Transaccion> listaVentas;
 
-    //List<Producto> listaFavs;
+    List<Producto> productosFavoritos;
 
     private UsuarioJpa usuarioJpa;
 
@@ -87,6 +86,20 @@ public class Usuario {
         return this.productosSubidos;
 
     }
+
+    public List<Producto> getProductosFavoritos(){
+        if(productosFavoritos !=null) return productosFavoritos;
+        if(usuarioJpa == null) return new ArrayList<>();
+
+        List<ProductoJpa> productosFavoritosJpa = usuarioJpa.getProductosFavoritosJpa();
+        if (productosFavoritosJpa == null) return new ArrayList<>();
+
+        List<Producto> productosFavoritos = productosFavoritosJpa.stream().map(Producto::new).collect(Collectors.toList());
+        this.setProductosFavoritos(productosFavoritos);
+        return this.productosFavoritos;
+
+    }
+
 
     public List<Transaccion> getTransacciones(){
         if(transaccionList != null) return transaccionList;

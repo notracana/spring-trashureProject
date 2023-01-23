@@ -51,13 +51,13 @@ public class UsuarioJpa {
     @Column (name = "apellidos")
     private String apellidos;
 
-    @Column (name="username")
+    @Column (name="username", unique = true)
     private String username;
 
     @Column (name="password")
     private String password;
 
-    @Column (name="email")
+    @Column (name="email", unique = true)
     private String email;
 
 
@@ -96,11 +96,10 @@ public class UsuarioJpa {
     List<Transaccion> listaVentas;*/
 
 
-    /*
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-            @JoinColumn(name="id_")
-    List<Producto> listaFavoritos;
-*/
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy="usuariosJpa")
+    List<ProductoJpa> productosFavoritosJpa;
+
 
     /*
     @OneToMany(fetch = FetchType.LAZY)
@@ -126,6 +125,9 @@ public class UsuarioJpa {
         List<Transaccion> transaccionList = usuario.getTransacciones();
         updateTransacciones(transaccionList);
 
+        List<Producto> productosFavoritos = usuario.getProductosFavoritos();
+        updateProductosFavoritos(productosFavoritos);
+
         //List<Review> reviewList = usuario.getReviews();
         //updateReviews(reviewList);
 
@@ -141,6 +143,15 @@ public class UsuarioJpa {
         }
         List<ProductoJpa> productoJpas = productosSubidos.stream().map(ProductoJpa::new).collect(Collectors.toList());
         this.setProductosSubidosJpa(productoJpas);
+    }
+
+    private void updateProductosFavoritos(List<Producto> productosFavoritos){
+        if(productosFavoritos == null){
+            this.setProductosFavoritosJpa(new ArrayList<>());
+            return;
+        }
+        List<ProductoJpa> productosFavsJpa = productosFavoritos.stream().map(ProductoJpa::new).collect(Collectors.toList());
+        this.setProductosFavoritosJpa(productosFavsJpa);
     }
 
     private void updateTransacciones (List<Transaccion> transaccionList){

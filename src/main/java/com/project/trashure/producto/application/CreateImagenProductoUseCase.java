@@ -43,7 +43,7 @@ public class CreateImagenProductoUseCase implements CreateImagenProductoPort {
         //Si, en cambio, al subir un producto, no se sube una imagen del mismo...
         //en ese caso usamos una imagen por defecto y se va a guardar
 
-        return "defaultImagenProducto.jpg";
+        return "No_image_available.png";
 
     }
 
