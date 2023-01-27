@@ -30,7 +30,7 @@ public class UsuarioPrincipalController {
     // List<DetalleTransaccion> detalleTransaccionList = new ArrayList<DetalleTransaccion>();
 
     //MIRAR ESTO: LO QUE SÍ NECESITO ES UNA LISTA DE LOS PRODUCTOS FAVORITOS
-    List<Producto> listaFavoritos = new ArrayList<Producto>();
+    //List<Producto> listaFavoritos = new ArrayList<Producto>();
 
     //MIRAR ESTO: ES POSIBLE QUE SÍ LO NECESITE CUANDO AÑADA EL BOTÓN DE COMPRAR EN EL DETALLE DE UN PRODUCTO
     //Transaccion transaccion = new Transaccion();
@@ -80,6 +80,14 @@ public class UsuarioPrincipalController {
     @PostMapping("/annadirFavorito/{idProducto}")
     public String annadirFavorito(@RequestParam Integer idProducto, Model model, HttpSession httpSession) throws Exception {
         Producto producto = findProductoPort.findById(idProducto);
+        List<Producto> listaFavoritos = new ArrayList<>();
+
+        String idUsuario = httpSession.getAttribute("idUsuario").toString();
+        Integer idUsuarioInt = Integer.parseInt(idUsuario);
+        Usuario usuarioActual = findUsuarioPort.findById(idUsuarioInt);
+        listaFavoritos = usuarioActual.getProductosFavoritos();
+
+        System.out.println("tamaño lista favoritytos " + listaFavoritos.size());
 
         //Se define un boolean que es true si en la lista de favoritos ya existe un match con el idProducto que
         //viene por parámetro y false si no está en la lista
@@ -92,6 +100,18 @@ public class UsuarioPrincipalController {
         }
         //si ya está añadido ese producto a la lista, no se vuelve a añadir
 
+        usuarioActual.setProductosFavoritos(listaFavoritos);
+        saveUsuarioPort.save(usuarioActual);
+        List<Usuario> usuarios = new ArrayList<>();
+        usuarios = producto.getFavoritosDe();
+        boolean yaEsFavoritoDe = usuarios.stream().anyMatch(usuario1 -> String.valueOf(usuario1.getIdUsuario()).equals(String.valueOf(usuarioActual.getIdUsuario())));
+
+
+
+        producto.setFavoritosDe(usuarioActual);
+
+        System.out.println("tamaño lista favoritytos tras añadir " + listaFavoritos.size());
+
         //se envía la lista a la vista
         model.addAttribute("listaFavoritos", listaFavoritos);
         model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
@@ -101,9 +121,15 @@ public class UsuarioPrincipalController {
 
     //Método para eliminar un producto de la lista de favoritos
     @GetMapping("/deleteFavorito/{idProducto}")
-    public String deleteFavorito(@PathVariable Integer idProducto, Model model) throws Exception {
+    public String deleteFavorito(@PathVariable Integer idProducto, Model model, HttpSession httpSession) throws Exception {
         Producto productoToDelete = findProductoPort.findById(idProducto);
 
+        List<Producto> listaFavoritos = new ArrayList<>();
+
+        String idUsuario = httpSession.getAttribute("idUsuario").toString();
+        Integer idUsuarioInt = Integer.parseInt(idUsuario);
+        Usuario usuarioActual = findUsuarioPort.findById(idUsuarioInt);
+        listaFavoritos = usuarioActual.getProductosFavoritos();
         for (Producto p : listaFavoritos) {
             String id = String.valueOf(p.getIdProducto());
             if (id.equals(idProducto)) {
@@ -112,6 +138,9 @@ public class UsuarioPrincipalController {
                 listaFavoritos.remove(p);
             }
         }
+
+        usuarioActual.setProductosFavoritos(listaFavoritos);
+        saveUsuarioPort.save(usuarioActual);
         //Se vuelve a enviar la lista de favoritos (sin el producto eliminado) a la vista
         model.addAttribute("listaFavoritos", listaFavoritos);
         //Hace return hacia la vista de favoritos dentro de usuario
@@ -122,7 +151,15 @@ public class UsuarioPrincipalController {
 
     //Método que redirige a la vista de favoritos desde cualquier parte de la app
     @GetMapping("/getFavoritos")
-    public String getFavoritos(Model model,HttpSession httpSession) {
+    public String getFavoritos(Model model,HttpSession httpSession) throws Exception {
+       List<Producto> listaFavoritos = new ArrayList<>();
+        String idUsuario = httpSession.getAttribute("idUsuario").toString();
+        Integer idUsuarioInt = Integer.parseInt(idUsuario);
+        Usuario usuarioActual = findUsuarioPort.findById(idUsuarioInt);
+
+        listaFavoritos = usuarioActual.getProductosFavoritos();
+
+        System.out.println("tamaño lista favoritos " + listaFavoritos.size());
         model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
         model.addAttribute("listaFavoritos", listaFavoritos);
         //Hace return hacia la vista de favoritos dentro de usuario
@@ -155,6 +192,11 @@ public class UsuarioPrincipalController {
             throw new Exception ("No puedes comprar este objeto puesto que tú eres el propietario.");
         }
 
+        if(producto.getDisponibilidad()!="Disponible") {
+            throw new Exception ("El producto no está disponible para comprar.");
+
+        }
+
         producto.setDisponibilidad("No disponible");
         Integer idVendedor = producto.getIdUsuario();
         saveProductoPort.save(producto);
@@ -173,6 +215,7 @@ public class UsuarioPrincipalController {
             listaCompras.add(transaccionCreated);
             usuarioActual.setListaCompras(listaCompras);
         } else {
+
             usuarioActual.getListaCompras().add(transaccionCreated);
         }
         saveUsuarioPort.save(usuarioActual);
@@ -300,12 +343,35 @@ public class UsuarioPrincipalController {
         return "usuario/ventas";
     }
 
-    @GetMapping("visitarPefil/{idUsuario}")
+    @GetMapping("visitarPerfil/{idUsuario}")
     public String visitarPerfil(@PathVariable Integer idUsuario, Model model, HttpSession httpSession) throws Exception {
         Usuario usuario = findUsuarioPort.findById(idUsuario);
         model.addAttribute("usuario", usuario);
         model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
         return "usuario/ver_perfil";
+    }
+
+    @GetMapping("contactar/{idUsuario}")
+    public String contactar(@PathVariable Integer idUsuario, Model model, HttpSession httpSession) throws Exception {
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+        Usuario usuario = findUsuarioPort.findById(idUsuario);
+        model.addAttribute("usuario", usuario);
+        //redirige a la vista de registro del usuario en la app
+        return "usuario/contactar";
+    }
+
+    @PostMapping("/enviarMensaje")
+    public String enviarMensaje(Usuario usuario){
+
+        //El usuario que llega como parámetro viene de los datos del formulario de la vista sign_up
+        //hay que determinar que el usuario que se registra es de tipo normal, es decir, no es administrador
+
+        usuario.setTipoUsuario("USER");
+
+        //se crea el usuario con los datos aportados
+        //createUsuarioPort.create(usuario);
+        //Tras guardar el nuevo usuario en la base de datos, redirige a la página principal de usuario
+        return "redirect:/";
     }
 
 

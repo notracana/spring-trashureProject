@@ -58,7 +58,9 @@
                                 <h5 th:text="'Descripción: '+ ${producto.descripcion} "></h5>
                             </li>
                             <li class="list-group-item"><h5 th:text="'Disponibilidad: '+ ${producto.disponibilidad} "></h5></li>
-                            <li class="list-group-item"><a th:href="@{/visitarPefil/{idUsuario} (idUsuario=${producto.idUsuario})}"><h5 th:text="'Propietario: '+ ${producto.idUsuario} "></h5></a></li>
+                            <li class="list-group-item"><a th:href="@{/visitarPerfil/{idUsuario} (idUsuario=${producto.idUsuario})}"><h5 th:text="'Propietario: '+ ${producto.idUsuario} "></h5></a></li>
+                            <li class="list-group-item"><h5 th:text="'Propietario: '" > </h5><a th:href="@{/visitarPerfil/{idUsuario} (idUsuario=${producto.idUsuario})}"><h6 th:text="${producto.idUsuario} "></h6></a></li>
+
 
                         </ul>
 

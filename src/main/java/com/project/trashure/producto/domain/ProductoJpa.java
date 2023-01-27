@@ -72,13 +72,17 @@ public class ProductoJpa {
     @JoinColumn(name="id_usuario", updatable = false, insertable = false)
     private UsuarioJpa propietarioJpa;
 
+    /*
     @JoinTable(
             name = "rel_usuario_producto_favorito",
             joinColumns = @JoinColumn(name = "id_producto", nullable = false),
             inverseJoinColumns = @JoinColumn(name="id_usuario", nullable = false)
     )
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<UsuarioJpa> usuariosJpa;
+    private List<UsuarioJpa> usuariosJpa;*/
+
+    @ManyToMany(mappedBy = "productosFavoritosJpa")
+    List<UsuarioJpa> favoritosDe;
 
     @Column(name="disponibilidad")
     private String disponibilidad;
@@ -91,6 +95,7 @@ public class ProductoJpa {
         this.setDescripcion(producto.getDescripcion());
         this.setEstado(producto.getEstado());
         this.setImagen(producto.getImagen());
+        this.setFavoritosDe(producto.getFavoritosDe());
         //this.setPrecio(producto.getPrecio());
         //this.setCantidad(producto.getCantidad());
         //this.setIdUsuario(producto.getIdUsuario());

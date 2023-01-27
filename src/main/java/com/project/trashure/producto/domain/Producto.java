@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -36,6 +39,8 @@ public class Producto {
 
     private Usuario propietario;
 
+    List<Usuario> favoritosDe;
+
     private ProductoJpa productoJpa;
 
     public Producto (ProductoJpa productoJpa){
@@ -47,6 +52,7 @@ public class Producto {
         this.setDescripcion(productoJpa.getDescripcion());
         this.setEstado(productoJpa.getEstado());
         this.setImagen(productoJpa.getImagen());
+        //this.setFavoritosDe(productoJpa.getFavoritosDe());
         //this.setPrecio(productoJpa.getPrecio());
         //this.setCantidad(productoJpa.getCantidad());
         //this.setIdUsuario(productoJpa.getIdUsuario());
@@ -65,6 +71,17 @@ public class Producto {
         this.setPropietario(propietario);
         return propietario;
 
+    }
+
+    public List<Usuario> getFavoritosDe(){
+        if(favoritosDe != null) return favoritosDe;
+        if(productoJpa == null) return null;
+        List<UsuarioJpa> favoritosDeJpa = productoJpa.getFavoritosDe();
+
+        if(favoritosDeJpa == null) return null;
+        List<Usuario> favoritosDe = favoritosDeJpa.stream().map(Usuario::new).collect(Collectors.toList());
+        this.setFavoritosDe(favoritosDe);
+        return favoritosDe;
     }
 
 }

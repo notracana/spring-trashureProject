@@ -96,8 +96,12 @@ public class UsuarioJpa {
     List<Transaccion> listaVentas;*/
 
 
-
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy="usuariosJpa")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "productos_favoritos",
+            joinColumns = @JoinColumn(name = "id_usuario"),
+            inverseJoinColumns = @JoinColumn(name="id_producto")
+    )
     List<ProductoJpa> productosFavoritosJpa;
 
 
