@@ -27,6 +27,7 @@
 <div th:include="usuario/template_usuario.html::headerUsuarioNoLogged" th:if="${usuarioLogged==null}"></div>
 
 <!-- Page Content -->
+<div th:unless="${usuarioLogged==null}">
 <div class="container">
 
 
@@ -44,7 +45,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-6">
-                    <a > <img class="img-fluid rounded" th:src="@{/imagenes/{imagenProducto}
+                    <a> <img class="img-fluid rounded" th:src="@{/imagenes/{imagenProducto}
                     (imagenProducto=${producto.imagen})}" alt="Imagen producto">
                     </a>
                 </div>
@@ -57,9 +58,14 @@
                             <li class="list-group-item">
                                 <h5 th:text="'Descripción: '+ ${producto.descripcion} "></h5>
                             </li>
-                            <li class="list-group-item"><h5 th:text="'Disponibilidad: '+ ${producto.disponibilidad} "></h5></li>
-                            <li class="list-group-item"><a th:href="@{/visitarPerfil/{idUsuario} (idUsuario=${producto.idUsuario})}"><h5 th:text="'Propietario: '+ ${producto.idUsuario} "></h5></a></li>
-                            <li class="list-group-item"><h5 th:text="'Propietario: '" > </h5><a th:href="@{/visitarPerfil/{idUsuario} (idUsuario=${producto.idUsuario})}"><h6 th:text="${producto.idUsuario} "></h6></a></li>
+                            <li class="list-group-item"><h5
+                                    th:text="'Disponibilidad: '+ ${producto.disponibilidad} "></h5></li>
+                            <li class="list-group-item"><a
+                                    th:href="@{/visitarPerfil/{idUsuario} (idUsuario=${producto.idUsuario})}"><h5
+                                    th:text="'Propietario: '+ ${producto.idUsuario} "></h5></a></li>
+                            <li class="list-group-item"><h5 th:text="'Propietario: '"></h5><a
+                                    th:href="@{/visitarPerfil/{idUsuario} (idUsuario=${producto.idUsuario})}"><h6
+                                    th:text="${producto.idUsuario} "></h6></a></li>
 
 
                         </ul>
@@ -82,13 +88,76 @@
 
 
 </div>
-<!-- /.container -->
+</div>
 
-<div th:include="usuario/template_usuario.html::footer"></div>
+<div th:if="${usuarioLogged==null}">
 
-<!-- Bootstrap core JavaScript -->
-<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
-<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<div class="container">
+
+
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3">
+        Trashure <small> - Detalle Producto</small>
+    </h1>
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a th:href="@{/}">Página principal</a></li>
+        <li class="breadcrumb-item active">Detalle Producto</li>
+    </ol>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-6">
+                    <a> <img class="img-fluid rounded" th:src="@{/imagenes/{imagenProducto}
+                    (imagenProducto=${producto.imagen})}" alt="Imagen producto">
+                    </a>
+                </div>
+                <div class="col-lg-6">
+                    <form th:href="@{api/v0/usuarios/signUp}">
+                        <input type="hidden" th:value="${producto.idProducto}" name="idProducto">
+                        <h2 class="card-title" th:text="${producto.nombre}"></h2>
+
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <h5 th:text="'Descripción: '+ ${producto.descripcion} "></h5>
+                            </li>
+                            <li class="list-group-item"><h5
+                                    th:text="'Disponibilidad: '+ ${producto.disponibilidad} "></h5></li>
+                            <li class="list-group-item"><a
+                                    th:href="@{/visitarPerfil/{idUsuario} (idUsuario=${producto.idUsuario})}"><h5
+                                    th:text="'Propietario: '+ ${producto.idUsuario} "></h5></a></li>
+                            <li class="list-group-item"><h5 th:text="'Propietario: '"></h5><a
+                                    th:href="@{/api/v0/usuarios/signUp}"><h6
+                                    th:text="${producto.idUsuario} "></h6></a></li>
+
+
+                        </ul>
+
+                        <button type="button" class="btn btn-dark"><a th:href="@{/api/v0/usuarios/signUp}">Añadir a favoritos</a></button>
+
+                    </form>
+
+                    <!--form th:href="@{api/v0/usuarios/signUp}"-->
+                        <button type="button" class="btn btn-dark"><a th:href="@{/api/v0/usuarios/signUp}">Comprar</a></button>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+    <!-- /.container -->
+
+    <div th:include="usuario/template_usuario.html::footer"></div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
 </body>
 

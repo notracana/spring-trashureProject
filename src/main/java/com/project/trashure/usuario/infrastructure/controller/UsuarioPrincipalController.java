@@ -70,7 +70,12 @@ public class UsuarioPrincipalController {
     public String detalleProducto(@PathVariable Integer idProducto, Model model, HttpSession httpSession) throws Exception {
         Producto producto = findProductoPort.findById(idProducto);
         model.addAttribute("producto", producto);
-        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+        if (httpSession.getAttribute("idUsuario") != null) {
+            model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+        } else {
+            model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario"));
+        }
+        //model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
         //nos retorna a la vista de detalle del producto
         return "usuario/detalle_producto";
     }
@@ -97,18 +102,24 @@ public class UsuarioPrincipalController {
         if (!yaEsFavorito) {
             //Este producto se añade a la lista de favoritos
             listaFavoritos.add(producto);
+            usuarioActual.setProductosFavoritos(listaFavoritos);
+            Usuario usuarioSaved = saveUsuarioPort.save(usuarioActual);
+            System.out.println("toene prodyuctos favoritos? " + usuarioSaved.getProductosFavoritos().size());
         }
         //si ya está añadido ese producto a la lista, no se vuelve a añadir
 
-        usuarioActual.setProductosFavoritos(listaFavoritos);
-        saveUsuarioPort.save(usuarioActual);
+
         List<Usuario> usuarios = new ArrayList<>();
-        usuarios = producto.getFavoritosDe();
+        usuarios = producto.getUsuarios();
         boolean yaEsFavoritoDe = usuarios.stream().anyMatch(usuario1 -> String.valueOf(usuario1.getIdUsuario()).equals(String.valueOf(usuarioActual.getIdUsuario())));
 
 
-
-        producto.setFavoritosDe(usuarioActual);
+        if(!yaEsFavoritoDe){
+            usuarios.add(usuarioActual);
+            producto.setUsuarios(usuarios);
+            Producto productoSaved = saveProductoPort.save(producto);
+            System.out.println("tiene usuarios favoritos?= " + productoSaved.getUsuarios().size());
+        }
 
         System.out.println("tamaño lista favoritytos tras añadir " + listaFavoritos.size());
 
@@ -151,8 +162,8 @@ public class UsuarioPrincipalController {
 
     //Método que redirige a la vista de favoritos desde cualquier parte de la app
     @GetMapping("/getFavoritos")
-    public String getFavoritos(Model model,HttpSession httpSession) throws Exception {
-       List<Producto> listaFavoritos = new ArrayList<>();
+    public String getFavoritos(Model model, HttpSession httpSession) throws Exception {
+        List<Producto> listaFavoritos = new ArrayList<>();
         String idUsuario = httpSession.getAttribute("idUsuario").toString();
         Integer idUsuarioInt = Integer.parseInt(idUsuario);
         Usuario usuarioActual = findUsuarioPort.findById(idUsuarioInt);
@@ -188,12 +199,12 @@ public class UsuarioPrincipalController {
 
         Producto producto = findProductoPort.findById(idProducto);
 
-        if(producto.getIdUsuario().equals(idUsuarioInt)){
-            throw new Exception ("No puedes comprar este objeto puesto que tú eres el propietario.");
+        if (producto.getIdUsuario().equals(idUsuarioInt)) {
+            throw new Exception("No puedes comprar este objeto puesto que tú eres el propietario.");
         }
 
-        if(producto.getDisponibilidad()!="Disponible") {
-            throw new Exception ("El producto no está disponible para comprar.");
+        if (producto.getDisponibilidad() != "Disponible") {
+            throw new Exception("El producto no está disponible para comprar.");
 
         }
 
@@ -233,7 +244,7 @@ public class UsuarioPrincipalController {
         //Se va a recoger en una lista todos los productos que contengan en el nombre el textBusqueda
         //se cogen todos los productos de la base de datos y luego se filtran por el nombre
         List<Producto> productoBusquedaList = findProductoPort.findAll().stream().filter
-                (x -> x.getNombre().toLowerCase().contains((textoBusqueda).toLowerCase())).collect(Collectors.toList() );
+                (x -> x.getNombre().toLowerCase().contains((textoBusqueda).toLowerCase())).collect(Collectors.toList());
 
         System.out.println("tamaño lista " + productoBusquedaList.size());
 
@@ -361,7 +372,7 @@ public class UsuarioPrincipalController {
     }
 
     @PostMapping("/enviarMensaje")
-    public String enviarMensaje(Usuario usuario){
+    public String enviarMensaje(Usuario usuario) {
 
         //El usuario que llega como parámetro viene de los datos del formulario de la vista sign_up
         //hay que determinar que el usuario que se registra es de tipo normal, es decir, no es administrador

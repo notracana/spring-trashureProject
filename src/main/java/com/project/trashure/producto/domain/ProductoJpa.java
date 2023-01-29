@@ -1,5 +1,6 @@
 package com.project.trashure.producto.domain;
 
+import com.project.trashure.usuario.domain.Usuario;
 import com.project.trashure.usuario.domain.UsuarioJpa;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -81,9 +83,18 @@ public class ProductoJpa {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<UsuarioJpa> usuariosJpa;*/
 
+    /*
     @ManyToMany(mappedBy = "productosFavoritosJpa")
-    List<UsuarioJpa> favoritosDe;
+    List<UsuarioJpa> favoritosDe;*/
 
+
+    /*@JoinTable(
+            name = "rel_usuario_producto",
+            joinColumns = @JoinColumn(name = "id_producto", nullable=false),
+            inverseJoinColumns = @JoinColumn(name="id_usuario", nullable = false)
+    )*/
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "productosFavoritosJpa")
+    List<UsuarioJpa> usuarios;
     @Column(name="disponibilidad")
     private String disponibilidad;
 
@@ -95,11 +106,24 @@ public class ProductoJpa {
         this.setDescripcion(producto.getDescripcion());
         this.setEstado(producto.getEstado());
         this.setImagen(producto.getImagen());
-        this.setFavoritosDe(producto.getFavoritosDe());
+        //this.setFavoritosDe(producto.getFavoritosDe());
         //this.setPrecio(producto.getPrecio());
         //this.setCantidad(producto.getCantidad());
         //this.setIdUsuario(producto.getIdUsuario());
         this.setDisponibilidad(producto.getDisponibilidad());
         this.setIdUsuario(producto.getIdUsuario());
+
+        if(producto.getUsuarios() != null && !producto.getUsuarios().isEmpty()){
+            List<Usuario> usuarios = producto.getUsuarios();
+            updateUsuarios(usuarios);
+        }
+    }
+
+    private void updateUsuarios(List<Usuario> usuarios){
+        if(usuarios == null){
+            this.setUsuarios(new ArrayList<>());
+            return;
+        }
+        this.setUsuarios(usuarios.stream().map(UsuarioJpa::new).collect(Collectors.toList()));
     }
 }

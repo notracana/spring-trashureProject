@@ -57,7 +57,7 @@
             </thead>
             <tbody>
             <tr th:each="favorito:${listaFavoritos}">
-              <td th:src="@{/imagenes/{img} (img=${favorito.imagen})} " alt="Imagen producto"></td>
+              <td th:src="@{/imagenes/{img} (img=${favorito.imagen})}" alt="Imagen producto" width="50" height="50"></td>
               <td th:text="${favorito.nombre}"></td>
               <td th:text="${favorito.estado}"></td>
               <td th:text="${favorito.disponibilidad}"></td>

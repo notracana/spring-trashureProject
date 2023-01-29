@@ -96,12 +96,17 @@ public class UsuarioJpa {
     List<Transaccion> listaVentas;*/
 
 
-    @ManyToMany(fetch = FetchType.LAZY)
+
+    /*
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "usuarios")
+    List<ProductoJpa> productosFavoritosJpa;*/
+
     @JoinTable(
-            name = "productos_favoritos",
-            joinColumns = @JoinColumn(name = "id_usuario"),
-            inverseJoinColumns = @JoinColumn(name="id_producto")
+            name = "rel_usuario_producto",
+            joinColumns = @JoinColumn(name = "id_usuario", nullable=false),
+            inverseJoinColumns = @JoinColumn(name="id_producto", nullable = false)
     )
+    @ManyToMany(fetch = FetchType.LAZY)
     List<ProductoJpa> productosFavoritosJpa;
 
 
@@ -154,6 +159,7 @@ public class UsuarioJpa {
             this.setProductosFavoritosJpa(new ArrayList<>());
             return;
         }
+        productosFavoritos.forEach(producto -> producto.setUsuarios(null));
         List<ProductoJpa> productosFavsJpa = productosFavoritos.stream().map(ProductoJpa::new).collect(Collectors.toList());
         this.setProductosFavoritosJpa(productosFavsJpa);
     }

@@ -39,7 +39,9 @@ public class Producto {
 
     private Usuario propietario;
 
-    List<Usuario> favoritosDe;
+    //List<Usuario> favoritosDe;
+
+    List<Usuario> usuarios;
 
     private ProductoJpa productoJpa;
 
@@ -73,15 +75,14 @@ public class Producto {
 
     }
 
-    public List<Usuario> getFavoritosDe(){
-        if(favoritosDe != null) return favoritosDe;
-        if(productoJpa == null) return null;
-        List<UsuarioJpa> favoritosDeJpa = productoJpa.getFavoritosDe();
-
-        if(favoritosDeJpa == null) return null;
-        List<Usuario> favoritosDe = favoritosDeJpa.stream().map(Usuario::new).collect(Collectors.toList());
-        this.setFavoritosDe(favoritosDe);
-        return favoritosDe;
+    public List<Usuario> getUsuarios(){
+        if(this.usuarios != null) return this.usuarios;
+        if(this.getProductoJpa() == null) return null;
+        List<UsuarioJpa> usuariosJpa = getProductoJpa().getUsuarios();
+        if(usuariosJpa == null) return null;
+        List<Usuario> usuarios = usuariosJpa.stream().map(Usuario::new).collect(Collectors.toList());
+        this.setUsuarios(usuarios);
+        return usuarios;
     }
 
 }
