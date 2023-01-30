@@ -46,7 +46,7 @@
     </div>
 </nav>
 
-
+</form>
 <!-- Page Content -->
 <div class="container">
 
@@ -62,20 +62,25 @@
         </div>
     </div>
     <div class="card-body">
-        <h2>Contactar con vendedor</h2>
+        <h2>Contactar con propietario</h2>
 
     </div>
-    <form th:action="@{/enviarMensaje}" method="post">
+    <form th:action="@{/enviarEmail/{idPropietario}" method="post">
         <div class="form-group">
-            <label for="nombre">Mensaje:</label> <input type="text"
-                                                       class="form-control" id="nombre" name="nombre" required
-                                                       placeholder="Introduce tu nombre" autocomplete="off">
+            <label for="mensaje">Mensaje:</label>
+            <textarea id="mensaje" name="mensaje" required  class="form-control" rows="10" cols="40">Introduce el mensaje que quieres enviar al propietario</textarea>
 
         </div>
 
+        <div class="row">
 
-        <div class="col-sm-2">
-            <button type="submit" class="btn btn-success">Enviar mensaje</button>
+            <div class="col-sm-2">
+                <form th:action="@{/enviarEmail/{idPropietario} (idPropietario=${usuarioPropietario.idUsuario})}" method="POST">
+                    <input type="hidden" th:value="${usuarioPropietario.idUsuario}" name="idPropietario">
+                    <button type="submit" class="btn btn-success">
+                        <span class="glyphicon glyphicon-saved"></span>Enviar mensaje</button>
+                </form>
+            </div>
         </div>
     </form>
 

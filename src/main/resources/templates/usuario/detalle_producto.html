@@ -71,13 +71,19 @@
                         </ul>
 
 
-                        <button type="submit" class="btn btn-dark">Añadir a favoritos</button>
+                        <button type="submit" class="btn btn-warning">Añadir a favoritos</button>
+
+                    </form>
+
+                    <form th:action="@{/contactar/{idUsuario} (idUsuario=${producto.idUsuario})}" method="POST">
+                        <input type="hidden" th:value="${producto.idUsuario}" name="idUsuario">
+                        <button type="submit" class="btn btn-success">Contactar</button>
 
                     </form>
 
                     <form th:action="@{/generarTransaccion/{idProducto}}" method="POST">
                         <input type="hidden" th:value="${producto.idProducto}" name="idProducto">
-                        <button type="submit" class="btn btn-dark">Comprar</button>
+                        <button type="submit" class="btn btn-success">Solicitar</button>
 
                     </form>
 
@@ -134,12 +140,16 @@
 
                         </ul>
 
-                        <button type="button" class="btn btn-dark"><a th:href="@{/api/v0/usuarios/signUp}">Añadir a favoritos</a></button>
+                        <button type="button" style = "background-color: #e28743;"><a th:href="@{/api/v0/usuarios/signUp}">Añadir a favoritos</a></button>
+
+
+                            <button type="button" class="btn btn-success"><a th:href="@{/api/v0/usuarios/signUp}">Contactar</a></button>
+
 
                     </form>
 
                     <!--form th:href="@{api/v0/usuarios/signUp}"-->
-                        <button type="button" class="btn btn-dark"><a th:href="@{/api/v0/usuarios/signUp}">Comprar</a></button>
+                        <button type="button" class="btn btn-success"><a th:href="@{/api/v0/usuarios/signUp}">Solicitar</a></button>
 
                     </form>
 

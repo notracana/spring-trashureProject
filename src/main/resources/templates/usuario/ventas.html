@@ -63,10 +63,10 @@
               <td th:text="${venta.idComprador}" ></td>
               <td th:text="${venta.estado}" ></td>
               <td><form th:action="@{/aceptar/{idTransaccion} (idTransaccion=${venta.idTransaccion})}" method="POST">
-                <button type="submit" class="btn btn-dark">Aceptar</button></form></td>
+                <button type="submit" class="btn btn-success">Aceptar</button></form></td>
               <td><form th:action="@{/rechazar/{idTransaccion} (idTransaccion=${venta.idTransaccion})}" method="POST">
                 <input type="hidden" th:value="${venta.idTransaccion}" name="idTransaccion">
-                <button type="submit" class="btn btn-dark">Rechazar</button>
+                <button type="submit" class="btn btn-danger">Rechazar</button>
 
               </form> </td>
 

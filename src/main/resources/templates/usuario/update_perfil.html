@@ -58,13 +58,13 @@
             </ul>
 
 
-            <button type="submit" class="btn btn-dark">Añadir a favoritos</button>
+            <button type="submit" class="btn btn-warning">Añadir a favoritos</button>
 
           </form>
 
           <form th:action="@{/generarTransaccion/{idProducto}}" method="POST">
             <input type="hidden" th:value="${producto.idProducto}" name="idProducto">
-            <button type="submit" class="btn btn-dark">Comprar</button>
+            <button type="submit" class="btn btn-success">Solicitar</button>
 
           </form>
 

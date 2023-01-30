@@ -12,6 +12,9 @@ import com.project.trashure.usuario.infrastructure.repository.port.FindUsuarioPo
 import com.project.trashure.usuario.infrastructure.repository.port.SaveUsuarioPort;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +50,9 @@ public class UsuarioPrincipalController {
     private CreateTransaccionPort createTransaccionPort;
 
     private SaveUsuarioPort saveUsuarioPort;
+
+    private JavaMailSender javaMailSender;
+
 
     //Este método retorna a la vista de la página principal del usuario
 
@@ -200,11 +206,11 @@ public class UsuarioPrincipalController {
         Producto producto = findProductoPort.findById(idProducto);
 
         if (producto.getIdUsuario().equals(idUsuarioInt)) {
-            throw new Exception("No puedes comprar este objeto puesto que tú eres el propietario.");
+            throw new Exception("No puedes solicitar este objeto puesto que tú eres el propietario.");
         }
 
         if (producto.getDisponibilidad() != "Disponible") {
-            throw new Exception("El producto no está disponible para comprar.");
+            throw new Exception("El producto no está disponible en estos momentos.");
 
         }
 
@@ -348,7 +354,7 @@ public class UsuarioPrincipalController {
         transaccion.setEstado("ACEPTADA");
         saveTransaccionPort.save(transaccion);
         Producto producto = findProductoPort.findById(transaccion.getProducto().getIdProducto());
-        producto.setDisponibilidad("Vendido");
+        producto.setDisponibilidad("Donado");
         saveProductoPort.save(producto);
         model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
         return "usuario/ventas";
@@ -362,13 +368,39 @@ public class UsuarioPrincipalController {
         return "usuario/ver_perfil";
     }
 
-    @GetMapping("contactar/{idUsuario}")
-    public String contactar(@PathVariable Integer idUsuario, Model model, HttpSession httpSession) throws Exception {
+    @PostMapping("contactar/{idUsuario}")
+    public String contactar(@RequestParam Integer idUsuario, Model model, HttpSession httpSession) throws Exception {
+        String idUserComprador = httpSession.getAttribute("idUsuario").toString();
+        Integer idUserCompradorInt = Integer.parseInt(idUserComprador);
+        Usuario usuarioActual = findUsuarioPort.findById(idUserCompradorInt);
+
+        Usuario usuarioPropietario = findUsuarioPort.findById(idUsuario);
+
         model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
-        Usuario usuario = findUsuarioPort.findById(idUsuario);
-        model.addAttribute("usuario", usuario);
+        //Usuario usuario = findUsuarioPort.findById(idUsuario);
+        model.addAttribute("usuarioPropietario", usuarioPropietario);
         //redirige a la vista de registro del usuario en la app
         return "usuario/contactar";
+    }
+
+    @PostMapping("enviarEmail/idPropietario}")
+    public void enviarEmail(@RequestParam Integer idUsuario, @RequestParam String mensaje, Model model, HttpSession httpSession) throws Exception {
+        //Necesitamos saber quién es el propietario
+        Usuario usuarioPropietario = findUsuarioPort.findById(idUsuario);
+
+        //Necesitamos saber quién es el interesado
+        String idUserInteresado = httpSession.getAttribute("idUsuario").toString();
+        Integer idUserInteresadoInt = Integer.parseInt(idUserInteresado);
+        Usuario usuarioActual = findUsuarioPort.findById(idUserInteresadoInt);
+
+        String para = usuarioPropietario.getEmail();
+
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setFrom("trashureteam@gmail.com");
+        simpleMailMessage.setTo(para);
+        simpleMailMessage.setSubject("El usuario " + usuarioActual.getUsername() + " quiere contactar contigo.");
+        simpleMailMessage.setText(mensaje);
+
     }
 
     @PostMapping("/enviarMensaje")
