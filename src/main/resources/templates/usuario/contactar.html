@@ -65,10 +65,15 @@
         <h2>Contactar con propietario</h2>
 
     </div>
-    <form th:action="@{/enviarEmail/{idPropietario}" method="post">
+    <!--form th:action="@{/enviarEmail/{idPropietario} (idPropietario=${usuarioPropietario.idUsuario})}" method="post"-->
+    <form th:action="@{/enviarEmail}" method="post">
+    <input type="hidden" th:value="${usuarioPropietario.idUsuario}" name="destinatario">
+        <input type="hidden" th:value="${usuarioInteresado.idUsuario}" name="emisor">
+
+
         <div class="form-group">
-            <label for="mensaje">Mensaje:</label>
-            <textarea id="mensaje" name="mensaje" required  class="form-control" rows="10" cols="40">Introduce el mensaje que quieres enviar al propietario</textarea>
+            <label for="texto">Mensaje:</label>
+            <textarea id="texto" name="texto" required  class="form-control" rows="10" cols="40">Introduce el mensaje que quieres enviar al propietario</textarea>
 
         </div>
 
@@ -76,7 +81,6 @@
 
             <div class="col-sm-2">
                 <form th:action="@{/enviarEmail/{idPropietario} (idPropietario=${usuarioPropietario.idUsuario})}" method="POST">
-                    <input type="hidden" th:value="${usuarioPropietario.idUsuario}" name="idPropietario">
                     <button type="submit" class="btn btn-success">
                         <span class="glyphicon glyphicon-saved"></span>Enviar mensaje</button>
                 </form>

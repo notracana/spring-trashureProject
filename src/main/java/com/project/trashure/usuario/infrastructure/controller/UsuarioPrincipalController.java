@@ -1,5 +1,6 @@
 package com.project.trashure.usuario.infrastructure.controller;
 
+import com.project.trashure.email.Email;
 import com.project.trashure.producto.domain.Producto;
 import com.project.trashure.producto.infrastructure.repository.port.FindProductoPort;
 import com.project.trashure.producto.infrastructure.repository.port.SaveProductoPort;
@@ -376,6 +377,7 @@ public class UsuarioPrincipalController {
 
         Usuario usuarioPropietario = findUsuarioPort.findById(idUsuario);
 
+        model.addAttribute("usuarioInteresado", usuarioActual);
         model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
         //Usuario usuario = findUsuarioPort.findById(idUsuario);
         model.addAttribute("usuarioPropietario", usuarioPropietario);
@@ -383,23 +385,52 @@ public class UsuarioPrincipalController {
         return "usuario/contactar";
     }
 
-    @PostMapping("enviarEmail/idPropietario}")
-    public void enviarEmail(@RequestParam Integer idUsuario, @RequestParam String mensaje, Model model, HttpSession httpSession) throws Exception {
+    @PostMapping("enviarEmail")
+    public void enviarEmail(Email email, Model model, HttpSession httpSession) throws Exception {
         //Necesitamos saber quién es el propietario
-        Usuario usuarioPropietario = findUsuarioPort.findById(idUsuario);
+        //Usuario usuarioPropietario = findUsuarioPort.findById(idUsuario);
+
+        System.out.println("hola");
+        Integer idPropietario = Integer.parseInt(email.getDestinatario());
+        Usuario usuarioPropietario = findUsuarioPort.findById(idPropietario);
 
         //Necesitamos saber quién es el interesado
-        String idUserInteresado = httpSession.getAttribute("idUsuario").toString();
+        //String idUserInteresado = httpSession.getAttribute("idUsuario").toString();
+
+        System.out.println("ktal");
+
+        String idUserInteresado = email.getEmisor();
         Integer idUserInteresadoInt = Integer.parseInt(idUserInteresado);
         Usuario usuarioActual = findUsuarioPort.findById(idUserInteresadoInt);
 
         String para = usuarioPropietario.getEmail();
 
+        System.out.println("bien  y tu");
+
+        //String para = email.getDestinatario();
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom("trashureteam@gmail.com");
+        System.out.println("from : " + simpleMailMessage.getFrom());
         simpleMailMessage.setTo(para);
+        System.out.println("to : " + simpleMailMessage.getTo());
+        System.out.println("to clarificado " + para);
+
         simpleMailMessage.setSubject("El usuario " + usuarioActual.getUsername() + " quiere contactar contigo.");
-        simpleMailMessage.setText(mensaje);
+        System.out.println("subject : " + simpleMailMessage.getSubject());
+
+        //simpleMailMessage.setText(mensaje);
+        simpleMailMessage.setText(email.getTexto());
+        System.out.println("mensaje : " + simpleMailMessage.getText());
+
+        System.out.println("no sé quépasa");
+        try
+        {
+        javaMailSender.send(simpleMailMessage);}
+        catch (Exception e){
+            System.out.println("Error al enviar email");
+            e.printStackTrace();
+        }
+        System.out.println("fin mensaje");
 
     }
 
