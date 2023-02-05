@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Trashure</title>
+
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+<div th:include="admin/template_admin.html::header" ></div>
+
+<!-- Page Content -->
+<div class="container">
+
+
+
+  <!-- Page Heading/Breadcrumbs -->
+  <h1 class="mt-4 mb-3">
+    Trashure <small>Mi perfil</small>
+  </h1>
+
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="${/}">Página principal</a></li>
+    <li class="breadcrumb-item active">Editar mi perfil</li>
+  </ol>
+
+  <h2>Editar Producto</h2>
+  <form class="form-horizontal" th:action="@{/api/v0/usuarios/update}" method="put"  enctype="multipart/form-data">
+    <input type="hidden" name="id" th:value="${usuario.idUsuario}">
+
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="nombre">Nombre:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Introduce tu nombre" required autocomplete="off" th:value="${usuario.nombre}">
+        <div id="prueba"></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="apellidos">Apellidos:</label>
+      <div class="col-sm-10">
+        <textarea class="form-control" id="apellidos" name="apellidos" placeholder="Introduce tus apellidos" required autocomplete="off" th:text="${usuario.apellidos}"> </textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="email">Email:</label>
+      <div class="col-sm-10">
+        <textarea class="form-control" id="email" name="email" placeholder="Introduce tu dirección de email" required autocomplete="off" th:text="${usuario.email}"> </textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="telefono">Teléfono:</label>
+      <div class="col-sm-10">
+        <textarea class="form-control" id="telefono" name="telefono" placeholder="Introduce tu número de teléfono" required autocomplete="off" th:text="${usuario.telefono}"> </textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="direccion">Dirección:</label>
+      <div class="col-sm-10">
+        <textarea class="form-control" id="direccion" name="direccion" placeholder="Introduce tu dirección" required autocomplete="off" th:text="${usuario.direccion}"> </textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="localidad">Localidad:</label>
+      <div class="col-sm-10">
+        <textarea class="form-control" id="localidad" name="localidad" placeholder="Introduce tu localidad" required autocomplete="off" th:text="${usuario.localidad}"> </textarea>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-2">
+        <button type="submit" class="btn btn-success">Guardar cambios</button>
+      </div>
+    </div>
+
+  </form>
+
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<div th:include="admin/template_admin.html::footer" ></div>
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+
+</html>

@@ -1,18 +1,26 @@
 package com.project.trashure.config;
 
+import com.project.trashure.config.dao.UserDao;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -21,23 +29,29 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-@EnableWebSecurity
+//@Configuration
+//@EnableWebSecurity
 @AllArgsConstructor
 public class SecurityConfiguration {
 
+    /*
     private final JwtAuthFilter jwtAuthFilter;
 
-    private final static List<UserDetails> APPLICATION_USERS = Arrays.asList(
-            new User("trashureteam@gmail.com",
-                    "password", Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN"))),
-            new User("anacarton.dlc@gmail.com",
-                    "password", Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")))
-    );
+    private final UserDao userDao;
+
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         //Queremos que cualquier petición sea autenticada
-        http.authorizeHttpRequests().
+        http.
+                csrf().disable().authorizeRequests().
+                requestMatchers("/**/
+    //auttth/**").
+    /*
+                permitAll().
                 anyRequest().authenticated().
+                and().
+                sessionManagement().
+                sessionCreationPolicy(SessionCreationPolicy.STATELESS).
                 and().
                 authenticationProvider(authenticationProvider()).addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -54,17 +68,24 @@ public class SecurityConfiguration {
     }
 
     @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
+
+    @Bean
     public PasswordEncoder passwordEncoder(){
-        return null;
+        //return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
     @Bean
     public UserDetailsService userDetailsService(){
         return  new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-                return APPLICATION_USERS.stream().filter(user -> user.getUsername().equals(email)).findFirst()
-                        .orElseThrow(()->  new UsernameNotFoundException("No se encontró ningún usuario"));
+                return userDao.findUserByEmail(email);
             }
         };
     }
+    */
 }

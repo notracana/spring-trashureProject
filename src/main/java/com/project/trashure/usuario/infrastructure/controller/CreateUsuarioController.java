@@ -7,10 +7,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import java.util.List;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("api/v0/usuarios")
@@ -93,6 +90,11 @@ public class CreateUsuarioController {
         httpSession.removeAttribute("idUsuario");
         //Tras cerrar sesión, se devuelve a la página principal
         return "redirect:/";
+    }
+
+    @PutMapping("/update")
+    public void updateUsuario(){
+
     }
 
 }
