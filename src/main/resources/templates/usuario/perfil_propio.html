@@ -59,11 +59,17 @@
 
           </form>
 
+          <td><a  class="btn btn-warning" th:href="@{api/v0/usuarios/editarProducto/{idProducto} (idProducto=${producto.idProducto}) }">Editar datos</a> </td>
+          <td><a  class="btn btn-warning" th:href="@{api/v0/usuarios/delete/{idProducto} (idProducto=${producto.idProducto}) }">Modificar contraseña</a> </td>
           <p></p>
           <form th:action="@{/modificarPerfil/{idUsuario}}" method="PUT">
             <input type="hidden" th:value="${usuario.idUsuario}" name="idUsuario">
             <button type="submit" class="btn btn-dark">Modificar datos</button>
           </form>
+
+
+          <a class="btn btn-primary" th:href="@{/api/v0/productos/crearProductos}" >Subir producto</a>
+
           <p></p>
           <form th:action="@{/changePassword/{idUsuario}}" method="PUT">
             <input type="hidden" th:value="${usuario.idUsuario}" name="idUsuario">

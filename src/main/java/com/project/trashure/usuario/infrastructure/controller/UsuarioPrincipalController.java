@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -186,11 +187,11 @@ public class UsuarioPrincipalController {
         model.addAttribute("listaFavoritos", listaProductos);
         model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
         //Hace return hacia la vista de favoritos dentro de usuario
-        return "usuario/favoritos";
+
+        return "redirect:/getFavoritos";
     }
 
     //Método para eliminar un producto de la lista de favoritos
-
     @GetMapping("/deleteFavorito/{idProducto}")
     public String deleteFavorito(@PathVariable Integer idProducto, Model model, HttpSession httpSession) throws Exception {
         List<Integer> listaFavoritos = new ArrayList<>();
@@ -201,25 +202,22 @@ public class UsuarioPrincipalController {
         listaFavoritos = usuarioActual.getIdProductosFavoritos();
         if(listaFavoritos == null) listaFavoritos = new ArrayList<>();
 
-        for (int i : listaFavoritos) {
-            if (i == idProducto) {
-                //se obtiene el índice del producto a borrar dentro de la lista
-                //y se borra ese id de la lista
-                listaFavoritos.remove(listaFavoritos.indexOf(i));
+        Iterator iterator = listaFavoritos.listIterator();
+
+        while (iterator.hasNext()) {
+            String entry = iterator.next().toString();
+
+            // Borrar entry si es igual al idProducto que viene por parámetro
+            if (entry.equals(idProducto.toString())) {
+                iterator.remove();
             }
         }
+
         usuarioActual.setIdProductosFavoritos(listaFavoritos);
         saveUsuarioPort.save(usuarioActual);
 
-        List<Producto> listaProductos = new ArrayList<>();
-        for(Integer i : listaFavoritos){
-            Producto producto = findProductoPort.findById(i);
-            listaProductos.add(producto);
-        }
-        //Se vuelve a enviar la lista de favoritos (sin el producto eliminado) a la vista
-        model.addAttribute("listaFavoritos", listaProductos);
         //Hace return hacia la vista de favoritos dentro de usuario
-        return "usuario/favoritos";
+        return "redirect:/getFavoritos";
 
     }
     /*
@@ -435,7 +433,7 @@ public class UsuarioPrincipalController {
 
     }
 
-    @GetMapping("/verMiPerfil")
+    @GetMapping("/miPerfil")
     public String getMiPerfil(Model model, HttpSession httpSession) throws Exception {
         Usuario usuario = new Usuario();
         if (httpSession.getAttribute("idUsuario") != null) {
@@ -455,7 +453,7 @@ public class UsuarioPrincipalController {
         //Hace return hacia la vista de favoritos dentro de usuario
 
 */
-        return "usuario/perfil_propio";
+        return "redirect:/usuario/perfil_propio";
     }
 
 
