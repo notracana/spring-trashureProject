@@ -23,7 +23,7 @@ public class Transaccion {
 
     //El estado puede ser "pendiente", "aceptada", "rechazada"
     private String estado;
-    //private String idProducto;
+    private Integer idProducto;
     private Date fechaTransaccion;
 
     private Usuario usuario;
@@ -40,7 +40,7 @@ public class Transaccion {
         this.setIdVendedor(transaccionJpa.getIdVendedor());
         this.setIdComprador(transaccionJpa.getIdComprador());
         this.setEstado(transaccionJpa.getEstado());
-        //this.setIdProducto(transaccionJpa.getIdProducto());
+        this.setIdProducto(transaccionJpa.getIdProducto());
         this.setFechaTransaccion(transaccionJpa.getFechaTransaccion());
     }
 

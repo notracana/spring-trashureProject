@@ -49,6 +49,7 @@
             <tr>
               <th scope="col">ID Transacción</th>
               <th scope="col">Fecha transacción</th>
+              <th scope="col">ID Producto</th>
               <th scope="col">Comprador</th>
               <th scope="col">Estado de la transacción</th>
               <th scope="col"> </th>
@@ -60,7 +61,11 @@
             <tr th:each="venta:${historialVentas}">
               <td th:text="${venta.idTransaccion}"></td>
               <td th:text="${venta.fechaTransaccion}" ></td>
-              <td th:text="${venta.idComprador}" ></td>
+              <td> <a th:href= "@{/detalleProducto/{idProducto} (idProducto=${venta.idProducto})}"> <p
+                      th:text="${venta.idProducto}"></p> </a></td>
+              <!--td th:text="${venta.idComprador}" ></td-->
+              <td> <a th:href= "@{/visitarPerfil/{idUsuario} (idUsuario=${venta.idComprador})}"> <p
+                      th:text="${venta.idComprador}"></p> </a></td>
               <td th:text="${venta.estado}" ></td>
               <td><form th:action="@{/aceptar/{idTransaccion} (idTransaccion=${venta.idTransaccion})}" method="POST">
                 <button type="submit" class="btn btn-success">Aceptar</button></form></td>

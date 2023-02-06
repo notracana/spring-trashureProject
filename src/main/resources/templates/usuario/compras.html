@@ -49,19 +49,25 @@
             <tr>
               <th scope="col">ID Transacción</th>
               <th scope="col">Fecha transacción</th>
-              <th scope="col">Vendedor</th>
-              <th scope="col">Estado</th>
-              <th scope="col">Detalles transacción</th>
+              <th scope="col">ID Producto</th>
+              <th scope="col">ID Vendedor</th>
+              <th scope="col">Estado transacción</th>
+              <!--th scope="col">Detalles transacción</th-->
             </tr>
             </thead>
             <tbody>
             <tr th:each="compra: ${historialCompras}">
               <td th:text="${compra.idTransaccion}"></td>
               <td th:text="${compra.fechaTransaccion}" ></td>
-              <td th:text="${compra.idVendedor}" ></td>
+              <td> <a th:href= "@{/detalleProducto/{idProducto} (idProducto=${compra.idProducto})}"> <p
+                      th:text="${compra.idProducto}"></p> </a></td>
+              <td> <a th:href= "@{/visitarPerfil/{idUsuario} (idUsuario=${compra.idVendedor})}"> <p
+                      th:text="${compra.idVendedor}"></p> </a></td>
+              <!--a th:href="@{/visitarPerfil/{idUsuario} (idUsuario=${compra.idVendedor})}"><td th:text="${compra.idVendedor}">
+              </td></a-->
               <td th:text="${compra.estado}" ></td>
-              <td><a th:href="@{/getDetalleCompra/{idTransaccion} (idTransaccion=${compra.idTransaccion})}"
-                     class="btn btn-success">Ver detalles compra</a></td>
+              <!--td><a th:href="@{/getDetalleCompra/{idTransaccion} (idTransaccion=${compra.idTransaccion})}"
+                     class="btn btn-success">Ver detalles compra</a></td-->
             </tr>
             </tbody>
           </table>

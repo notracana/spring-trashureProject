@@ -2,6 +2,7 @@ package com.project.trashure.usuario.infrastructure.controller;
 
 import com.project.trashure.email.Email;
 import com.project.trashure.producto.domain.Producto;
+import com.project.trashure.producto.infrastructure.controller.dto.input.ProductoInputDTO;
 import com.project.trashure.producto.infrastructure.repository.port.FindProductoPort;
 import com.project.trashure.producto.infrastructure.repository.port.SaveProductoPort;
 import com.project.trashure.transaccion.application.port.CreateTransaccionPort;
@@ -89,27 +90,33 @@ public class UsuarioPrincipalController {
 
     //Método para añadir un producto a favoritos, como parámetro le llega el id del producto
     //En vez de @PathVariable usamos @RequestParam ?????????? MIRAR ESTO
+    /*
     @PostMapping("/annadirFavorito/{idProducto}")
     public String annadirFavorito(@RequestParam Integer idProducto, Model model, HttpSession httpSession) throws Exception {
         Producto producto = findProductoPort.findById(idProducto);
-        List<Producto> listaFavoritos = new ArrayList<>();
+        //List<Producto> listaFavoritos = new ArrayList<>();
 
+        List<Integer> listaFavoritos;
         String idUsuario = httpSession.getAttribute("idUsuario").toString();
         Integer idUsuarioInt = Integer.parseInt(idUsuario);
         Usuario usuarioActual = findUsuarioPort.findById(idUsuarioInt);
-        listaFavoritos = usuarioActual.getProductosFavoritos();
+        listaFavoritos = usuarioActual.getIdProductosFavoritos();
 
-        System.out.println("tamaño lista favoritytos " + listaFavoritos.size());
+        //System.out.println("tamaño lista favoritytos " + listaFavoritos.size());
 
         //Se define un boolean que es true si en la lista de favoritos ya existe un match con el idProducto que
         //viene por parámetro y false si no está en la lista
-        boolean yaEsFavorito = listaFavoritos.stream().anyMatch(producto1 -> String.valueOf(producto1.getIdProducto()).equals(String.valueOf(producto.getIdProducto())));
+        //boolean yaEsFavorito = listaFavoritos.stream().anyMatch(producto1 -> String.valueOf(producto1.getIdProducto()).equals(String.valueOf(producto.getIdProducto())));
 
+        boolean yaEsFavorito = false;
+        if(listaFavoritos!=null) {
+            yaEsFavorito = listaFavoritos.stream().anyMatch(x -> String.valueOf(x).equals(String.valueOf(idProducto)));
+        }
         //en caso de que no esté ese idProducto en la lista de favoritos, entonces se añade
         if (!yaEsFavorito) {
             //Este producto se añade a la lista de favoritos
-            listaFavoritos.add(producto);
-            usuarioActual.setProductosFavoritos(listaFavoritos);
+            listaFavoritos.add(idProducto);
+            usuarioActual.setIdProductosFavoritos(listaFavoritos);
             Usuario usuarioSaved = saveUsuarioPort.save(usuarioActual);
             System.out.println("toene prodyuctos favoritos? " + usuarioSaved.getProductosFavoritos().size());
         }
@@ -130,14 +137,92 @@ public class UsuarioPrincipalController {
 
         System.out.println("tamaño lista favoritytos tras añadir " + listaFavoritos.size());
 
+        List<Producto> listaProductos = new ArrayList<>();
+        for(Integer id :  listaFavoritos){
+            Producto p =  findProductoPort.findById(id);
+            listaProductos.add(p);
+
+        }
+
         //se envía la lista a la vista
-        model.addAttribute("listaFavoritos", listaFavoritos);
+        model.addAttribute("listaFavoritos", listaProductos);
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+        //Hace return hacia la vista de favoritos dentro de usuario
+        return "usuario/favoritos";
+    }*/
+
+    @PostMapping("/annadirFavorito/{idProducto}")
+    public String annadirFavorito(@RequestParam Integer idProducto, Model model, HttpSession httpSession) throws Exception {
+        String idUsuario = httpSession.getAttribute("idUsuario").toString();
+        Integer idUsuarioInt = Integer.parseInt(idUsuario);
+        Usuario usuarioActual = findUsuarioPort.findById(idUsuarioInt);
+        List<Integer> listaFavoritos = usuarioActual.getIdProductosFavoritos();
+        if(listaFavoritos == null) listaFavoritos = new ArrayList<>();
+
+        //Se define un boolean que es true si en la lista de favoritos ya existe un match con el parámetro '
+        // 'idProducto' y false si no está en la lista
+
+        boolean yaEsFavorito = false;
+        if(listaFavoritos!=null && listaFavoritos.size()!=0) {
+            yaEsFavorito = listaFavoritos.stream().anyMatch(x -> String.valueOf(x).equals(String.valueOf(idProducto)));
+        }
+
+        //en caso de que no esté ese idProducto en la lista de favoritos, se añade y se guardan los cambios en la lista del usuario
+        if (!yaEsFavorito) {
+            listaFavoritos.add(idProducto);
+            usuarioActual.setIdProductosFavoritos(listaFavoritos);
+            saveUsuarioPort.save(usuarioActual);
+        }
+        //si ya está añadido ese producto a la lista, no se vuelve a añadir
+
+        //Se recuperan en una lista todos los productos
+        List<Producto> listaProductos = new ArrayList<>();
+        for(Integer id :  listaFavoritos){
+            Producto p =  findProductoPort.findById(id);
+            listaProductos.add(p);
+        }
+
+        //se envía la lista a la vista
+        model.addAttribute("listaFavoritos", listaProductos);
         model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
         //Hace return hacia la vista de favoritos dentro de usuario
         return "usuario/favoritos";
     }
 
     //Método para eliminar un producto de la lista de favoritos
+
+    @GetMapping("/deleteFavorito/{idProducto}")
+    public String deleteFavorito(@PathVariable Integer idProducto, Model model, HttpSession httpSession) throws Exception {
+        List<Integer> listaFavoritos = new ArrayList<>();
+
+        String idUsuario = httpSession.getAttribute("idUsuario").toString();
+        Integer idUsuarioInt = Integer.parseInt(idUsuario);
+        Usuario usuarioActual = findUsuarioPort.findById(idUsuarioInt);
+        listaFavoritos = usuarioActual.getIdProductosFavoritos();
+        if(listaFavoritos == null) listaFavoritos = new ArrayList<>();
+
+        for (int i : listaFavoritos) {
+            if (i == idProducto) {
+                //se obtiene el índice del producto a borrar dentro de la lista
+                //y se borra ese id de la lista
+                listaFavoritos.remove(listaFavoritos.indexOf(i));
+            }
+        }
+        usuarioActual.setIdProductosFavoritos(listaFavoritos);
+        saveUsuarioPort.save(usuarioActual);
+
+        List<Producto> listaProductos = new ArrayList<>();
+        for(Integer i : listaFavoritos){
+            Producto producto = findProductoPort.findById(i);
+            listaProductos.add(producto);
+        }
+        //Se vuelve a enviar la lista de favoritos (sin el producto eliminado) a la vista
+        model.addAttribute("listaFavoritos", listaProductos);
+        //Hace return hacia la vista de favoritos dentro de usuario
+        return "usuario/favoritos";
+
+    }
+    /*
     @GetMapping("/deleteFavorito/{idProducto}")
     public String deleteFavorito(@PathVariable Integer idProducto, Model model, HttpSession httpSession) throws Exception {
         Producto productoToDelete = findProductoPort.findById(idProducto);
@@ -164,26 +249,60 @@ public class UsuarioPrincipalController {
         //Hace return hacia la vista de favoritos dentro de usuario
         return "usuario/favoritos";
 
-    }
+    }*/
 
 
     //Método que redirige a la vista de favoritos desde cualquier parte de la app
     @GetMapping("/getFavoritos")
     public String getFavoritos(Model model, HttpSession httpSession) throws Exception {
-        List<Producto> listaFavoritos = new ArrayList<>();
+        //List<Producto> listaFavoritos = new ArrayList<>();
+        List<Integer> listaFavoritos = new ArrayList<>();
         String idUsuario = httpSession.getAttribute("idUsuario").toString();
         Integer idUsuarioInt = Integer.parseInt(idUsuario);
         Usuario usuarioActual = findUsuarioPort.findById(idUsuarioInt);
 
-        listaFavoritos = usuarioActual.getProductosFavoritos();
+        //listaFavoritos = usuarioActual.getProductosFavoritos();
 
+        listaFavoritos = usuarioActual.getIdProductosFavoritos();
+        List<Producto> listaProductos = new ArrayList<>();
+        for(Integer i : listaFavoritos){
+            Producto p = findProductoPort.findById(i);
+            listaProductos.add(p);
+        }
         System.out.println("tamaño lista favoritos " + listaFavoritos.size());
+        System.out.println("tamaño lista favoritos productos " + listaProductos.size());
+
         model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
-        model.addAttribute("listaFavoritos", listaFavoritos);
+        model.addAttribute("listaFavoritos", listaProductos);
         //Hace return hacia la vista de favoritos dentro de usuario
         return "/usuario/favoritos";
 
     }
+   /* @GetMapping("/getFavoritos")
+    public String getFavoritos(Model model, HttpSession httpSession) throws Exception {
+        //List<Producto> listaFavoritos = new ArrayList<>();
+        List<Integer> listaFavoritos = new ArrayList<>();
+        String idUsuario = httpSession.getAttribute("idUsuario").toString();
+        Integer idUsuarioInt = Integer.parseInt(idUsuario);
+        Usuario usuarioActual = findUsuarioPort.findById(idUsuarioInt);
+
+        //listaFavoritos = usuarioActual.getProductosFavoritos();
+
+        listaFavoritos = usuarioActual.getIdProductosFavoritos();
+        List<Producto> listaProductos = new ArrayList<>();
+        for(Integer i : listaFavoritos){
+            Producto p = findProductoPort.findById(i);
+            listaProductos.add(p);
+        }
+        System.out.println("tamaño lista favoritos " + listaFavoritos.size());
+        System.out.println("tamaño lista favoritos productos " + listaProductos.size());
+
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+        model.addAttribute("listaFavoritos", listaProductos);
+        //Hace return hacia la vista de favoritos dentro de usuario
+        return "/usuario/favoritos";
+
+    }*/
 
     //Método que redirige a la vista de resumen_compra
     @GetMapping("/resumenCompra/{idProducto}")
@@ -411,7 +530,7 @@ public class UsuarioPrincipalController {
     }
 
     @PostMapping("enviarEmail")
-    public void enviarEmail(Email email, Model model, HttpSession httpSession) throws Exception {
+    public String enviarEmail(Email email, Model model, HttpSession httpSession) throws Exception {
         //Necesitamos saber quién es el propietario
         //Usuario usuarioPropietario = findUsuarioPort.findById(idUsuario);
 
@@ -440,22 +559,32 @@ public class UsuarioPrincipalController {
         System.out.println("to : " + simpleMailMessage.getTo());
         System.out.println("to clarificado " + para);
 
-        simpleMailMessage.setSubject("El usuario " + usuarioActual.getUsername() + " quiere contactar contigo.");
+        simpleMailMessage.setSubject("El usuario '" + usuarioActual.getUsername() + "' quiere contactar contigo.");
         System.out.println("subject : " + simpleMailMessage.getSubject());
 
         //simpleMailMessage.setText(mensaje);
-        simpleMailMessage.setText(email.getTexto());
-        System.out.println("mensaje : " + simpleMailMessage.getText());
+        simpleMailMessage.setText("El usuario '" + usuarioActual.getUsername() + "' te ha enviado un mensaje:" + "\n '"
+                + email.getTexto() + "'. \n"+
+                "-- \n Puedes contactar con el usuario a través de su dirección de correo electrónico: " + usuarioActual.getEmail() + "" +
+                " \n \n "
+                + "¡Gracias por depositar tu confianza en Trashure!");
+        System.out.println("mensaje : '" + simpleMailMessage.getText() + "'. \n"+
+                "Puedes contactar con el usuario a través de su dirección de correo electrónico: " + usuarioActual.getEmail());
 
-        System.out.println("no sé quépasa");
+
         try
         {
-        javaMailSender.send(simpleMailMessage);}
+        javaMailSender.send(simpleMailMessage);
+        }
         catch (Exception e){
             System.out.println("Error al enviar email");
             e.printStackTrace();
         }
         System.out.println("fin mensaje");
+
+        return "redirect:/";
+
+
 
     }
 

@@ -49,6 +49,7 @@
                     (imagenProducto=${producto.imagen})}" alt="Imagen producto">
                     </a>
                 </div>
+
                 <div class="col-lg-6">
                     <form th:action="@{/annadirFavorito/{idProducto}}" method="POST">
                         <input type="hidden" th:value="${producto.idProducto}" name="idProducto">
@@ -56,13 +57,13 @@
 
                         <ul class="list-group">
                             <li class="list-group-item">
-                                <h5 th:text="'Descripción: '+ ${producto.descripcion} "></h5>
+                                <h5 th:text="'Descripción '"></h5><p th:text="${producto.descripcion} "></p>
                             </li>
                             <li class="list-group-item"><h5
-                                    th:text="'Disponibilidad: '+ ${producto.disponibilidad} "></h5></li>
-                            <li class="list-group-item"><a
-                                    th:href="@{/visitarPerfil/{idUsuario} (idUsuario=${producto.idUsuario})}"><h5
-                                    th:text="'Propietario: '+ ${producto.idUsuario} "></h5></a></li>
+                                    th:text="'Disponibilidad '"></h5><p th:text="${producto.disponibilidad} "></p></li>
+                            <!--li class="list-group-item"><a
+                                    th:href="@{/visitarPerfil/{idUsuario} (idUsuario=${producto.idUsuario})}"><p
+                                    th:text="'Propietario '+ ${producto.idUsuario} "></p></a></li-->
                             <li class="list-group-item"><h5 th:text="'Propietario: '"></h5><a
                                     th:href="@{/visitarPerfil/{idUsuario} (idUsuario=${producto.idUsuario})}"><h6
                                     th:text="${producto.idUsuario} "></h6></a></li>
@@ -70,16 +71,20 @@
 
                         </ul>
 
-
+                        <p></p>
                         <button type="submit" class="btn btn-warning">Añadir a favoritos</button>
 
                     </form>
 
+                    <p></p>
+
                     <form th:action="@{/contactar/{idUsuario} (idUsuario=${producto.idUsuario})}" method="POST">
                         <input type="hidden" th:value="${producto.idUsuario}" name="idUsuario">
-                        <button type="submit" class="btn btn-success">Contactar</button>
+                        <button type="submit" class="btn btn-primary">Contactar</button>
 
                     </form>
+                    <p></p>
+
 
                     <form th:action="@{/generarTransaccion/{idProducto}}" method="POST">
                         <input type="hidden" th:value="${producto.idProducto}" name="idProducto">

@@ -49,9 +49,10 @@
             <tr>
               <th scope="col">Imagen</th> <!-- AÑADIR IMAGEN DEL PRODUCTO EN PEQUEÑITO-->
               <th scope="col">Producto</th>
+              <th scope="col">ID producto</th>
               <th scope="col">Estado</th> <!-- AÑADIR ESTADO DEL PRODUCTO Y PUEDE QUE USUARIO?-->
               <th scope="col">Disponibilidad</th>
-              <th scope="col">Propietario</th>
+              <!--th scope="col">ID Propietario</th-->
               <th scope="col">   </th>
             </tr>
             </thead>
@@ -59,9 +60,14 @@
             <tr th:each="favorito:${listaFavoritos}">
               <td th:src="@{/imagenes/{img} (img=${favorito.imagen})}" alt="Imagen producto" width="50" height="50"></td>
               <td th:text="${favorito.nombre}"></td>
+              <td> <a th:href= "@{/detalleProducto/{idProducto} (idProducto=${favorito.idProducto})}"> <p
+                      th:text="${favorito.idProducto}"></p> </a></td>
               <td th:text="${favorito.estado}"></td>
               <td th:text="${favorito.disponibilidad}"></td>
-              <a th:href="@{/visitarPefil/{idUsuario} (idUsuario=${favorito.idUsuario})}"><td th:text="${favorito.idUsuario}"></td></a></li>
+
+              <!--td> <a th:href= "@{/visitarPerfil/{idUsuario} (idUsuario=${compra.idVendedor})}"> <p
+                      th:text="${compra.idVendedor}"></p> </a></td>
+              <a th:href="@{/visitarPefil/{idUsuario} (idUsuario=${favorito.idUsuario})}"><td th:text="${favorito.idUsuario}"></td></a></li-->
 
 
               <td><a th:href="@{/deleteFavorito/{idProducto} (idProducto=${favorito.idProducto})}"

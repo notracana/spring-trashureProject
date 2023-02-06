@@ -50,9 +50,9 @@ public class TransaccionJpa {
     @Column (name = "estado")
     private String estado;
 
-    /*
-    @Column (name = "id_producto")
-    private String idProducto;*/
+
+    @Column (name = "s_id_producto")
+    private Integer idProducto;
 
     @Column (name = "fecha_transaccion")
     private Date fechaTransaccion;
@@ -74,11 +74,11 @@ public class TransaccionJpa {
         this.setIdVendedor(transaccion.getIdVendedor());
         this.setIdComprador(transaccion.getIdComprador());
         this.setEstado(transaccion.getEstado());
-        //this.setIdProducto(transaccion.getIdProducto());
         this.setFechaTransaccion(transaccion.getFechaTransaccion());
 
         Producto producto = transaccion.getProducto();
         updateProducto(producto);
+        this.setIdProducto(producto.getIdProducto());
 
     }
     public void updateProducto(Producto producto){

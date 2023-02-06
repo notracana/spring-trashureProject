@@ -75,6 +75,9 @@ public class UsuarioJpa {
     @Column (name ="tipo_usuario")
     private String tipoUsuario;
 
+    @Column (name = "id_productos_favoritos")
+    private List<Integer> idProductosFavoritos = new ArrayList<>();
+
     //Definimos una relación de uno a muchos entre usuario y productos y determinados que está mapeada por el campo
     //id_usuario, que es un campo definido en la clase Producto
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -97,6 +100,7 @@ public class UsuarioJpa {
 
 
 
+
     /*
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "usuarios")
     List<ProductoJpa> productosFavoritosJpa;*/
@@ -108,6 +112,7 @@ public class UsuarioJpa {
     )
     @ManyToMany(fetch = FetchType.LAZY)
     List<ProductoJpa> productosFavoritosJpa;
+
 
 
     /*
@@ -127,6 +132,7 @@ public class UsuarioJpa {
         this.setDireccion(usuario.getDireccion());
         this.setTelefono(usuario.getTelefono());
         this.setTipoUsuario(usuario.getTipoUsuario());
+        this.setIdProductosFavoritos(usuario.getIdProductosFavoritos());
 
         List<Producto> productosSubidos = usuario.getProductosSubidos();
         updateProductosSubidos(productosSubidos);
@@ -136,6 +142,8 @@ public class UsuarioJpa {
 
         List<Producto> productosFavoritos = usuario.getProductosFavoritos();
         updateProductosFavoritos(productosFavoritos);
+
+        //this.setIdProductosFavoritos(productosFavoritos.stream().map(Producto::getIdProducto).collect(Collectors.toList()));
 
         //List<Review> reviewList = usuario.getReviews();
         //updateReviews(reviewList);

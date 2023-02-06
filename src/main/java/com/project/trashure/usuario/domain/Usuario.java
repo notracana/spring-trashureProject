@@ -38,6 +38,7 @@ public class Usuario {
     private String localidad;
     private String telefono;
 
+    private List<Integer> idProductosFavoritos = new ArrayList<>();
 
     //El campo userType sirve para distinguir entre los tipos de usuario
     private String tipoUsuario;
@@ -68,6 +69,7 @@ public class Usuario {
         this.setDireccion(usuarioJpa.getDireccion());
         this.setTelefono(usuarioJpa.getTelefono());
         this.setTipoUsuario(usuarioJpa.getTipoUsuario());
+        this.setIdProductosFavoritos(usuarioJpa.getIdProductosFavoritos());
         //this.setProductosSubidos(usuarioJpa.getProductosSubidos());
         //this.setListaCompras(usuarioJpa.getListaCompras());
         //this.setListaVentas(usuarioJpa.getListaVentas());

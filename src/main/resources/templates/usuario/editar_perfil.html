@@ -39,7 +39,7 @@
   </ol>
 
   <h2>Editar Producto</h2>
-  <form class="form-horizontal" th:action="@{/api/v0/usuarios/update}" method="put"  enctype="multipart/form-data">
+  <form class="form-horizontal" th:action="@{/api/v0/usuarios/update}" method="PUT"  enctype="multipart/form-data">
     <input type="hidden" name="id" th:value="${usuario.idUsuario}">
 
     <div class="form-group">

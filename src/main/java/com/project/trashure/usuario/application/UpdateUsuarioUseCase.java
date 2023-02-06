@@ -7,7 +7,11 @@ import com.project.trashure.usuario.application.port.UpdateUsuarioPort;
 import com.project.trashure.usuario.domain.Usuario;
 import com.project.trashure.usuario.infrastructure.repository.port.FindUsuarioPort;
 import com.project.trashure.usuario.infrastructure.repository.port.SaveUsuarioPort;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
+@Service
+@AllArgsConstructor
 public class UpdateUsuarioUseCase implements UpdateUsuarioPort {
     private FindUsuarioPort findUsuarioPort;
     private SaveUsuarioPort saveUsuarioPort;
