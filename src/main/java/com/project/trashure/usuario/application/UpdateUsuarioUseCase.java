@@ -28,4 +28,11 @@ public class UpdateUsuarioUseCase implements UpdateUsuarioPort {
         if(localidad!=null) usuario.setLocalidad(localidad);
         return saveUsuarioPort.save(usuario);
     }
+
+    @Override
+    public Usuario update(Integer idUsuario, String password) throws Exception {
+        Usuario usuario = findUsuarioPort.findById(idUsuario);
+        if(password!=null) usuario.setPassword(password);
+        return saveUsuarioPort.save(usuario);
+    }
 }

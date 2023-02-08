@@ -18,35 +18,59 @@ public class UpdateUsuarioController {
     private UpdateUsuarioPort updateUsuarioPort;
 
     @PostMapping("/update")
-    public String updateUsuario(Usuario usuario) throws Exception {
-        Usuario usuario1 = findUsuarioPort.findById(usuario.getIdUsuario());
+    public String updateUsuario(Usuario usuario, Model model, HttpSession httpSession) throws Exception {
+        System.out.println("heyy qué pasa makinasa");
+        //Usuario usuario1 = findUsuarioPort.findById(usuario.getIdUsuario());
 
-        usuario.setIdUsuario(usuario1.getIdUsuario());
+        System.out.println("usuario id parametro " + usuario.getIdUsuario());
+
+        String id =  httpSession.getAttribute("idUsuario").toString();
+        Integer idInt = Integer.parseInt(id);
+        Usuario usuarioHttp = findUsuarioPort.findById(idInt);
+
+        System.out.println("usuario http id " + usuarioHttp.getIdUsuario());
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+        //usuario.setIdUsuario(usuario1.getIdUsuario());
 
         //MIRAR ESTO
         //EL UPDATE NOP ME GFUSTA. COMPARAR CON EL SUYO EN MIN 13.50 VIDEO 18
-        updateUsuarioPort.update(usuario1.getIdUsuario(), usuario1.getNombre(), usuario1.getApellidos(), usuario1.getEmail(), usuario1.getTelefono(),
-                usuario1.getDireccion(), usuario1.getLocalidad());
+        updateUsuarioPort.update(usuarioHttp.getIdUsuario(), usuario.getNombre(), usuario.getApellidos(), usuario.getEmail(), usuario.getTelefono(),
+                usuario.getDireccion(), usuario.getLocalidad());
+
         return "redirect:/miPerfil";
     }
 
     @PostMapping("/updatePassword")
-    public String updatePassword(Usuario usuario) throws Exception {
-        Usuario usuario1 = findUsuarioPort.findById(usuario.getIdUsuario());
+    public String updatePassword(Usuario usuario, Model model, HttpSession httpSession) throws Exception {
+        //Usuario usuario1 = findUsuarioPort.findById(usuario.getIdUsuario());
 
-        if(usuario.getPassword().equals(usuario1.getPassword())){
+        String id =  httpSession.getAttribute("idUsuario").toString();
+        Integer idInt = Integer.parseInt(id);
+        Usuario usuarioHttp = findUsuarioPort.findById(idInt);
+
+        System.out.println("usuario http id " + usuarioHttp.getIdUsuario());
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+
+        if(!usuario.getNombre().equals(usuarioHttp.getPassword())){
+            //contraseña actual correcta
+            throw new Exception("La contraseña actual no es correcta");
            // usuario1.setPassword(usuario.get);
         }
-        usuario.setIdUsuario(usuario1.getIdUsuario());
+        if(usuario.getApellidos().toString()!=(usuario.getPassword().toString())){
+            System.out.println("apelli " + usuario.getApellidos());
+            System.out.println("pass " + usuario.getPassword());
+            throw new Exception("Las contraseñas introducidas no coinciden");
+
+        }
+
 
         //MIRAR ESTO
         //EL UPDATE NOP ME GFUSTA. COMPARAR CON EL SUYO EN MIN 13.50 VIDEO 18
-        updateUsuarioPort.update(usuario1.getIdUsuario(), usuario1.getNombre(), usuario1.getApellidos(), usuario1.getEmail(), usuario1.getTelefono(),
-                usuario1.getDireccion(), usuario1.getLocalidad());
+        updateUsuarioPort.update(usuarioHttp.getIdUsuario(), usuario.getPassword());
         return "redirect:/usuario/perfil_propio";
     }
 
-    @PutMapping("/modificarPerfil")
+    @GetMapping("/modificarPerfil")
     public String modificarPerfil(Model model, HttpSession httpSession) throws Exception {
         Usuario usuario = new Usuario();
         if (httpSession.getAttribute("idUsuario") != null) {
@@ -59,10 +83,40 @@ public class UpdateUsuarioController {
         } else {
             model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario"));
         }
-        return "redirect:/miPerfil";
+
+
+        return "usuario/editar_perfil";
     }
     @GetMapping("/miPerfil")
     public String getMiPerfil(Model model, HttpSession httpSession) throws Exception {
+        System.out.println("hola");
+        Usuario usuario = new Usuario();
+        if (httpSession.getAttribute("idUsuario") != null) {
+            System.out.println("hola tengo usuario");
+            model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+            String idUsuario = httpSession.getAttribute("idUsuario").toString();
+            Integer id = Integer.parseInt(idUsuario);
+            usuario = findUsuarioPort.findById(id);
+            model.addAttribute("usuario", usuario);
+
+            System.out.println("id usuario " + usuario.getIdUsuario());
+        } else {
+            System.out.println("hola no tengo usuario");
+            model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario"));
+        }
+
+        /*List<Producto> listaProductos = new ArrayList<>();
+        listaProductos = findProductoPort.findAllByPropietario(usuario);
+        model.addAttribute("listaProductos", listaProductos);
+        //Hace return hacia la vista de favoritos dentro de usuario
+
+*/
+        return "usuario/perfil_propio";
+    }
+
+    @GetMapping("/changePassword")
+    public String modificarPassword (Model model, HttpSession httpSession) throws Exception {
+
         Usuario usuario = new Usuario();
         if (httpSession.getAttribute("idUsuario") != null) {
             model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
@@ -75,18 +129,8 @@ public class UpdateUsuarioController {
             model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario"));
         }
 
-        /*List<Producto> listaProductos = new ArrayList<>();
-        listaProductos = findProductoPort.findAllByPropietario(usuario);
-        model.addAttribute("listaProductos", listaProductos);
-        //Hace return hacia la vista de favoritos dentro de usuario
 
-*/
-        return "redirect:/usuario/perfil_propio";
-    }
-
-    @PutMapping("{/changePassword/{idUsuario}")
-    public String modificarPassword (@RequestParam Integer idUsuario){
-        return "redirect:/miPerfil";
+        return "usuario/editar_password";
     }
 
 }

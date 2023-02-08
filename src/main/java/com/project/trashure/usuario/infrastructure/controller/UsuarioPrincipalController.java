@@ -435,6 +435,7 @@ public class UsuarioPrincipalController {
 
     @GetMapping("/miPerfil")
     public String getMiPerfil(Model model, HttpSession httpSession) throws Exception {
+        System.out.println("hoalaaaaaaaaaa");
         Usuario usuario = new Usuario();
         if (httpSession.getAttribute("idUsuario") != null) {
             model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
