@@ -62,6 +62,7 @@ public class UpdateProductoController {
         model.addAttribute("producto", producto); //con esto, se envía a la plantillña de editar el
         //objeto buscado
 
+        model.addAttribute("idProducto", producto.getIdProducto());
         System.out.println("producto que se envia con el model " + producto.getIdProducto());
 
         //MIRAR ESTO:
@@ -81,12 +82,33 @@ public class UpdateProductoController {
 
     //22/12 cogemos parte de saveProductoController para traernos la actualizacion de la img del producto vid 17
     @PostMapping("/update")
-    public String update(Producto producto, @RequestParam ("imgProducto") MultipartFile imgFile) throws Exception {
-        System.out.println("id producto que viene por parametro " + producto.getIdProducto());
+    public String update(Producto producto, Model model,
+                         @RequestParam ("imgProducto") MultipartFile imgFile) throws Exception {
 
-        Producto producto1 = findProductoPort.findById(producto.getIdProducto());
+        String nombre =  producto.getNombre();
 
-        System.out.println("id producto que se va a editar " + producto1.getIdProducto());
+        System.out.println("nombre " + nombre);
+
+        String descripcion = producto.getDescripcion();
+        System.out.println("descripcion " + descripcion);
+        Integer intIdProducto = producto.getIdProducto();
+
+        System.out.println("id " + intIdProducto);
+
+        //String idProducto =  model.getAttribute("idProducto").toString();
+        //System.out.println("id " + idProducto);
+
+
+        //Integer idProductoInt = Integer.parseInt(idProducto);
+
+
+        //Producto producto2 = model.getAttribute("producto");
+        //System.out.println("id producto que viene por parametro " + idProductoInt);
+
+        Producto producto1 = findProductoPort.findById(intIdProducto);
+
+        //System.out.println("id producto que se va a editar " + producto1.getIdProducto());
+
 
         //puede que la imagen sea la misma
         if(imgFile.isEmpty()){
@@ -113,6 +135,6 @@ public class UpdateProductoController {
         //EL UPDATE NOP ME GFUSTA. COMPARAR CON EL SUYO EN MIN 13.50 VIDEO 18
         updateProductoPort.update(producto.getIdProducto(), producto.getNombre(), producto.getDescripcion()
         , producto.getEstado(), producto.getImagen());
-        return "redirect:/producto/mostrar";
+        return "redirect:/getProductos";
     }
 }

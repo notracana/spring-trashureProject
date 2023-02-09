@@ -22,6 +22,7 @@ public class UpdateUsuarioController {
         System.out.println("heyy qué pasa makinasa");
         //Usuario usuario1 = findUsuarioPort.findById(usuario.getIdUsuario());
 
+
         System.out.println("usuario id parametro " + usuario.getIdUsuario());
 
         String id =  httpSession.getAttribute("idUsuario").toString();

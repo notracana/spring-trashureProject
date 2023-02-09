@@ -28,151 +28,161 @@
 
 <!-- Page Content -->
 <div th:unless="${usuarioLogged==null}">
-<div class="container">
+    <div class="container">
 
 
-    <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">
-        Trashure <small> - Detalle Producto</small>
-    </h1>
+        <!-- Page Heading/Breadcrumbs -->
+        <h1 class="mt-4 mb-3">
+            Trashure <small> - Detalle Producto</small>
+        </h1>
 
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a th:href="@{/}">Página principal</a></li>
-        <li class="breadcrumb-item active">Detalle Producto</li>
-    </ol>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">Página principal</a></li>
+            <li class="breadcrumb-item active">Detalle Producto</li>
+        </ol>
 
-    <div class="card mb-4">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-lg-6">
-                    <a> <img class="img-fluid rounded" th:src="@{/imagenes/{imagenProducto}
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <a> <img class="img-fluid rounded" th:src="@{/imagenes/{imagenProducto}
                     (imagenProducto=${producto.imagen})}" alt="Imagen producto">
-                    </a>
-                </div>
+                        </a>
+                    </div>
 
-                <div class="col-lg-6">
-                    <form th:action="@{/annadirFavorito/{idProducto}}" method="POST">
-                        <input type="hidden" th:value="${producto.idProducto}" name="idProducto">
-                        <h2 class="card-title" th:text="${producto.nombre}"></h2>
+                    <div class="col-lg-6">
+                        <form th:action="@{/annadirFavorito/{idProducto}}" method="POST">
+                            <input type="hidden" th:value="${producto.idProducto}" name="idProducto">
+                            <h2 class="card-title" th:text="${producto.nombre}"></h2>
 
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <h5 th:text="'Descripción '"></h5><p th:text="${producto.descripcion} "></p>
-                            </li>
-                            <li class="list-group-item"><h5
-                                    th:text="'Disponibilidad '"></h5><p th:text="${producto.disponibilidad} "></p></li>
-                            <!--li class="list-group-item"><a
-                                    th:href="@{/visitarPerfil/{idUsuario} (idUsuario=${producto.idUsuario})}"><p
-                                    th:text="'Propietario '+ ${producto.idUsuario} "></p></a></li-->
-                            <li class="list-group-item"><h5 th:text="'Propietario: '"></h5><a
-                                    th:href="@{/visitarPerfil/{idUsuario} (idUsuario=${producto.idUsuario})}"><h6
-                                    th:text="${producto.idUsuario} "></h6></a></li>
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <h5 th:text="'Descripción '"></h5>
+                                    <p th:text="${producto.descripcion} "></p>
+                                </li>
+                                <li class="list-group-item">
+                                    <h5 th:text="'Estado '"></h5>
+                                    <p th:text="${producto.estado} "></p>
+                                </li>
+
+                                <li class="list-group-item"><h5
+                                        th:text="'Disponibilidad '"></h5>
+                                    <p th:text="${producto.disponibilidad} "></p></li>
+                                <!--li class="list-group-item"><a
+                                        th:href="@{/visitarPerfil/{idUsuario} (idUsuario=${producto.idUsuario})}"><p
+                                        th:text="'Propietario '+ ${producto.idUsuario} "></p></a></li-->
+                                <li class="list-group-item"><h5 th:text="'Propietario: '"></h5><a
+                                        th:href="@{/visitarPerfil/{idUsuario} (idUsuario=${producto.idUsuario})}"><h6
+                                        th:text="${producto.idUsuario} "></h6></a></li>
 
 
-                        </ul>
+                            </ul>
+
+                            <p></p>
+                            <button type="submit" class="btn btn-warning">Añadir a favoritos</button>
+
+                        </form>
 
                         <p></p>
-                        <button type="submit" class="btn btn-warning">Añadir a favoritos</button>
 
-                    </form>
+                        <form th:action="@{/contactar/{idUsuario} (idUsuario=${producto.idUsuario})}" method="POST">
+                            <input type="hidden" th:value="${producto.idUsuario}" name="idUsuario">
+                            <button type="submit" class="btn btn-primary">Contactar</button>
 
-                    <p></p>
-
-                    <form th:action="@{/contactar/{idUsuario} (idUsuario=${producto.idUsuario})}" method="POST">
-                        <input type="hidden" th:value="${producto.idUsuario}" name="idUsuario">
-                        <button type="submit" class="btn btn-primary">Contactar</button>
-
-                    </form>
-                    <p></p>
+                        </form>
+                        <p></p>
 
 
-                    <form th:action="@{/generarTransaccion/{idProducto}}" method="POST">
-                        <input type="hidden" th:value="${producto.idProducto}" name="idProducto">
-                        <button type="submit" class="btn btn-success">Solicitar</button>
+                        <form th:action="@{/generarTransaccion/{idProducto}}" method="POST">
+                            <input type="hidden" th:value="${producto.idProducto}" name="idProducto">
+                            <button type="submit" class="btn btn-success">Solicitar</button>
 
-                    </form>
+                        </form>
 
+                    </div>
                 </div>
             </div>
         </div>
+
+
     </div>
-
-
-</div>
 </div>
 
 <div th:if="${usuarioLogged==null}">
 
-<div class="container">
+    <div class="container">
 
 
-    <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">
-        Trashure <small> - Detalle Producto</small>
-    </h1>
+        <!-- Page Heading/Breadcrumbs -->
+        <h1 class="mt-4 mb-3">
+            Trashure <small> - Detalle Producto</small>
+        </h1>
 
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a th:href="@{/}">Página principal</a></li>
-        <li class="breadcrumb-item active">Detalle Producto</li>
-    </ol>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">Página principal</a></li>
+            <li class="breadcrumb-item active">Detalle Producto</li>
+        </ol>
 
-    <div class="card mb-4">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-lg-6">
-                    <a> <img class="img-fluid rounded" th:src="@{/imagenes/{imagenProducto}
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <a> <img class="img-fluid rounded" th:src="@{/imagenes/{imagenProducto}
                     (imagenProducto=${producto.imagen})}" alt="Imagen producto">
-                    </a>
-                </div>
-                <div class="col-lg-6">
-                    <form th:href="@{api/v0/usuarios/signUp}">
-                        <input type="hidden" th:value="${producto.idProducto}" name="idProducto">
-                        <h2 class="card-title" th:text="${producto.nombre}"></h2>
+                        </a>
+                    </div>
+                    <div class="col-lg-6">
+                        <form th:href="@{api/v0/usuarios/signUp}">
+                            <input type="hidden" th:value="${producto.idProducto}" name="idProducto">
+                            <h2 class="card-title" th:text="${producto.nombre}"></h2>
 
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <h5 th:text="'Descripción: '+ ${producto.descripcion} "></h5>
-                            </li>
-                            <li class="list-group-item"><h5
-                                    th:text="'Disponibilidad: '+ ${producto.disponibilidad} "></h5></li>
-                            <li class="list-group-item"><a
-                                    th:href="@{/visitarPerfil/{idUsuario} (idUsuario=${producto.idUsuario})}"><h5
-                                    th:text="'Propietario: '+ ${producto.idUsuario} "></h5></a></li>
-                            <li class="list-group-item"><h5 th:text="'Propietario: '"></h5><a
-                                    th:href="@{/api/v0/usuarios/signUp}"><h6
-                                    th:text="${producto.idUsuario} "></h6></a></li>
-
-
-                        </ul>
-
-                        <button type="button" style = "background-color: #e28743;"><a th:href="@{/api/v0/usuarios/signUp}">Añadir a favoritos</a></button>
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <h5 th:text="'Descripción: '+ ${producto.descripcion} "></h5>
+                                </li>
+                                <li class="list-group-item"><h5
+                                        th:text="'Disponibilidad: '+ ${producto.disponibilidad} "></h5></li>
+                                <li class="list-group-item"><a
+                                        th:href="@{/visitarPerfil/{idUsuario} (idUsuario=${producto.idUsuario})}"><h5
+                                        th:text="'Propietario: '+ ${producto.idUsuario} "></h5></a></li>
+                                <li class="list-group-item"><h5 th:text="'Propietario: '"></h5><a
+                                        th:href="@{/api/v0/usuarios/signUp}"><h6
+                                        th:text="${producto.idUsuario} "></h6></a></li>
 
 
-                            <button type="button" class="btn btn-success"><a th:href="@{/api/v0/usuarios/signUp}">Contactar</a></button>
+                            </ul>
+
+                            <button type="button" style="background-color: #e28743;"><a
+                                    th:href="@{/api/v0/usuarios/signUp}">Añadir a favoritos</a></button>
 
 
-                    </form>
+                            <button type="button" class="btn btn-success"><a th:href="@{/api/v0/usuarios/signUp}">Contactar</a>
+                            </button>
 
-                    <!--form th:href="@{api/v0/usuarios/signUp}"-->
-                        <button type="button" class="btn btn-success"><a th:href="@{/api/v0/usuarios/signUp}">Solicitar</a></button>
 
-                    </form>
+                        </form>
 
+                        <!--form th:href="@{api/v0/usuarios/signUp}"-->
+                        <button type="button" class="btn btn-success"><a
+                                th:href="@{/api/v0/usuarios/signUp}">Solicitar</a></button>
+
+                        </form>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-</div>
 
 
-    <!-- /.container -->
+<!-- /.container -->
 
-    <div th:include="usuario/template_usuario.html::footer"></div>
+<div th:include="usuario/template_usuario.html::footer"></div>
 
-    <!-- Bootstrap core JavaScript -->
-    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
-    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
 </body>
 

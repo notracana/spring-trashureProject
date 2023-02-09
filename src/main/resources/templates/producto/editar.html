@@ -21,7 +21,9 @@
 <body>
 
 <!-- Navigation -->
-<div th:include="admin/template_admin.html::header" ></div>
+<!--div th:include="admin/template_admin.html::header" ></div-->
+<div th:include="usuario/template_usuario.html::headerUsuarioLogged" th:unless="${usuarioLogged==null}"></div>
+<div th:include="usuario/template_usuario.html::headerUsuarioNoLogged" th:if="${usuarioLogged==null}"></div>
 
 <!-- Page Content -->
 <div class="container">
@@ -40,16 +42,9 @@
 
     <h2>Editar Producto</h2>
     <form class="form-horizontal" th:action="@{/api/v0/productos/update}" method="post"  enctype="multipart/form-data">
-        <input type="hidden" name="id" th:value="${producto.idProducto}">
+        <input type="hidden" name="idProducto" th:value="${producto.idProducto}">
 
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="idProducto">Nombre del producto:</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="idProducto" name="id" required autocomplete="off" th:value="${producto.idProducto}">
-            </div>
-        </div>
-
-        <div class="form-group">
+                <div class="form-group">
             <label class="control-label col-sm-2" for="nombre">Nombre del producto:</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Introduzca un nombre para el producto" required autocomplete="off" th:value="${producto.nombre}">
@@ -95,7 +90,9 @@
 <!-- /.container -->
 
 <!-- Footer -->
-<div th:include="admin/template_admin.html::footer" ></div>
+<!--div th:include="admin/template_admin.html::footer" ></div-->
+<div th:include="usuario/template_usuario.html::footer"></div>
+
 
 <!-- Bootstrap core JavaScript -->
 <script th:src="@{/vendor/jquery/jquery.min.js}"></script>

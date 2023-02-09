@@ -41,11 +41,12 @@ public class CreateProductoController {
 
 
         String idUsuario = httpsession.getAttribute("idUsuario").toString();
+        if(idUsuario == null) throw new Exception("Necesitas iniciar sesión para poder subir tus productos.");
         Integer idUsuarioInt = Integer.parseInt(idUsuario);
         Usuario usuario = findUsuarioPort.findById(idUsuarioInt);
-        System.out.println("el usuario es " + usuario.getIdUsuario());
-        usuario.getProductosSubidos().add(producto);
-        saveUsuarioPort.save(usuario);
+
+
+        System.out.println("usuario id " + usuario.getIdUsuario());
 
         //MIRAR ESTO:
         //al crear un producto, se debería guardar con el id del usuario que lo sube
@@ -53,8 +54,10 @@ public class CreateProductoController {
 
 
         //producto.setIdUsuario(idUsuario);
-        producto.setPropietario(usuario);
+        //producto.setPropietario(usuario);
         producto.setIdUsuario(idUsuarioInt);
+
+
 
         //como el producto está siendo creado, su disponibilidad es disponible
         producto.setDisponibilidad("Disponible");
@@ -90,12 +93,34 @@ public class CreateProductoController {
 
         }
 
-        Producto productoSaved = createProductoPort.create(producto);
-        System.out.println("el producto tiene como usuario " +productoSaved.getIdUsuario() );
 
+        Producto productoCreated = createProductoPort.create(producto);
+        System.out.println("el producto tiene como usuario " + productoCreated.getIdUsuario() );
 
+        System.out.println("el usuario es " + usuario.getIdUsuario());
+
+        /*
+        System.out.println("lista de productos del usuario antes de añadir el nuevo ");
+        for(Producto p : usuario.getProductosSubidos()){
+            System.out.println("producto " + p.getIdProducto());
+        }
+        System.out.println("añadimos el nuevo producto a su lista");
+        usuario.getProductosSubidos().add(productoCreated);
+        System.out.println("lista de productos del usuario después de añadir el nuevo ");
+        for(Producto p : usuario.getProductosSubidos()){
+            System.out.println("producto " + p.getIdProducto());
+        }
+        System.out.println("salvamos el usuario con su lista modificada");
+        Usuario user = saveUsuarioPort.save(usuario);
+
+        System.out.println("lista de productos subidos del usuario una vez salvado");
+        for(Producto p : user.getProductosSubidos()){
+            System.out.println("producto " + p.getIdProducto());
+        }
         //Redirect porque es una petición a GetProductoController
         //es decir, llama al método mostrar del controlador
+
+         */
         return "redirect:/";
     }
 }

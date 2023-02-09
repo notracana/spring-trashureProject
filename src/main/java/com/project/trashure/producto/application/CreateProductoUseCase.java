@@ -20,7 +20,14 @@ public class CreateProductoUseCase implements CreateProductoPort {
 
     @Override
     public Producto create(Producto producto) throws Exception {
+        System.out.println("producto a crear: ");
+        System.out.println("nombre " + producto.getNombre());
+        System.out.println("id usuario " + producto.getIdUsuario());
         Producto productoCreated = saveProductoPort.save(producto);
+
+        System.out.println("producto una veza creado: ");
+        System.out.println("id : " + productoCreated.getIdProducto());
+        System.out.println("idusuario " + productoCreated.getIdUsuario());
         return productoCreated;
     }
 }
