@@ -96,6 +96,6 @@ public class CreateProductoController {
 
         //Redirect porque es una petición a GetProductoController
         //es decir, llama al método mostrar del controlador
-        return "redirect:/api/v0/productos/getProductos";
+        return "redirect:/";
     }
 }

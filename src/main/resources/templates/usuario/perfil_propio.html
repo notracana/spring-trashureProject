@@ -62,7 +62,7 @@
           <p></p>
           <form th:action="@{/api/v0/usuarios/modificarPerfil}" method="GET">
             <input type="hidden" th:value="${usuario.idUsuario}" name="idUsuario">
-            <button type="submit" class="btn btn-dark">Modificar datos</button>
+            <button type="submit" class="btn btn-primary">Modificar datos</button>
           </form>
 
 
@@ -71,7 +71,7 @@
           <p></p>
           <form th:action="@{/api/v0/usuarios/changePassword}" method="GET">
             <input type="hidden" th:value="${usuario.idUsuario}" name="idUsuario">
-            <button type="submit" class="btn btn-dark">Cambiar contraseña</button>
+            <button type="submit" class="btn btn-primary">Cambiar contraseña</button>
           </form>
 
         </div>

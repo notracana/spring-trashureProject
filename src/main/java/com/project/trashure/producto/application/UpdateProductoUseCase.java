@@ -16,6 +16,7 @@ public class UpdateProductoUseCase implements UpdateProductoPort {
     @Override
     public Producto update(Integer idProducto, String nombre, String descripcion, String estado, String imagen) throws Exception {
         Producto producto = findProductoPort.findById(idProducto);
+        System.out.println("id producto en update use case " + idProducto);
         if(nombre!=null) producto.setNombre(nombre);
         if(descripcion!=null) producto.setDescripcion(descripcion);
         if(estado!= null)producto.setEstado(estado);

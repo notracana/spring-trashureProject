@@ -48,6 +48,7 @@ public class UpdateProductoController {
             @PathVariable Integer idProducto, Model model) throws Exception {
 
 
+        System.out.println("id producto en editarproducto/idproducto " + idProducto);
         //Se guarda el producto encontrado con el id en un objeto de tipo Producto
         Producto producto = findProductoPort.findById(idProducto);
 
@@ -61,7 +62,7 @@ public class UpdateProductoController {
         model.addAttribute("producto", producto); //con esto, se envía a la plantillña de editar el
         //objeto buscado
 
-
+        System.out.println("producto que se envia con el model " + producto.getIdProducto());
 
         //MIRAR ESTO:
         //EXPLICACIÓN DE CÓMO SE LLEVA DEL MÉTODO EDITAR PRODUCTO A LA VISTA DE EDITAR DE MOSTRAR
@@ -81,8 +82,11 @@ public class UpdateProductoController {
     //22/12 cogemos parte de saveProductoController para traernos la actualizacion de la img del producto vid 17
     @PostMapping("/update")
     public String update(Producto producto, @RequestParam ("imgProducto") MultipartFile imgFile) throws Exception {
+        System.out.println("id producto que viene por parametro " + producto.getIdProducto());
+
         Producto producto1 = findProductoPort.findById(producto.getIdProducto());
 
+        System.out.println("id producto que se va a editar " + producto1.getIdProducto());
 
         //puede que la imagen sea la misma
         if(imgFile.isEmpty()){

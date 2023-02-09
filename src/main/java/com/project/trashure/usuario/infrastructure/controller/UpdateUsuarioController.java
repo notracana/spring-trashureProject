@@ -37,12 +37,11 @@ public class UpdateUsuarioController {
         updateUsuarioPort.update(usuarioHttp.getIdUsuario(), usuario.getNombre(), usuario.getApellidos(), usuario.getEmail(), usuario.getTelefono(),
                 usuario.getDireccion(), usuario.getLocalidad());
 
-        return "redirect:/miPerfil";
+        return "redirect:/api/v0/usuarios/miPerfil";
     }
 
     @PostMapping("/updatePassword")
     public String updatePassword(Usuario usuario, Model model, HttpSession httpSession) throws Exception {
-        //Usuario usuario1 = findUsuarioPort.findById(usuario.getIdUsuario());
 
         String id =  httpSession.getAttribute("idUsuario").toString();
         Integer idInt = Integer.parseInt(id);
@@ -54,20 +53,11 @@ public class UpdateUsuarioController {
         if(!usuario.getNombre().equals(usuarioHttp.getPassword())){
             //contraseña actual correcta
             throw new Exception("La contraseña actual no es correcta");
-           // usuario1.setPassword(usuario.get);
         }
-        if(usuario.getApellidos().toString()!=(usuario.getPassword().toString())){
-            System.out.println("apelli " + usuario.getApellidos());
-            System.out.println("pass " + usuario.getPassword());
-            throw new Exception("Las contraseñas introducidas no coinciden");
+        String pass1 = usuario.getApellidos().toString();
+        updateUsuarioPort.update(usuarioHttp.getIdUsuario(), pass1);
+        return "redirect:/api/v0/usuarios/miPerfil";
 
-        }
-
-
-        //MIRAR ESTO
-        //EL UPDATE NOP ME GFUSTA. COMPARAR CON EL SUYO EN MIN 13.50 VIDEO 18
-        updateUsuarioPort.update(usuarioHttp.getIdUsuario(), usuario.getPassword());
-        return "redirect:/usuario/perfil_propio";
     }
 
     @GetMapping("/modificarPerfil")
