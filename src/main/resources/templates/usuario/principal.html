@@ -33,8 +33,8 @@
 
   <!-- Jumbotron Header -->
   <header class="jumbotron my-4">
-    <h1 class="display-3">WELCOME TO TRASHURE</h1>
-    <p class="lead">La tienda de Slow-Shop donde puedes encontrar tesoros entre los trastos de otros</p>
+    <h1 class="display-3" style="text-align: center;">WELCOME TO TRASHURE</h1>
+    <p class="lead" style="text-align: center;">La tienda de Slow-Shop donde puedes encontrar tesoros entre los trastos de otros</p>
   </header>
 
   <!-- Page Features -->
@@ -43,7 +43,7 @@
     <!-- recorremos para que en cada variable producto aparezca lo que trae la variable productoList desde
      AdminController para mostrar su imagen y su nombre-->
     <div class="col-lg-3 col-md-6 mb-4" th:each="producto: ${productoList}">
-      <div class="card h-100">
+      <div class="card h-100 border-light mb-3">
         <!-- se establece el source de donde obtiene las imágenes: el directorio imagenes
         llamamos img a la variable-->
         <img class="card-img-top"
@@ -55,7 +55,7 @@
         <div class="card-footer">
           <a th:href="@{/detalleProducto/{idProducto} (idProducto=${producto.idProducto})}"
              class="btn btn-success">Detalle producto</a>
-
+<!-- style="background-color: #ffbf00;-->
         </div>
       </div>
     </div>

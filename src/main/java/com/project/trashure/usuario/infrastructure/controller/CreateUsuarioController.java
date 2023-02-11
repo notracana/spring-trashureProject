@@ -56,9 +56,18 @@ public class CreateUsuarioController {
          try{
              usuario1 = findUsuarioPort.findByUsername(usuario.getUsername());
          }
-         catch (Exception e){
+         catch (Exception e) {
              e.getStackTrace();
              throw new Exception("No existe ningún usuario con ese username. ");
+         }
+
+         String password = usuario1.getPassword();
+
+         if(!password.contentEquals(usuario.getPassword().toString())){
+             System.out.println("password del usuario " + password);
+             System.out.println("password introducida " + usuario.getPassword());
+
+             throw new Exception("La contraseña introducida no es correcta. ");
          }
 
         //MIRAR ESTO: SE DEBERÍA CORROBORAR QUE LA CONTRASEÑA COINCIDA

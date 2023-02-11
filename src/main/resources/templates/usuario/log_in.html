@@ -77,9 +77,15 @@
 
     <div class="form-group">
       <div class="col-sm-2">
-        <button type="submit" class="btn btn-primary"> <span class="glyphicon glyphicon-ok"></span>Iniciar sesión</button>
+        <button type="submit" class="btn btn-primary" onclick="window.modal.showModal();"> <span class="glyphicon glyphicon-ok"></span>Iniciar sesión</button>
       </div>
     </div>
+
+    <dialog id="modal">
+      <h2>Bienvenido</h2>
+      <p>¡Has iniciado sesión con éxito!</p>
+      <button onclick="window.modal.close();">Cerrar</button>
+    </dialog>
   </form>
   <a th:href="@{/api/v0/usuarios/signUp}" class="card-link">¿Aún no estás registrado en Trashure? ¡Crea una cuenta!</a>
 </div>

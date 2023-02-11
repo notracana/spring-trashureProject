@@ -2,7 +2,6 @@ package com.project.trashure.usuario.infrastructure.controller;
 
 import com.project.trashure.email.Email;
 import com.project.trashure.producto.domain.Producto;
-import com.project.trashure.producto.infrastructure.controller.dto.input.ProductoInputDTO;
 import com.project.trashure.producto.infrastructure.repository.port.FindProductoPort;
 import com.project.trashure.producto.infrastructure.repository.port.SaveProductoPort;
 import com.project.trashure.transaccion.application.port.CreateTransaccionPort;
@@ -14,7 +13,6 @@ import com.project.trashure.usuario.infrastructure.repository.port.FindUsuarioPo
 import com.project.trashure.usuario.infrastructure.repository.port.SaveUsuarioPort;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
@@ -324,7 +322,7 @@ public class UsuarioPrincipalController {
         Producto producto = findProductoPort.findById(idProducto);
 
         if (producto.getIdUsuario().equals(idUsuarioInt)) {
-            throw new Exception("No puedes solicitar este objeto puesto que tú eres el propietario.");
+            throw new Exception("Ya eres el propietario de este producto.");
         }
 
         if (producto.getDisponibilidad() != "Disponible") {
@@ -577,6 +575,50 @@ public class UsuarioPrincipalController {
         }
         catch (Exception e){
             System.out.println("Error al enviar email");
+            e.printStackTrace();
+        }
+        System.out.println("fin mensaje");
+
+        return "redirect:/";
+
+
+
+    }
+
+
+    @PostMapping("enviarNotificacion")
+    public String enviarNotificacion(Transaccion transaccion, Model model, HttpSession httpSession) throws Exception {
+
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setFrom("trashureteam@gmail.com");
+        System.out.println("from : " + simpleMailMessage.getFrom());
+        Usuario propietario = findUsuarioPort.findById(transaccion.getIdVendedor());
+        Usuario interesado = findUsuarioPort.findById(transaccion.getIdComprador());
+        Producto producto = findProductoPort.findById(transaccion.getIdProducto());
+
+        simpleMailMessage.setTo(propietario.getEmail());
+        System.out.println("to : " + simpleMailMessage.getTo());
+        //System.out.println("to clarificado " + para);
+
+        simpleMailMessage.setSubject("El usuario '" + interesado.getUsername() + "' ha solicitado " +
+                " un producto tuyo.");
+        System.out.println("subject : " + simpleMailMessage.getSubject());
+
+        //simpleMailMessage.setText(mensaje);
+        simpleMailMessage.setText("El usuario '" + interesado.getUsername() + "' ha solicitado tu producto '" + producto.getNombre() + "'." +
+                "\n "
+                + "Puedes gestionar la transacción desde el apartado 'Historial de ventas' desde tu perfil. \n"+
+                 "También puedes acceder al anuncio del producto desde aquí: '.  \n"+
+                "-- \n Puedes contactar con el usuario a través de su dirección de correo electrónico: " + interesado.getEmail() + "" +
+                " \n \n "
+                + "¡Gracias por depositar tu confianza en Trashure!");
+
+        try
+        {
+            javaMailSender.send(simpleMailMessage);
+        }
+        catch (Exception e){
+            System.out.println("Error la notificación al propietario");
             e.printStackTrace();
         }
         System.out.println("fin mensaje");

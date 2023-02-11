@@ -55,6 +55,10 @@ public class UpdateUsuarioController {
             //contraseña actual correcta
             throw new Exception("La contraseña actual no es correcta");
         }
+        if(!usuario.getDireccion().toString().contentEquals(usuario.getApellidos().toString())){
+            //throw new Exception("La contraseña nueva y su repetición no coinciden.");
+            return "/usuario/modal_error";
+        }
         String pass1 = usuario.getApellidos().toString();
         updateUsuarioPort.update(usuarioHttp.getIdUsuario(), pass1);
         return "redirect:/api/v0/usuarios/miPerfil";
