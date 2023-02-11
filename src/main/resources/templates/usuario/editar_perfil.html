@@ -24,7 +24,7 @@
 <div th:include="admin/template_admin.html::header" ></div>
 
 <!-- Page Content -->
-<div class="container">
+<div class="container" style="padding-top:80px">
 
 
 
@@ -34,7 +34,7 @@
   </h1>
 
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="${/}">Página principal</a></li>
+    <li class="breadcrumb-item"><a href="@{/}">Página principal</a></li>
     <li class="breadcrumb-item active">Editar mi perfil</li>
   </ol>
 
@@ -85,6 +85,8 @@
         <button type="submit" class="btn btn-success">Guardar cambios</button>
       </div>
     </div>
+
+    <p></p>
 
   </form>
 

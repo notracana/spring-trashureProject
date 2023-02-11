@@ -1,5 +1,6 @@
 package com.project.trashure.usuario.infrastructure.controller;
 
+import com.project.trashure.error.ErrorPropio;
 import com.project.trashure.usuario.application.port.UpdateUsuarioPort;
 import com.project.trashure.usuario.domain.Usuario;
 import com.project.trashure.usuario.infrastructure.repository.port.FindUsuarioPort;
@@ -57,6 +58,9 @@ public class UpdateUsuarioController {
         }
         if(!usuario.getDireccion().toString().contentEquals(usuario.getApellidos().toString())){
             //throw new Exception("La contraseña nueva y su repetición no coinciden.");
+            ErrorPropio e = new ErrorPropio();
+            e.setTexto("La contraseña nueva y su repetición no coinciden.");
+            model.addAttribute("error", e);
             return "/usuario/modal_error";
         }
         String pass1 = usuario.getApellidos().toString();

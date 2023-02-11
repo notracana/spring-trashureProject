@@ -20,7 +20,6 @@
     <!-- Custom styles for this template -->
     <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
 
-</head>
 
 <body>
 
@@ -31,7 +30,7 @@
 
 
 <!-- Page Content -->
-<div class="container">
+<div class="container" style="padding-top:80px">
 
     <!-- Jumbotron Header -->
     <header class="jumbotron my-4">
@@ -44,9 +43,10 @@
     <button onclick="window.modal.showModal();">Abrir ventana modal</button>
 
     <dialog id="modal">
-        <h2>Este es el título de mi ventana modal</h2>
-        <p>Este es un texto de ejemplo dentro de una ventana modal</p>
-        <button onclick="window.modal.close();">Cerrar</button>
+        <h2>Error</h2>
+        <p>Ha ocurrido un error: </p>
+        <p th:text="${error.texto}"></p>
+        <button onclick="window.modal.close();"><a th:href="@{/}">Volver a la página principal</a></button>
     </dialog>
 
 

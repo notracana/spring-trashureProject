@@ -1,5 +1,6 @@
 package com.project.trashure.usuario.infrastructure.controller;
 
+import com.project.trashure.error.ErrorPropio;
 import com.project.trashure.usuario.application.port.CreateUsuarioPort;
 import com.project.trashure.usuario.domain.Usuario;
 import com.project.trashure.usuario.infrastructure.repository.port.FindUsuarioPort;
@@ -7,6 +8,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import java.util.List;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -48,7 +50,7 @@ public class CreateUsuarioController {
 
 
     @PostMapping("/iniciarSesion")
-    public String iniciarSesion(Usuario usuario, HttpSession httpSession) throws Exception {
+    public String iniciarSesion(Usuario usuario, Model model, HttpSession httpSession) throws Exception {
 
         Usuario usuario1 = new Usuario();
         //Si el usuario existe en la base de datos...
@@ -57,8 +59,14 @@ public class CreateUsuarioController {
              usuario1 = findUsuarioPort.findByUsername(usuario.getUsername());
          }
          catch (Exception e) {
-             e.getStackTrace();
-             throw new Exception("No existe ningún usuario con ese username. ");
+
+                 ErrorPropio err = new ErrorPropio();
+                 err.setTexto("No existe ningún usuario con ese username. ");
+                 model.addAttribute("error", err);
+                 return "usuario/error_modal";
+
+             //e.getStackTrace();
+             //throw new Exception("No existe ningún usuario con ese username. ");
          }
 
          String password = usuario1.getPassword();
@@ -66,8 +74,12 @@ public class CreateUsuarioController {
          if(!password.contentEquals(usuario.getPassword().toString())){
              System.out.println("password del usuario " + password);
              System.out.println("password introducida " + usuario.getPassword());
+             ErrorPropio err = new ErrorPropio();
+             err.setTexto("La contraseña introducida no es correcta.  ");
+             model.addAttribute("error", err);
+             return "usuario/error_modal";
 
-             throw new Exception("La contraseña introducida no es correcta. ");
+             //throw new Exception("La contraseña introducida no es correcta. ");
          }
 
         //MIRAR ESTO: SE DEBERÍA CORROBORAR QUE LA CONTRASEÑA COINCIDA

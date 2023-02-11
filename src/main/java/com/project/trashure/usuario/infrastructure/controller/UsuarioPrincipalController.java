@@ -1,6 +1,7 @@
 package com.project.trashure.usuario.infrastructure.controller;
 
 import com.project.trashure.email.Email;
+import com.project.trashure.error.ErrorPropio;
 import com.project.trashure.producto.domain.Producto;
 import com.project.trashure.producto.infrastructure.repository.port.FindProductoPort;
 import com.project.trashure.producto.infrastructure.repository.port.SaveProductoPort;
@@ -322,11 +323,19 @@ public class UsuarioPrincipalController {
         Producto producto = findProductoPort.findById(idProducto);
 
         if (producto.getIdUsuario().equals(idUsuarioInt)) {
-            throw new Exception("Ya eres el propietario de este producto.");
+            ErrorPropio e = new ErrorPropio();
+            e.setTexto("No puedes solicitar ese producto; ya eres el propietario.");
+            model.addAttribute("error", e);
+            return "usuario/error_modal";
+            //throw new Exception("Ya eres el propietario de este producto.");
         }
 
         if (producto.getDisponibilidad() != "Disponible") {
-            throw new Exception("El producto no está disponible en estos momentos.");
+            ErrorPropio e = new ErrorPropio();
+            e.setTexto("El producto no está disponible en estos momentos.");
+            model.addAttribute("error", e);
+            return "usuario/error_modal";
+            //throw new Exception("El producto no está disponible en estos momentos.");
 
         }
 
@@ -353,9 +362,9 @@ public class UsuarioPrincipalController {
         }
         saveUsuarioPort.save(usuarioActual);
         model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+        enviarNotificacion(transaccionCreated, model);
 
         return "usuario/compras";
-
 
     }
 
@@ -574,20 +583,22 @@ public class UsuarioPrincipalController {
         javaMailSender.send(simpleMailMessage);
         }
         catch (Exception e){
-            System.out.println("Error al enviar email");
-            e.printStackTrace();
+            ErrorPropio err = new ErrorPropio();
+            err.setTexto("Error al enviar un email al propietario.");
+            model.addAttribute("error", err);
+            return "usuario/error_modal";
+            //System.out.println("Error al enviar email");
+            //e.printStackTrace();
         }
         System.out.println("fin mensaje");
 
         return "redirect:/";
 
-
-
     }
 
 
     @PostMapping("enviarNotificacion")
-    public String enviarNotificacion(Transaccion transaccion, Model model, HttpSession httpSession) throws Exception {
+    public String enviarNotificacion(Transaccion transaccion, Model model) throws Exception {
 
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom("trashureteam@gmail.com");
@@ -607,8 +618,8 @@ public class UsuarioPrincipalController {
         //simpleMailMessage.setText(mensaje);
         simpleMailMessage.setText("El usuario '" + interesado.getUsername() + "' ha solicitado tu producto '" + producto.getNombre() + "'." +
                 "\n "
-                + "Puedes gestionar la transacción desde el apartado 'Historial de ventas' desde tu perfil. \n"+
-                 "También puedes acceder al anuncio del producto desde aquí: '.  \n"+
+                + "Puedes gestionar la transacción (ID " + transaccion.getIdTransaccion()+ ") desde el apartado 'Historial de ventas' en tu perfil de Trashure. \n"+
+
                 "-- \n Puedes contactar con el usuario a través de su dirección de correo electrónico: " + interesado.getEmail() + "" +
                 " \n \n "
                 + "¡Gracias por depositar tu confianza en Trashure!");
@@ -617,15 +628,18 @@ public class UsuarioPrincipalController {
         {
             javaMailSender.send(simpleMailMessage);
         }
-        catch (Exception e){
-            System.out.println("Error la notificación al propietario");
-            e.printStackTrace();
+        catch (Exception e) {
+
+            ErrorPropio err = new ErrorPropio();
+            err.setTexto("Error al enviar una notificación  al propietario.");
+            model.addAttribute("error", err);
+            return "usuario/error_modal";
+            //System.out.println("Error la notificación al propietario");
+           // e.printStackTrace();
         }
         System.out.println("fin mensaje");
 
         return "redirect:/";
-
-
 
     }
 

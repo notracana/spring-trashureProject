@@ -1,5 +1,6 @@
 package com.project.trashure.producto.infrastructure.controller;
 
+import com.project.trashure.error.ErrorPropio;
 import com.project.trashure.producto.application.port.CreateImagenProductoPort;
 import com.project.trashure.producto.application.port.UpdateProductoPort;
 import com.project.trashure.producto.domain.Producto;
@@ -7,6 +8,7 @@ import com.project.trashure.producto.infrastructure.controller.dto.input.Product
 import com.project.trashure.producto.infrastructure.controller.dto.output.ProductoOutputDTO;
 import com.project.trashure.producto.infrastructure.repository.port.DeleteImagenProductoPort;
 import com.project.trashure.producto.infrastructure.repository.port.FindProductoPort;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +47,7 @@ public class UpdateProductoController {
     //es decir, traslada el producto encontrado en la bdd a la vista
     @GetMapping("/editarProducto/{idProducto}")
     public String editarProducto(
-            @PathVariable Integer idProducto, Model model) throws Exception {
+            @PathVariable Integer idProducto, Model model, HttpSession httpSession) throws Exception {
 
 
         System.out.println("id producto en editarproducto/idproducto " + idProducto);
@@ -64,6 +66,25 @@ public class UpdateProductoController {
 
         model.addAttribute("idProducto", producto.getIdProducto());
         System.out.println("producto que se envia con el model " + producto.getIdProducto());
+
+
+        if(httpSession.getAttribute("idUsuario").toString() != null){
+            model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+
+        }
+        else{
+            model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario"));
+        }
+
+        //VALIDACION NECESARIA
+        if(!producto.getIdUsuario().toString().contentEquals(httpSession.getAttribute("idUsuario").toString())){
+            System.out.println("producto.getIdUsuario().toString() " + producto.getIdUsuario().toString());
+            System.out.println("httpSession.getAttribute(\"idUsuario\").toString())" + httpSession.getAttribute("idUsuario").toString());
+            ErrorPropio errorPropio = new ErrorPropio();
+            errorPropio.setTexto("No puedes acceder a la edición de un producto del que no eres propietario.");
+            model.addAttribute("error", errorPropio);
+            return "usuario/modal_error";
+        }
 
         //MIRAR ESTO:
         //EXPLICACIÓN DE CÓMO SE LLEVA DEL MÉTODO EDITAR PRODUCTO A LA VISTA DE EDITAR DE MOSTRAR

@@ -2,6 +2,7 @@ package com.project.trashure.producto.infrastructure.controller;
 
 import com.project.trashure.producto.domain.Producto;
 import com.project.trashure.producto.infrastructure.repository.FindProductoRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,7 +38,15 @@ public class GetProductoController {
     }
 
     @GetMapping("/crearProductos")
-    public String crear(){
+    public String crear(Model model, HttpSession httpSession){
+        if(httpSession.getAttribute("idUsuario").toString() != null){
+            model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+
+        }
+        else {
+            model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario"));
+        }
+
         return "producto/crear";
     }
 }
