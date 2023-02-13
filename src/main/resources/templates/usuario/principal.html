@@ -2,22 +2,23 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
 
-  <meta charset="utf-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-  <title>Trashure App</title>
+    <title>Trashure App</title>
 
 
-  <!-- Bootstrap core CSS -->
-  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
-        rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
+          rel="stylesheet">
 
-  <!-- Custom styles for this template -->
-  <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
 
+    <link rel="icon" href="imagenes/favicon-32x32.png">
 </head>
 
 <body>
@@ -27,42 +28,79 @@
 <div th:include="usuario/template_usuario.html::headerUsuarioNoLogged" th:if="${usuarioLogged==null}"></div>
 
 
-
 <!-- Page Content -->
 <div class="container">
 
-  <!-- Jumbotron Header -->
-  <header class="jumbotron my-4">
-    <h1 class="display-3" style="text-align: center;">WELCOME TO TRASHURE</h1>
-    <p class="lead" style="text-align: center;">La tienda de Slow-Shop donde puedes encontrar tesoros entre los trastos de otros</p>
-  </header>
+    <!-- Jumbotron Header -->
+    <header class="jumbotron my-4">
+        <h1 class="display-3" style="text-align: center;">Te damos la bienvenida a Trashure</h1>
+        <p class="lead" style="text-align: center;">La tienda donde puedes encontrar tesoros entre los trastos de
+            otros</p>
+    </header>
 
-  <!-- Page Features -->
-  <div class="row text-center">
+    <!-- Page Features -->
+    <div class="row text-center">
 
-    <!-- recorremos para que en cada variable producto aparezca lo que trae la variable productoList desde
-     AdminController para mostrar su imagen y su nombre-->
-    <div class="col-lg-3 col-md-6 mb-4" th:each="producto: ${productoList}">
-      <div class="card h-100 border-light mb-3">
-        <!-- se establece el source de donde obtiene las imágenes: el directorio imagenes
-        llamamos img a la variable-->
-        <img class="card-img-top"
-             th:src="@{/imagenes/{img} (img=${producto.imagen})} " alt="">
-        <div class="card-body">
-          <p class="card-text" th:text="${producto.nombre}"></p>
+        <div class="container">
+            BÚSQUEDA AVANZADA
+        <div class="form-group">
+
+            <form class="form-inline col-lg-3 col-md-6 mb-4" method="GET" th:action="@{/filtrarProductos}">
+                <input class="form-control mr-sm-2" type="search"
+                       placeholder="Buscar tesoros" aria-label="Search" name="textoBusqueda"
+                       autocomplete="off">
+                <!--button class="btn btn-outline-success my-2 my-sm-0" type="submit">BUSCAR</button-->
+
+            <label class="control-label" for="estado">Estado:</label>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <!--form th:action="@{/filtrarProductos}" method="GET"-->
+                    <input type="hidden" id="productoList" name="productoList" th:object="${productoList}">
+                    <select class="form-control" id="estado" name="estado">
+                        <option value="Como nuevo" selected>Como nuevo</option>
+                        <option value="En buenas condiciones">En buenas condiciones</option>
+                        <option value="Usado">Usado</option>
+                        <option value="Usado">Bastante usado</option>
+                    </select>
+                    <label class="control-label" for="estado">Disponibilidad:</label>
+
+                    <select class="form-control" id="disponibilidad" name="disponibilidad">
+                        <option value="Disponible" selected>Disponible</option>
+                        <option value="No disponible">No disponible</option>
+                        <option value="Vendido">Vendido</option>
+                    </select>
+
+                    <input type="submit" value="Filtrar resultados">
+                <!--/form-->
+            </div>
+            </form>
         </div>
-        <!-- así se muestra la imagen y el nombre del producto-->
-        <div class="card-footer">
-          <a th:href="@{/detalleProducto/{idProducto} (idProducto=${producto.idProducto})}"
-             class="btn btn-success">Detalle producto</a>
-<!-- style="background-color: #ffbf00;-->
         </div>
-      </div>
+
+        Resultados para la búsqueda
+
+        <!-- recorremos para que en cada variable producto aparezca lo que trae la variable productoList desde
+         AdminController para mostrar su imagen y su nombre-->
+        <div class="col-lg-3 col-md-6 mb-4" th:each="producto: ${productoList}">
+            <div class="card h-100 border-light mb-3">
+                <!-- se establece el source de donde obtiene las imágenes: el directorio imagenes
+                llamamos img a la variable-->
+                <img class="card-img-top"
+                     th:src="@{/imagenes/{img} (img=${producto.imagen})} " alt="">
+                <div class="card-body">
+                    <p class="card-text" th:text="${producto.nombre}"></p>
+                </div>
+                <!-- así se muestra la imagen y el nombre del producto-->
+                <div class="card-footer">
+                    <a th:href="@{/detalleProducto/{idProducto} (idProducto=${producto.idProducto})}"
+                       class="btn btn-success">Detalle producto</a>
+                    <!-- style="background-color: #ffbf00;-->
+                </div>
+            </div>
+        </div>
+
+
     </div>
-
-
-  </div>
-  <!-- /.row -->
+    <!-- /.row -->
 
 </div>
 <!-- /.container -->

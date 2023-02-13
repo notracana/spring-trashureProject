@@ -54,6 +54,7 @@ public class Producto {
         this.setDescripcion(productoJpa.getDescripcion());
         this.setEstado(productoJpa.getEstado());
         this.setImagen(productoJpa.getImagen());
+        //this.setPropietario(productoJpa.getPropietarioJpa());
         //this.setFavoritosDe(productoJpa.getFavoritosDe());
         //this.setPrecio(productoJpa.getPrecio());
         //this.setCantidad(productoJpa.getCantidad());

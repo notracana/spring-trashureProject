@@ -386,6 +386,50 @@ public class UsuarioPrincipalController {
         return "usuario/principal";
     }
 
+
+    @GetMapping("filtrarProductos")
+    public String filtrarProductos(Model model, @RequestParam String estado, @RequestParam String disponibilidad,
+                                   @RequestParam String textoBusqueda) {
+        System.out.println("HOLA");
+        System.out.println("estado  " + estado);
+
+        List<Producto> productosTotales = new ArrayList<>();
+
+        if(textoBusqueda == null) {
+            productosTotales = findProductoPort.findAll();
+        }
+        else {
+            productosTotales = findProductoPort.findAll().stream().filter
+                    (x -> x.getNombre().toLowerCase().contains((textoBusqueda).toLowerCase())).collect(Collectors.toList());
+        }
+        //System.out.println("numero productos de la lista que viene por parametro " + productoList.size());
+        //Se va a recoger en una lista todos los productos que contengan en el nombre el textBusqueda
+        //se cogen todos los productos de la base de datos y luego se filtran por el nombre
+        //List<Producto> productosTotales = findProductoPort.findAll();
+        System.out.println("numero de productos en total " + productosTotales.size());
+
+
+       /* List<Producto> productosFiltradosPorEstado = findProductoPort.findAll().stream().filter
+                (x -> x.getEstado().toString().contentEquals(estado.toString())).collect(Collectors.toList());*/
+
+        List<Producto> productosFiltradosPorEstado = productosTotales.stream().filter
+                (x -> x.getEstado().toString().contentEquals(estado.toString())).collect(Collectors.toList());
+
+        List<Producto> productosFiltradosPorEstadoYDisp = productosFiltradosPorEstado.stream().filter(
+                x -> x.getDisponibilidad().toString().contentEquals(disponibilidad.toString())).collect(Collectors.toList());
+
+        System.out.println("tamaño lista filtradios por estado " + productosFiltradosPorEstado.size());
+
+        System.out.println("tamaño lista filtrados por estado y disponibilidad " + productosFiltradosPorEstadoYDisp.size());
+
+        //Ahora hay que enviar la lista hacia la vista con model
+        model.addAttribute("productoList", productosFiltradosPorEstadoYDisp);
+
+        //redirige a la vista
+        return "usuario/principal";
+
+    }
+
     //Método que redirige a la vista de compras del usuario logueado
     @GetMapping("/getCompras")
     public String historialCompras(Model model, HttpSession httpSession) throws Exception {

@@ -111,8 +111,12 @@ public class ProductoJpa {
         //this.setCantidad(producto.getCantidad());
         //this.setIdUsuario(producto.getIdUsuario());
         this.setDisponibilidad(producto.getDisponibilidad());
-        this.setIdUsuario(producto.getIdUsuario());
 
+        if(producto.getPropietario() != null){
+            Usuario u = producto.getPropietario();
+            updatePropietario(u);
+            this.setIdUsuario(u.getIdUsuario());
+        }
         if(producto.getUsuarios() != null && !producto.getUsuarios().isEmpty()){
             List<Usuario> usuarios = producto.getUsuarios();
             updateUsuarios(usuarios);
@@ -125,5 +129,14 @@ public class ProductoJpa {
             return;
         }
         this.setUsuarios(usuarios.stream().map(UsuarioJpa::new).collect(Collectors.toList()));
+    }
+
+    private void updatePropietario(Usuario propietario){
+        if(propietario == null){
+            this.setPropietarioJpa(null);
+
+            return;
+        }
+        this.setPropietarioJpa(new UsuarioJpa(propietario));
     }
 }

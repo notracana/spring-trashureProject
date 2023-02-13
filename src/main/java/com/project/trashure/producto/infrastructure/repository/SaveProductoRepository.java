@@ -16,7 +16,7 @@ public class SaveProductoRepository implements SaveProductoPort {
     @Override
     public Producto save(Producto producto) {
         ProductoJpa productoJpa = new ProductoJpa(producto);
-        ProductoJpa productoJpaSaved = productoRepositoryJpa.saveAndFlush(productoJpa);
+        ProductoJpa productoJpaSaved = productoRepositoryJpa.save(productoJpa);
         return new Producto(productoJpaSaved);
     }
 }
