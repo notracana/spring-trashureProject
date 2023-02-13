@@ -42,41 +42,8 @@
     <div class="row text-center">
 
         <div class="container">
-            BÚSQUEDA AVANZADA
-        <div class="form-group">
-
-            <form class="form-inline col-lg-3 col-md-6 mb-4" method="GET" th:action="@{/filtrarProductos}">
-                <input class="form-control mr-sm-2" type="search"
-                       placeholder="Buscar tesoros" aria-label="Search" name="textoBusqueda"
-                       autocomplete="off">
-                <!--button class="btn btn-outline-success my-2 my-sm-0" type="submit">BUSCAR</button-->
-
-            <label class="control-label" for="estado">Estado:</label>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <!--form th:action="@{/filtrarProductos}" method="GET"-->
-                    <input type="hidden" id="productoList" name="productoList" th:object="${productoList}">
-                    <select class="form-control" id="estado" name="estado">
-                        <option value="Como nuevo" selected>Como nuevo</option>
-                        <option value="En buenas condiciones">En buenas condiciones</option>
-                        <option value="Usado">Usado</option>
-                        <option value="Usado">Bastante usado</option>
-                    </select>
-                    <label class="control-label" for="estado">Disponibilidad:</label>
-
-                    <select class="form-control" id="disponibilidad" name="disponibilidad">
-                        <option value="Disponible" selected>Disponible</option>
-                        <option value="No disponible">No disponible</option>
-                        <option value="Vendido">Vendido</option>
-                    </select>
-
-                    <input type="submit" value="Filtrar resultados">
-                <!--/form-->
-            </div>
-            </form>
+            <a th:href="@{/busquedaAvanzada}">¿Necesitas una herramienta de búsqueda más potente?</a>
         </div>
-        </div>
-
-        Resultados para la búsqueda
 
         <!-- recorremos para que en cada variable producto aparezca lo que trae la variable productoList desde
          AdminController para mostrar su imagen y su nombre-->

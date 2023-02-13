@@ -71,6 +71,7 @@ public class UsuarioPrincipalController {
         return "usuario/principal";
     }
 
+
     //Método que redirige a la vista de detalle del producto cuando se hace clic
     //sobre el botón de detalle desde la vista principal del usuario
     //como parámetro se le pasa el idProducto del producto que se quiere ver en detalle
@@ -157,13 +158,13 @@ public class UsuarioPrincipalController {
         Integer idUsuarioInt = Integer.parseInt(idUsuario);
         Usuario usuarioActual = findUsuarioPort.findById(idUsuarioInt);
         List<Integer> listaFavoritos = usuarioActual.getIdProductosFavoritos();
-        if(listaFavoritos == null) listaFavoritos = new ArrayList<>();
+        if (listaFavoritos == null) listaFavoritos = new ArrayList<>();
 
         //Se define un boolean que es true si en la lista de favoritos ya existe un match con el parámetro '
         // 'idProducto' y false si no está en la lista
 
         boolean yaEsFavorito = false;
-        if(listaFavoritos!=null && listaFavoritos.size()!=0) {
+        if (listaFavoritos != null && listaFavoritos.size() != 0) {
             yaEsFavorito = listaFavoritos.stream().anyMatch(x -> String.valueOf(x).equals(String.valueOf(idProducto)));
         }
 
@@ -177,8 +178,8 @@ public class UsuarioPrincipalController {
 
         //Se recuperan en una lista todos los productos
         List<Producto> listaProductos = new ArrayList<>();
-        for(Integer id :  listaFavoritos){
-            Producto p =  findProductoPort.findById(id);
+        for (Integer id : listaFavoritos) {
+            Producto p = findProductoPort.findById(id);
             listaProductos.add(p);
         }
 
@@ -199,7 +200,7 @@ public class UsuarioPrincipalController {
         Integer idUsuarioInt = Integer.parseInt(idUsuario);
         Usuario usuarioActual = findUsuarioPort.findById(idUsuarioInt);
         listaFavoritos = usuarioActual.getIdProductosFavoritos();
-        if(listaFavoritos == null) listaFavoritos = new ArrayList<>();
+        if (listaFavoritos == null) listaFavoritos = new ArrayList<>();
 
         Iterator iterator = listaFavoritos.listIterator();
 
@@ -262,7 +263,7 @@ public class UsuarioPrincipalController {
 
         listaFavoritos = usuarioActual.getIdProductosFavoritos();
         List<Producto> listaProductos = new ArrayList<>();
-        for(Integer i : listaFavoritos){
+        for (Integer i : listaFavoritos) {
             Producto p = findProductoPort.findById(i);
             listaProductos.add(p);
         }
@@ -395,10 +396,9 @@ public class UsuarioPrincipalController {
 
         List<Producto> productosTotales = new ArrayList<>();
 
-        if(textoBusqueda == null) {
+        if (textoBusqueda == null) {
             productosTotales = findProductoPort.findAll();
-        }
-        else {
+        } else {
             productosTotales = findProductoPort.findAll().stream().filter
                     (x -> x.getNombre().toLowerCase().contains((textoBusqueda).toLowerCase())).collect(Collectors.toList());
         }
@@ -426,7 +426,7 @@ public class UsuarioPrincipalController {
         model.addAttribute("productoList", productosFiltradosPorEstadoYDisp);
 
         //redirige a la vista
-        return "usuario/principal";
+        return "usuario/busqueda_avanzada";
 
     }
 
@@ -507,7 +507,6 @@ public class UsuarioPrincipalController {
 */
         return "redirect:/usuario/perfil_propio";
     }
-
 
 
     //Método que redirige a la vista de los productos de un usuario
@@ -614,19 +613,17 @@ public class UsuarioPrincipalController {
 
         //simpleMailMessage.setText(mensaje);
         simpleMailMessage.setText("El usuario '" + usuarioActual.getUsername() + "' te ha enviado un mensaje:" + "\n '"
-                + email.getTexto() + "'. \n"+
+                + email.getTexto() + "'. \n" +
                 "-- \n Puedes contactar con el usuario a través de su dirección de correo electrónico: " + usuarioActual.getEmail() + "" +
                 " \n \n "
                 + "¡Gracias por depositar tu confianza en Trashure!");
-        System.out.println("mensaje : '" + simpleMailMessage.getText() + "'. \n"+
+        System.out.println("mensaje : '" + simpleMailMessage.getText() + "'. \n" +
                 "Puedes contactar con el usuario a través de su dirección de correo electrónico: " + usuarioActual.getEmail());
 
 
-        try
-        {
-        javaMailSender.send(simpleMailMessage);
-        }
-        catch (Exception e){
+        try {
+            javaMailSender.send(simpleMailMessage);
+        } catch (Exception e) {
             ErrorPropio err = new ErrorPropio();
             err.setTexto("Error al enviar un email al propietario.");
             model.addAttribute("error", err);
@@ -640,6 +637,18 @@ public class UsuarioPrincipalController {
 
     }
 
+    @GetMapping("busquedaAvanzada")
+    public String busquedaAvanzada(Model model, HttpSession httpSession) {
+            List<Producto> productoList = findProductoPort.findAll();
+            model.addAttribute("productoList", productoList);
+            //Hay que enviar la sesión a la vista de la página principal para saber si el usuario está logueado o no
+            if (httpSession.getAttribute("idUsuario") != null) {
+                model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+            } else {
+                model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario"));
+            }
+        return "usuario/busqueda_avanzada";
+    }
 
     @PostMapping("enviarNotificacion")
     public String enviarNotificacion(Transaccion transaccion, Model model) throws Exception {
@@ -662,24 +671,22 @@ public class UsuarioPrincipalController {
         //simpleMailMessage.setText(mensaje);
         simpleMailMessage.setText("El usuario '" + interesado.getUsername() + "' ha solicitado tu producto '" + producto.getNombre() + "'." +
                 "\n "
-                + "Puedes gestionar la transacción (ID " + transaccion.getIdTransaccion()+ ") desde el apartado 'Historial de ventas' en tu perfil de Trashure. \n"+
+                + "Puedes gestionar la transacción (ID " + transaccion.getIdTransaccion() + ") desde el apartado 'Historial de ventas' en tu perfil de Trashure. \n" +
 
                 "-- \n Puedes contactar con el usuario a través de su dirección de correo electrónico: " + interesado.getEmail() + "" +
                 " \n \n "
                 + "¡Gracias por depositar tu confianza en Trashure!");
 
-        try
-        {
+        try {
             javaMailSender.send(simpleMailMessage);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
 
             ErrorPropio err = new ErrorPropio();
             err.setTexto("Error al enviar una notificación  al propietario.");
             model.addAttribute("error", err);
             return "usuario/error_modal";
             //System.out.println("Error la notificación al propietario");
-           // e.printStackTrace();
+            // e.printStackTrace();
         }
         System.out.println("fin mensaje");
 
