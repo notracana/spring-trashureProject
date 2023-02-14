@@ -4,9 +4,16 @@ import com.project.trashure.error.ErrorPropio;
 import com.project.trashure.usuario.application.port.CreateUsuarioPort;
 import com.project.trashure.usuario.domain.Usuario;
 import com.project.trashure.usuario.infrastructure.repository.port.FindUsuarioPort;
+import jakarta.mail.Message;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
+
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +28,13 @@ public class CreateUsuarioController {
     private FindUsuarioPort findUsuarioPort;
 
     @GetMapping("/signUp")
-    public String signUp(){
+    public String signUp() {
         //redirige a la vista de registro del usuario en la app
         return "usuario/sign_up";
     }
 
     @PostMapping("/registrarse")
-    public String registrarse(Usuario usuario){
+    public String registrarse(Usuario usuario) throws NoSuchAlgorithmException {
 
         //El usuario que llega como parámetro viene de los datos del formulario de la vista sign_up
         //hay que determinar que el usuario que se registra es de tipo normal, es decir, no es administrador
@@ -43,7 +50,7 @@ public class CreateUsuarioController {
     //MIRAR ESTO: ME LLEVARÍA ESTE MÉTODO A OTRA PARTE VID 37
     //método para acceder a la vista de iniciar sesión
     @GetMapping("/logIn")
-    public String logIn(){
+    public String logIn() {
         //redirige a la vista para iniciar sesion
         return "usuario/log_in";
     }
@@ -55,34 +62,42 @@ public class CreateUsuarioController {
         Usuario usuario1 = new Usuario();
         //Si el usuario existe en la base de datos...
 
-         try{
-             usuario1 = findUsuarioPort.findByUsername(usuario.getUsername());
-         }
-         catch (Exception e) {
+        try {
+            usuario1 = findUsuarioPort.findByUsername(usuario.getUsername());
+        } catch (Exception e) {
 
-                 ErrorPropio err = new ErrorPropio();
-                 err.setTexto("No existe ningún usuario con ese username. ");
-                 model.addAttribute("error", err);
-                 return "usuario/error_modal";
+            ErrorPropio err = new ErrorPropio();
+            err.setTexto("No existe ningún usuario con ese username. ");
+            model.addAttribute("error", err);
+            return "usuario/modal_error";
 
-             //e.getStackTrace();
-             //throw new Exception("No existe ningún usuario con ese username. ");
-         }
+            //e.getStackTrace();
+            //throw new Exception("No existe ningún usuario con ese username. ");
+        }
 
-         String password = usuario1.getPassword();
+        //SI ESTO LO COGEMOS DE LA BASE DE DATOS, VIENE HASHED
 
-         if(!password.contentEquals(usuario.getPassword().toString())){
-             System.out.println("password del usuario " + password);
-             System.out.println("password introducida " + usuario.getPassword());
-             ErrorPropio err = new ErrorPropio();
-             err.setTexto("La contraseña introducida no es correcta.  ");
-             model.addAttribute("error", err);
-             return "usuario/error_modal";
 
-             //throw new Exception("La contraseña introducida no es correcta. ");
-         }
+        String passwordInput = usuario.getPassword();
 
-        //MIRAR ESTO: SE DEBERÍA CORROBORAR QUE LA CONTRASEÑA COINCIDA
+        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+        byte[] array = messageDigest.digest(passwordInput.getBytes(StandardCharsets.UTF_8));
+        BigInteger number = new BigInteger(1, array);
+        StringBuilder hexString = new StringBuilder(number.toString(16));
+        while (hexString.length() < 32) {
+            hexString.insert(0, '0');
+        }
+        //Se corrobora que la contraseña introducida en el login coincida con la contraseña almacenada en la bdd para ese usuario
+        // lo que se compara es el hash de las contraseñas
+
+        if (!usuario1.getPassword().contentEquals(hexString.toString())) {
+
+            ErrorPropio err = new ErrorPropio();
+            err.setTexto("La contraseña introducida no es correcta.  ");
+            model.addAttribute("error", err);
+            return "usuario/modal_error";
+        }
+
 
         String tipo = usuario1.getTipoUsuario();
         //En el objeto de tipo HttpSession se guarda el idUsuario
@@ -90,12 +105,12 @@ public class CreateUsuarioController {
         httpSession.setAttribute("idUsuario", String.valueOf(id));
         //Una vez obtenido el id y guardado en HttpSession, se redirige a distintas vistas
         //según el tipo de usuario
-        if (tipo.equals("ADMINISTRADOR")){
+        if (tipo.equals("ADMINISTRADOR")) {
 
             //Si es administrador, se le redirige a la vista del admin
             return "redirect:/principal";
         }
-        if(tipo.equals("USER")){
+        if (tipo.equals("USER")) {
             //Si es de tipo usuario genérico, se le redirige a la página principal
             return "redirect:/";
         }
@@ -105,7 +120,7 @@ public class CreateUsuarioController {
     }
 
     @GetMapping("logOut")
-    public String logOut(HttpSession httpSession){
+    public String logOut(HttpSession httpSession) {
         //Hacemos que la variable idUsuario sea null, de manera que ya no se tenga acceso a
         //apartados destinados para los usuarios logueados
         httpSession.removeAttribute("idUsuario");
@@ -114,7 +129,7 @@ public class CreateUsuarioController {
     }
 
     @PutMapping("/update")
-    public void updateUsuario(){
+    public void updateUsuario() {
 
     }
 

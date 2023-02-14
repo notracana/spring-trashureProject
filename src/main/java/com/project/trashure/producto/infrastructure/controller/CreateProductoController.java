@@ -49,7 +49,7 @@ public class CreateProductoController {
             ErrorPropio e = new ErrorPropio();
             e.setTexto("Necesitas iniciar sesión para poder subir tus productos.");
             model.addAttribute("error", e);
-            return "usuario/error_modal";
+            return "usuario/modal_error";
         }// throw new Exception("Necesitas iniciar sesión para poder subir tus productos.");
         Integer idUsuarioInt = Integer.parseInt(idUsuario);
         Usuario usuario = findUsuarioPort.findById(idUsuarioInt);

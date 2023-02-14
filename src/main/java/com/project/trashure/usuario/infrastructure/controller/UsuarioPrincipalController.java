@@ -327,7 +327,7 @@ public class UsuarioPrincipalController {
             ErrorPropio e = new ErrorPropio();
             e.setTexto("No puedes solicitar ese producto; ya eres el propietario.");
             model.addAttribute("error", e);
-            return "usuario/error_modal";
+            return "usuario/modal_error";
             //throw new Exception("Ya eres el propietario de este producto.");
         }
 
@@ -335,7 +335,7 @@ public class UsuarioPrincipalController {
             ErrorPropio e = new ErrorPropio();
             e.setTexto("El producto no está disponible en estos momentos.");
             model.addAttribute("error", e);
-            return "usuario/error_modal";
+            return "usuario/modal_error";
             //throw new Exception("El producto no está disponible en estos momentos.");
 
         }
@@ -627,7 +627,7 @@ public class UsuarioPrincipalController {
             ErrorPropio err = new ErrorPropio();
             err.setTexto("Error al enviar un email al propietario.");
             model.addAttribute("error", err);
-            return "usuario/error_modal";
+            return "usuario/modal_error";
             //System.out.println("Error al enviar email");
             //e.printStackTrace();
         }
@@ -684,7 +684,7 @@ public class UsuarioPrincipalController {
             ErrorPropio err = new ErrorPropio();
             err.setTexto("Error al enviar una notificación  al propietario.");
             model.addAttribute("error", err);
-            return "usuario/error_modal";
+            return "usuario/modal_error";
             //System.out.println("Error la notificación al propietario");
             // e.printStackTrace();
         }
