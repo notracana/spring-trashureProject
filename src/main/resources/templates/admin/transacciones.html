@@ -27,7 +27,9 @@
 <body>
 
 <!-- Navigation -->
-<div th:include="admin/template_admin.html::header"></div>
+<div th:include="admin/template_admin.html::header" ></div>
+<!--div th:include="admin/template_admin.html::header" th:unless="${adminLogged==null}"></div-->
+<!--div th:include="admin/template_admin.html::headerAdminNoLogged" th:if="${adminLogged==null}"></div-->
 
 <!-- Page Content -->
 <div class="container">
