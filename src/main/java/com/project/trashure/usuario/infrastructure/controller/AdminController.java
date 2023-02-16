@@ -1,5 +1,6 @@
 package com.project.trashure.usuario.infrastructure.controller;
 
+import com.project.trashure.error.ErrorPropio;
 import com.project.trashure.producto.domain.Producto;
 import com.project.trashure.producto.infrastructure.repository.port.FindProductoPort;
 import com.project.trashure.transaccion.domain.Transaccion;
@@ -7,7 +8,6 @@ import com.project.trashure.transaccion.infrastructure.repository.port.FindTrans
 import com.project.trashure.usuario.application.port.CreateUsuarioPort;
 import com.project.trashure.usuario.application.port.UpdateUsuarioPort;
 import com.project.trashure.usuario.domain.Usuario;
-import com.project.trashure.usuario.domain.UsuarioJpa;
 import com.project.trashure.usuario.infrastructure.repository.port.FindUsuarioPort;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
@@ -16,10 +16,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -37,10 +38,19 @@ public class AdminController {
     private UpdateUsuarioPort updateUsuarioPort;
 
     @GetMapping("/principal")
-    public String principal(Model model){
+    public String principal(Model model, HttpSession httpSession) {
         //el método principal recibe como parámetro un objeto Model
         //para enviar los productos a la vista principal
 
+        if (httpSession.getAttribute("idAdmin") == null) {
+            ErrorPropio ep = new ErrorPropio();
+            ep.setTexto("Ups, parece que te has perdido.");
+            model.addAttribute("error", ep);
+            return "usuario/modal_error";
+        }
+        if (httpSession.getAttribute("idAdmin") != null) {
+            model.addAttribute("adminLogged", httpSession.getAttribute("idAdmin").toString());
+        }
         //se crea una lista de los productos y se recuperan todos los guardados
         List<Producto> productoList = findProductoPort.findAll();
         //a model, addAttribute con parámetros el nombre de la variable con lo que lo voy a enviar
@@ -50,12 +60,13 @@ public class AdminController {
         model.addAttribute("productoList", productoList);
 
         //es necesario que en la vista principal.html para iterar sobre los cards a lo largo de la lista de productos
-    return "admin/principal";
+        return "admin/principal";
     }
+
 
     //Método para llevar a la vista de admin de Usuarios
     @GetMapping("/getUsuarios")
-    public String getUsuarios (Model model){
+    public String getUsuarios(Model model) {
 
         List<Usuario> usuarioList = findUsuarioPort.findAll();
         //Se envía la lista de usuarios a la vista
@@ -68,7 +79,7 @@ public class AdminController {
 
     //Método para llevar a la vista de admin de Transacciones
     @GetMapping("/getTransacciones")
-    public String getTransacciones (Model model){
+    public String getTransacciones(Model model) {
 
         List<Transaccion> transaccionList = findTransaccionPort.findAll();
         //Se envía la lista de transacciones a la vista
@@ -100,7 +111,7 @@ public class AdminController {
 
         System.out.println("usuario id parametro " + usuario.getIdUsuario());
 
-        String id =  httpSession.getAttribute("idUsuario").toString();
+        String id = httpSession.getAttribute("idUsuario").toString();
         Integer idInt = Integer.parseInt(id);
         Usuario usuarioHttp = findUsuarioPort.findById(idInt);
 
@@ -114,6 +125,34 @@ public class AdminController {
                 usuario.getDireccion(), usuario.getLocalidad());
 
         return "admin/usuarios";
+    }
+
+
+    //Método para buscar un producto en la barra de búsqueda de la pantalla principal
+    @PostMapping("buscarProducto")
+    public String buscarProducto(@RequestParam String textoBusqueda, Model model) {
+        System.out.println("HOLA");
+        //Se va a recoger en una lista todos los productos que contengan en el nombre el textBusqueda
+        //se cogen todos los productos de la base de datos y luego se filtran por el nombre
+        List<Producto> productoBusquedaList = findProductoPort.findAll().stream().filter
+                (x -> x.getNombre().toLowerCase().contains((textoBusqueda).toLowerCase())).collect(Collectors.toList());
+
+        System.out.println("tamaño lista " + productoBusquedaList.size());
+
+        //Ahora hay que enviar la lista hacia la vista con model
+        model.addAttribute("productoList", productoBusquedaList);
+
+        //redirige a la vista
+        return "admin/principal";
+    }
+
+    @GetMapping("logOut")
+    public String logOut(HttpSession httpSession) {
+        //Hacemos que la variable idAdmin sea null, de manera que ya no se tenga acceso a
+        //apartados destinados para los administradores
+        httpSession.removeAttribute("idAdmin");
+        //Tras cerrar sesión, se devuelve a la página principal genérica
+        return "redirect:/";
     }
 
 

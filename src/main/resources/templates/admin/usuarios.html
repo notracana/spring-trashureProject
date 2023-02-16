@@ -47,16 +47,23 @@
   <table class="table">
     <thead>
     <tr>
-      <th scope="col">Nombre de Usuario</th>
+      <th scope="col">ID Usuario</th>
+      <th scope="col">Username</th>
       <th scope="col">E-mail</th>
       <th scope="col">Dirección</th>
+      <th scope="col">ACCIÓN</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="usuario:${listaUsuarios}">
+      <td th:text="${usuario.idUsuario}"></td>
       <td th:text="${usuario.username}"></td>
       <td th:text="${usuario.email}"></td>
       <td th:text="${usuario.direccion}"></td>
+      <!--td><a th:href="@{/deleteFavorito/{idProducto} (idProducto=${favorito.idProducto})}"
+                         class="btn btn-danger">Eliminar</a></td-->
+      <td><a th:href="@{/delete/{idUsuario} (idUsuario=${usuario.idUsuario})}"
+             class="btn btn-danger">Eliminar</a></td>
     </tr>
     </tbody>
   </table>

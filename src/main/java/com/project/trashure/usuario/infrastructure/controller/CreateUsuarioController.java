@@ -102,16 +102,22 @@ public class CreateUsuarioController {
         String tipo = usuario1.getTipoUsuario();
         //En el objeto de tipo HttpSession se guarda el idUsuario
         int id = usuario1.getIdUsuario();
-        httpSession.setAttribute("idUsuario", String.valueOf(id));
+
         //Una vez obtenido el id y guardado en HttpSession, se redirige a distintas vistas
         //según el tipo de usuario
         if (tipo.equals("ADMINISTRADOR")) {
 
+            httpSession.setAttribute("idAdmin", String.valueOf(id));
+
             //Si es administrador, se le redirige a la vista del admin
-            return "redirect:/principal";
+
+            return "redirect:/api/v0/admin/principal";
         }
+
+
         if (tipo.equals("USER")) {
             //Si es de tipo usuario genérico, se le redirige a la página principal
+            httpSession.setAttribute("idUsuario", String.valueOf(id));
             return "redirect:/";
         }
 
