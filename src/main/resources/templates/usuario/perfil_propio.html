@@ -77,6 +77,11 @@
             <button type="submit" class="btn btn-primary">Cambiar contraseña</button>
           </form>
 
+
+          <p></p>
+          <a th:href="@{/api/v0/usuarios/delAcc/{idUsuario} (idUsuario=${usuario.idUsuario})}"
+                 class="btn btn-danger">Eliminar cuenta</a>
+
         </div>
       </div>
     </div>

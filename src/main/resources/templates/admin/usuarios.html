@@ -26,7 +26,7 @@
 <body>
 
 <!-- Navigation -->
-<div th:include="admin/template_admin.html::header" ></div>
+<div th:include="admin/template_admin.html::header" th:unless="${adminLogged==null}" ></div>
 <!--div th:include="admin/template_admin.html::header" th:unless="${adminLogged==null}"></div-->
 <!--div th:include="admin/template_admin.html::header" th:if="${adminLogged==null}"></div-->
 
@@ -40,7 +40,7 @@
   </h1>
 
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a th:href="@{/}">Página Principal</a></li>
+    <li class="breadcrumb-item"><a th:href="@{/api/v0/admin/principal}">Página Principal</a></li>
     <li class="breadcrumb-item active">Usuarios</li>
   </ol>
   <h2>Usuarios</h2>
@@ -56,14 +56,18 @@
     </thead>
     <tbody>
     <tr th:each="usuario:${listaUsuarios}">
-      <td th:text="${usuario.idUsuario}"></td>
+
+      <td> <a th:href= "@{/api/v0/admin/visitarPerfil/{idUsuario} (idUsuario=${usuario.idUsuario})}"> <p
+              th:text="${usuario.idUsuario}"></p> </a></td>
       <td th:text="${usuario.username}"></td>
       <td th:text="${usuario.email}"></td>
       <td th:text="${usuario.direccion}"></td>
       <!--td><a th:href="@{/deleteFavorito/{idProducto} (idProducto=${favorito.idProducto})}"
                          class="btn btn-danger">Eliminar</a></td-->
-      <td><a th:href="@{/delete/{idUsuario} (idUsuario=${usuario.idUsuario})}"
+
+      <td><a th:href="@{/api/v0/usuarios/delete/{idUsuario} (idUsuario=${usuario.idUsuario})}"
              class="btn btn-danger">Eliminar</a></td>
+
     </tr>
     </tbody>
   </table>

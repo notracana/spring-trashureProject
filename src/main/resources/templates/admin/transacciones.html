@@ -27,7 +27,7 @@
 <body>
 
 <!-- Navigation -->
-<div th:include="admin/template_admin.html::header" ></div>
+<div th:include="admin/template_admin.html::header" th:unless="${adminLogged==null}"></div>
 <!--div th:include="admin/template_admin.html::header" th:unless="${adminLogged==null}"></div-->
 <!--div th:include="admin/template_admin.html::headerAdminNoLogged" th:if="${adminLogged==null}"></div-->
 
@@ -39,7 +39,7 @@
   <h1 class="mt-4 mb-3">Trashure<small> Transacciones</small></h1>
 
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a th:href="@{/}">Página principal</a></li>
+    <li class="breadcrumb-item"><a th:href="@{/api/v0/admin/principal}">Página principal</a></li>
     <li class="breadcrumb-item active">Transacciones</li>
   </ol>
 
@@ -62,8 +62,11 @@
             <tr th:each="transaccion:${listaTransacciones}">
               <td th:text="${transaccion.idTransaccion}"></td>
               <td th:text="${transaccion.fechaTransaccion}"></td>
-              <td th:text="${transaccion.idVendedor}"></td>
-              <td th:text="${transaccion.idComprador}"></td>
+              <td> <a th:href= "@{/api/v0/admin/visitarPerfil/{idVendedor} (idVendedor=${transaccion.idVendedor})}"> <p
+                      th:text="${transaccion.idVendedor}"></p> </a></td>
+              <td> <a th:href= "@{/api/v0/admin/visitarPerfil/{idComprador} (idComprador=${transaccion.idComprador})}"> <p
+                      th:text="${transaccion.idComprador}"></p> </a></td>
+
               <td th:text="${transaccion.estado}"></td>
               <!-- MAYBE AÑADIR UNA FUNCIONALIDAD PARA QUE EL ADMINISTRADOR PUEDA ELIMINAR LA TRANSACCION??-->
               <!--td><a th:href="@{/administrador/detalle/{id} (id=${orden.id}) }" class="btn btn-success">Ver

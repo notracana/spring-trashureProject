@@ -1,5 +1,6 @@
 package com.project.trashure.producto.domain;
 
+import com.project.trashure.transaccion.domain.TransaccionJpa;
 import com.project.trashure.usuario.domain.Usuario;
 import com.project.trashure.usuario.domain.UsuarioJpa;
 import jakarta.persistence.*;
@@ -97,6 +98,10 @@ public class ProductoJpa {
     List<UsuarioJpa> usuarios;
     @Column(name="disponibilidad")
     private String disponibilidad;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name="id_producto", insertable = false, updatable = false)
+    private List<TransaccionJpa> transaccionJpa;
 
     public ProductoJpa (Producto producto){
         if(producto == null) return;

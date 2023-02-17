@@ -37,7 +37,7 @@
     </h1>
 
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a th:href="@{/}">Página principal</a></li>
+        <li class="breadcrumb-item"><a th:href="@{/api/v0/admin/principal}">Página principal</a></li>
         <li class="breadcrumb-item active">Ver Productos</li>
     </ol>
 
@@ -53,6 +53,7 @@
             <th scope="col">ID Propietario</th>
             <!--th scope="col">Acción</th-->
             <th scope="col">Acción</th>
+
         </tr>
         </thead>
         <tbody>
@@ -63,12 +64,11 @@
                     (imagenProducto=${producto.imagen})}" alt="Imagen producto" width="50" height="50">
             </a></td>
             <td th:text="${producto.nombre}"></td>
-            <td th:text="${producto.idProducto}"></td>
+            <td><a th:href= "@{/api/v0/admin/detalleProducto/{idProducto} (idProducto=${producto.idProducto})}">
+                <p th:text="${producto.idProducto}"></p></a> </td>
             <td th:text="${producto.descripcion}"></td>
             <td th:text="${producto.idProducto}"></td>
-            <!--td th:text="${producto.disponibilidad}"></td-->
-            <!--td><a  class="btn btn-warning" th:href="@{/api/v0/productos/editarProducto/{idProducto} (idProducto=${producto.idProducto}) }">Editar</a> </td-->
-            <td><a  class="btn btn-danger" th:href="@{/api/v0/productos/delete/{idProducto} (idProducto=${producto.idProducto}) }">Eliminar</a> </td>
+           <td><a  class="btn btn-danger" th:href="@{/api/v0/productos/del/{idProducto} (idProducto=${producto.idProducto}) }">Eliminar</a> </td>
         </tr>
         </tbody>
     </table>

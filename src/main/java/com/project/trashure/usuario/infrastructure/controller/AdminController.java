@@ -13,10 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -66,7 +63,16 @@ public class AdminController {
 
     //Método para llevar a la vista de admin de Usuarios
     @GetMapping("/getUsuarios")
-    public String getUsuarios(Model model) {
+    public String getUsuarios(Model model, HttpSession httpSession) {
+        if (httpSession.getAttribute("idAdmin") == null) {
+            ErrorPropio ep = new ErrorPropio();
+            ep.setTexto("Ups, parece que te has perdido.");
+            model.addAttribute("error", ep);
+            return "usuario/modal_error";
+        }
+        if (httpSession.getAttribute("idAdmin") != null) {
+            model.addAttribute("adminLogged", httpSession.getAttribute("idAdmin").toString());
+        }
 
         List<Usuario> usuarioList = findUsuarioPort.findAll();
         //Se envía la lista de usuarios a la vista
@@ -79,7 +85,17 @@ public class AdminController {
 
     //Método para llevar a la vista de admin de Transacciones
     @GetMapping("/getTransacciones")
-    public String getTransacciones(Model model) {
+    public String getTransacciones(Model model, HttpSession httpSession) {
+
+        if (httpSession.getAttribute("idAdmin") == null) {
+            ErrorPropio ep = new ErrorPropio();
+            ep.setTexto("Ups, parece que te has perdido.");
+            model.addAttribute("error", ep);
+            return "usuario/modal_error";
+        }
+        if (httpSession.getAttribute("idAdmin") != null) {
+            model.addAttribute("adminLogged", httpSession.getAttribute("idAdmin").toString());
+        }
 
         List<Transaccion> transaccionList = findTransaccionPort.findAll();
         //Se envía la lista de transacciones a la vista
@@ -130,8 +146,17 @@ public class AdminController {
 
     //Método para buscar un producto en la barra de búsqueda de la pantalla principal
     @PostMapping("buscarProducto")
-    public String buscarProducto(@RequestParam String textoBusqueda, Model model) {
+    public String buscarProducto(@RequestParam String textoBusqueda, Model model, HttpSession httpSession) {
         System.out.println("HOLA");
+        if (httpSession.getAttribute("idAdmin") == null) {
+            ErrorPropio ep = new ErrorPropio();
+            ep.setTexto("Ups, parece que te has perdido.");
+            model.addAttribute("error", ep);
+            return "usuario/modal_error";
+        }
+        if (httpSession.getAttribute("idAdmin") != null) {
+            model.addAttribute("adminLogged", httpSession.getAttribute("idAdmin").toString());
+        }
         //Se va a recoger en una lista todos los productos que contengan en el nombre el textBusqueda
         //se cogen todos los productos de la base de datos y luego se filtran por el nombre
         List<Producto> productoBusquedaList = findProductoPort.findAll().stream().filter
@@ -155,5 +180,29 @@ public class AdminController {
         return "redirect:/";
     }
 
+    @GetMapping("detalleProducto/{idProducto}")
+    public String detalleProducto(@PathVariable Integer idProducto, Model model, HttpSession httpSession) throws Exception {
+        Producto producto = findProductoPort.findById(idProducto);
+        model.addAttribute("producto", producto);
+        if (httpSession.getAttribute("idAdmin") == null) {
+            ErrorPropio ep = new ErrorPropio();
+            ep.setTexto("Ups, parece que te has perdido.");
+            model.addAttribute("error", ep);
+            return "usuario/modal_error";
+        }
+        if (httpSession.getAttribute("idAdmin") != null) {
+            model.addAttribute("adminLogged", httpSession.getAttribute("idAdmin").toString());
+        }
+        //nos retorna a la vista de detalle del producto de los admin
+        return "admin/detalle_producto";
+    }
+
+    @GetMapping("visitarPerfil/{idUsuario}")
+    public String visitarPerfil(@PathVariable Integer idUsuario, Model model, HttpSession httpSession) throws Exception {
+        Usuario usuario = findUsuarioPort.findById(idUsuario);
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("adminLogged", httpSession.getAttribute("idAdmin").toString());
+        return "admin/perfil_usuario";
+    }
 
 }

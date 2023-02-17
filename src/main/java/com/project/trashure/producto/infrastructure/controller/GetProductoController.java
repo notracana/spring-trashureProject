@@ -1,5 +1,6 @@
 package com.project.trashure.producto.infrastructure.controller;
 
+import com.project.trashure.error.ErrorPropio;
 import com.project.trashure.producto.domain.Producto;
 import com.project.trashure.producto.infrastructure.repository.FindProductoRepository;
 import jakarta.servlet.http.HttpSession;
@@ -24,7 +25,16 @@ public class GetProductoController {
     //Le pasamos como parámetro un objeto de la clase Model, que traslada información desde
     //el back a la vista, en este caso, pasa la lista de productos
     @GetMapping("/getProductos")
-    public String mostrar(Model model){
+    public String mostrar(Model model, HttpSession httpSession){
+        if (httpSession.getAttribute("idAdmin") == null) {
+            ErrorPropio ep = new ErrorPropio();
+            ep.setTexto("Ups, parece que te has perdido.");
+            model.addAttribute("error", ep);
+            return "usuario/modal_error";
+        }
+        if (httpSession.getAttribute("idAdmin") != null) {
+            model.addAttribute("adminLogged", httpSession.getAttribute("idAdmin").toString());
+        }
         //el método addAtrribute recibe dos parámetros, el primero hace referencia al nombre
         //con el que se recibe la info (listaProductos) y el segundo es la variable con el valor
         List<Producto> listaProductos = findProductoRepository.findAll();

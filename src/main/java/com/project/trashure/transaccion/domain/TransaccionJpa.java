@@ -61,7 +61,7 @@ public class TransaccionJpa {
     @JoinColumn(name="id_usuario", updatable = false, insertable = false)
     private UsuarioJpa usuarioJpa;
 
-    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name="id_producto")
     private ProductoJpa productoJpa;
 
