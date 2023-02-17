@@ -41,7 +41,7 @@
         <li class="breadcrumb-item active">Ver Productos</li>
     </ol>
 
-    <a class="btn btn-primary" th:href="@{/api/v0/productos/crearProductos}" >Subir producto</a>
+    <!--a class="btn btn-primary" th:href="@{/api/v0/productos/crearProductos}" >Subir producto</a-->
     <h2>Productos</h2>
     <table class="table">
         <thead>
@@ -65,7 +65,7 @@
             <td th:text="${producto.nombre}"></td>
             <td th:text="${producto.idProducto}"></td>
             <td th:text="${producto.descripcion}"></td>
-            <td th:text="${producto.id}"></td>
+            <td th:text="${producto.idProducto}"></td>
             <!--td th:text="${producto.disponibilidad}"></td-->
             <!--td><a  class="btn btn-warning" th:href="@{/api/v0/productos/editarProducto/{idProducto} (idProducto=${producto.idProducto}) }">Editar</a> </td-->
             <td><a  class="btn btn-danger" th:href="@{/api/v0/productos/delete/{idProducto} (idProducto=${producto.idProducto}) }">Eliminar</a> </td>

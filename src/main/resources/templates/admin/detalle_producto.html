@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Trashure App</title>
+
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
+        rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+
+  <link rel="icon" href="imagenes/favicon-32x32.png">
+
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+<div th:include="admin/template_admin.html::header" th:unless="${adminLogged==null}"></div>
+
+<!-- Page Content -->
+<div th:unless="${usuarioLogged==null}">
+  <div class="container" style="padding-top:80px">
+
+
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3">
+      Trashure <small> - Detalle Producto</small>
+    </h1>
+
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a th:href="@{/api/v0/admin/principal}">Página principal</a></li>
+      <li class="breadcrumb-item active">Detalle Producto</li>
+    </ol>
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-6">
+            <a> <img class="img-fluid rounded" th:src="@{/imagenes/{imagenProducto}
+                    (imagenProducto=${producto.imagen})}" alt="Imagen producto">
+            </a>
+          </div>
+
+          <div class="col-lg-6">
+
+              <h2 class="card-title" th:text="${producto.nombre}"></h2>
+
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <h5 th:text="'Descripción '"></h5>
+                  <p th:text="${producto.descripcion} "></p>
+                </li>
+                <li class="list-group-item">
+                  <h5 th:text="'Estado '"></h5>
+                  <p th:text="${producto.estado} "></p>
+                </li>
+
+                <li class="list-group-item"><h5
+                        th:text="'Disponibilidad '"></h5>
+                  <p th:text="${producto.disponibilidad} "></p></li>
+                <!--li class="list-group-item"><a
+                        th:href="@{/visitarPerfil/{idUsuario} (idUsuario=${producto.idUsuario})}"><p
+                        th:text="'Propietario '+ ${producto.idUsuario} "></p></a></li-->
+                <li class="list-group-item"><h5 th:text="'Propietario '"></h5><a
+                        th:href="@{/visitarPerfil/{idUsuario} (idUsuario=${producto.idUsuario})}"><h6
+                        th:text="${producto.idUsuario} "></h6></a></li>
+
+
+              </ul>
+
+              <p></p>
+
+
+            </form>
+
+            <p></p>
+
+            <form th:action="@{/contactar/{idUsuario} (idUsuario=${producto.idUsuario})}" method="POST">
+              <input type="hidden" th:value="${producto.idUsuario}" name="idUsuario">
+              <button type="submit" class="btn btn-primary">Contactar</button>
+
+            </form>
+            <p></p>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+<div th:include="admin/template_admin.html::footer"></div>
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+
+</html>
