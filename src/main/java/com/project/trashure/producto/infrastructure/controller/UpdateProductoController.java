@@ -35,8 +35,8 @@ public class UpdateProductoController {
             @RequestBody ProductoInputDTO productoInputDTO) throws Exception {
 
         Producto producto = findProductoPort.findById(idProducto);
-        Producto productoUpdated = updateProductoPort.update(idProducto, productoInputDTO.getNombre(), productoInputDTO.getDescripcion(), productoInputDTO.getEstado(),
-                productoInputDTO.getImagen());
+        Producto productoUpdated = updateProductoPort.update(idProducto, productoInputDTO.getNombre(), productoInputDTO.getDescripcion(),
+                productoInputDTO.getEstado(), productoInputDTO.getCategoria(), productoInputDTO.getImagen());
         return new ProductoOutputDTO(productoUpdated);
 
     }
@@ -155,7 +155,7 @@ public class UpdateProductoController {
         //MIRAR ESTO
         //EL UPDATE NOP ME GFUSTA. COMPARAR CON EL SUYO EN MIN 13.50 VIDEO 18
         updateProductoPort.update(producto.getIdProducto(), producto.getNombre(), producto.getDescripcion()
-        , producto.getEstado(), producto.getImagen());
+        , producto.getEstado(), producto.getCategoria(), producto.getImagen());
         return "redirect:/getProductos";
     }
 }

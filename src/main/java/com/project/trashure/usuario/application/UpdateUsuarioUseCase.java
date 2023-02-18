@@ -24,7 +24,7 @@ public class UpdateUsuarioUseCase implements UpdateUsuarioPort {
 
 
     @Override
-    public Usuario update(Integer idUsuario, String nombre, String apellidos, String email, String telefono, String direccion, String localidad) throws Exception {
+    public Usuario updateInfo(Integer idUsuario, String nombre, String apellidos, String email, String telefono, String direccion, String localidad) throws Exception {
         Usuario usuario = findUsuarioPort.findById(idUsuario);
         List<Producto> productosSubidos = usuario.getProductosSubidos();
         List<Producto> productoList = findProductoPort.findAllByPropietario(usuario);
@@ -60,7 +60,7 @@ public class UpdateUsuarioUseCase implements UpdateUsuarioPort {
     }
 
     @Override
-    public Usuario update(Integer idUsuario, String password) throws Exception {
+    public Usuario updatePass(Integer idUsuario, String password) throws Exception {
         Usuario usuario = findUsuarioPort.findById(idUsuario);
         //List<Producto> productosSubidos = usuario.getProductosSubidos();
         List<Producto> productoList = findProductoPort.findAllByPropietario(usuario);

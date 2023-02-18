@@ -25,6 +25,8 @@ public class Producto {
     private Integer idUsuario;
     private String estado;
 
+    private String categoria;
+
     private String imagen;
 
     //El campo price realmente hace referencia al tipo de venta al que está sujeto
@@ -53,6 +55,7 @@ public class Producto {
         this.setNombre(productoJpa.getNombre());
         this.setDescripcion(productoJpa.getDescripcion());
         this.setEstado(productoJpa.getEstado());
+        this.setCategoria(productoJpa.getCategoria());
         this.setImagen(productoJpa.getImagen());
         //this.setPropietario(productoJpa.getPropietarioJpa());
         //this.setFavoritosDe(productoJpa.getFavoritosDe());

@@ -1,6 +1,7 @@
 package com.project.trashure.producto.infrastructure.controller;
 
 import com.project.trashure.error.ErrorPropio;
+import com.project.trashure.exito.Exito;
 import com.project.trashure.producto.application.port.CreateImagenProductoPort;
 import com.project.trashure.producto.application.port.CreateProductoPort;
 import com.project.trashure.producto.domain.Producto;
@@ -131,7 +132,10 @@ public class CreateProductoController {
         //es decir, llama al método mostrar del controlador
 
          */
-        return "redirect:/";
+        Exito exito = new Exito();
+        exito.setTexto("Tu producto se ha subido correctamente.");
+        model.addAttribute("success", exito);
+        return "usuario/modal_exito";
     }
 
     @PostMapping("/annadirFavorito/{idProducto}")

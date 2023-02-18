@@ -35,20 +35,22 @@
 <div class="container" style="padding-top:80px">
 
   <!-- Jumbotron Header -->
-  <header class="jumbotron my-4">
+  <header class="jumbotron my-4 pb-2">
     <h1 class="display-3" style="text-align: center;">WELCOME TO TRASHURE</h1>
     <p class="lead" style="text-align: center;">La tienda de Slow-Shop donde puedes encontrar tesoros entre los trastos de otros</p>
   </header>
 
 
+  <p></p>
 
   <button onclick="window.modal.showModal();">La petición se ha procesado correctamente.</button>
 
+  <p></p>
   <dialog id="modal">
     <h2>Éxito</h2>
     <p>Su petición se ha procesado correctamente.</p>
     <p th:text="${success.texto}"></p>
-    <button onclick="window.modal.close();"><a th:href="@{/}">Volver a la página principal</a></button>
+    <button onclick="window.modal.close();"><a th:href="@{/}">Página principal</a></button>
   </dialog>
 
 

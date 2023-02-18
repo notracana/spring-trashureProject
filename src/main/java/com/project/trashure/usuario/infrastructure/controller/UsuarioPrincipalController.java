@@ -390,7 +390,7 @@ public class UsuarioPrincipalController {
 
     @GetMapping("filtrarProductos")
     public String filtrarProductos(Model model, @RequestParam String estado, @RequestParam String disponibilidad,
-                                   @RequestParam String textoBusqueda) {
+                                   @RequestParam String textoBusqueda, @RequestParam String categoria) {
         System.out.println("HOLA");
         System.out.println("estado  " + estado);
 
@@ -412,19 +412,40 @@ public class UsuarioPrincipalController {
        /* List<Producto> productosFiltradosPorEstado = findProductoPort.findAll().stream().filter
                 (x -> x.getEstado().toString().contentEquals(estado.toString())).collect(Collectors.toList());*/
 
-        List<Producto> productosFiltradosPorEstado = productosTotales.stream().filter
-                (x -> x.getEstado().toString().contentEquals(estado.toString())).collect(Collectors.toList());
+        if(!estado.toString().contentEquals("Todos")){
+            System.out.println("estamos filtrando por estado " + estado.toString());
+            productosTotales = productosTotales.stream().filter
+                    (x -> x.getEstado().toString().contentEquals(estado.toString())).collect(Collectors.toList());
+        }
+        /*List<Producto> productosFiltradosPorEstado = productosTotales.stream().filter
+                (x -> x.getEstado().toString().contentEquals(estado.toString())).collect(Collectors.toList());*/
 
-        List<Producto> productosFiltradosPorEstadoYDisp = productosFiltradosPorEstado.stream().filter(
-                x -> x.getDisponibilidad().toString().contentEquals(disponibilidad.toString())).collect(Collectors.toList());
+        if(!disponibilidad.toString().contentEquals("Indiferente")){
+            System.out.println("estamos filtrando por disponibilidad " + disponibilidad.toString());
 
-        System.out.println("tamaño lista filtradios por estado " + productosFiltradosPorEstado.size());
+            productosTotales = productosTotales.stream().filter(
+                    x -> x.getDisponibilidad().toString().contentEquals(disponibilidad.toString())).collect(Collectors.toList());
+        }
+        /*List<Producto> productosFiltradosPorEstadoYDisp = productosFiltradosPorEstado.stream().filter(
+                    x -> x.getDisponibilidad().toString().contentEquals(disponibilidad.toString())).collect(Collectors.toList());*/
 
-        System.out.println("tamaño lista filtrados por estado y disponibilidad " + productosFiltradosPorEstadoYDisp.size());
+
+        if(!categoria.toString().contentEquals("Todas")){
+            System.out.println("estamos filtrando por categoria " + categoria.toString());
+
+            productosTotales = productosTotales.stream().filter(
+                    x -> x.getCategoria().toString().contentEquals(categoria.toString())).collect(Collectors.toList());
+
+        }
+
+        //System.out.println("tamaño lista filtradios por estado " + productosFiltradosPorEstado.size());
+
+        //System.out.println("tamaño lista filtrados por estado y disponibilidad " + productosFiltradosPorEstadoYDisp.size());
 
         //Ahora hay que enviar la lista hacia la vista con model
-        model.addAttribute("productoList", productosFiltradosPorEstadoYDisp);
+        //model.addAttribute("productoList", productosFiltradosPorEstadoYDisp);
 
+        model.addAttribute("productoList", productosTotales);
         //redirige a la vista
         return "usuario/busqueda_avanzada";
 

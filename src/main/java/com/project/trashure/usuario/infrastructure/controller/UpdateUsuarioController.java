@@ -40,7 +40,7 @@ public class UpdateUsuarioController {
 
         //MIRAR ESTO
         //EL UPDATE NOP ME GFUSTA. COMPARAR CON EL SUYO EN MIN 13.50 VIDEO 18
-        updateUsuarioPort.update(usuarioHttp.getIdUsuario(), usuario.getNombre(), usuario.getApellidos(), usuario.getEmail(), usuario.getTelefono(),
+        updateUsuarioPort.updateInfo(usuarioHttp.getIdUsuario(), usuario.getNombre(), usuario.getApellidos(), usuario.getEmail(), usuario.getTelefono(),
                 usuario.getDireccion(), usuario.getLocalidad());
 
         return "redirect:/api/v0/usuarios/miPerfil";
@@ -95,7 +95,7 @@ public class UpdateUsuarioController {
             hexString2.insert(0, '0');
         }
 
-        updateUsuarioPort.update(usuarioHttp.getIdUsuario(), hexString2.toString());
+        updateUsuarioPort.updatePass(usuarioHttp.getIdUsuario(), hexString2.toString());
         return "redirect:/api/v0/usuarios/miPerfil";
 
     }

@@ -1,6 +1,7 @@
 package com.project.trashure.usuario.infrastructure.controller;
 
 import com.project.trashure.error.ErrorPropio;
+import com.project.trashure.exito.Exito;
 import com.project.trashure.usuario.application.port.CreateUsuarioPort;
 import com.project.trashure.usuario.domain.Usuario;
 import com.project.trashure.usuario.infrastructure.repository.port.FindUsuarioPort;
@@ -34,7 +35,7 @@ public class CreateUsuarioController {
     }
 
     @PostMapping("/registrarse")
-    public String registrarse(Usuario usuario) throws NoSuchAlgorithmException {
+    public String registrarse(Usuario usuario, Model model) throws NoSuchAlgorithmException {
 
         //El usuario que llega como parámetro viene de los datos del formulario de la vista sign_up
         //hay que determinar que el usuario que se registra es de tipo normal, es decir, no es administrador
@@ -43,8 +44,15 @@ public class CreateUsuarioController {
 
         //se crea el usuario con los datos aportados
         createUsuarioPort.create(usuario);
+
+        Exito exito = new Exito();
+        exito.setTexto("Te has registrado exitosamente.");
+        model.addAttribute("success", exito);
+        return "usuario/modal_exito";
+
         //Tras guardar el nuevo usuario en la base de datos, redirige a la página principal de usuario
-        return "redirect:/";
+        //return "redirect:/";
+
     }
 
     //MIRAR ESTO: ME LLEVARÍA ESTE MÉTODO A OTRA PARTE VID 37

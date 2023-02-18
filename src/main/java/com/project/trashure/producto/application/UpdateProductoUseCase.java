@@ -14,12 +14,13 @@ public class UpdateProductoUseCase implements UpdateProductoPort {
     private FindProductoPort findProductoPort;
     private SaveProductoPort saveProductoPort;
     @Override
-    public Producto update(Integer idProducto, String nombre, String descripcion, String estado, String imagen) throws Exception {
+    public Producto update(Integer idProducto, String nombre, String descripcion, String estado, String categoria, String imagen) throws Exception {
         Producto producto = findProductoPort.findById(idProducto);
         System.out.println("id producto en update use case " + idProducto);
         if(nombre!=null) producto.setNombre(nombre);
         if(descripcion!=null) producto.setDescripcion(descripcion);
         if(estado!= null)producto.setEstado(estado);
+        if(categoria!=null) producto.setCategoria(categoria);
         if(imagen!=null) producto.setImagen(imagen);
         //if(precio!=null)producto.setPrecio(precio);
         //if(cantidad!=null) producto.setCantidad(cantidad);

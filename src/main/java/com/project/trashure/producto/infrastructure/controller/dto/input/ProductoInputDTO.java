@@ -19,6 +19,8 @@ public class ProductoInputDTO {
 
     private String estado;
 
+    private String categoria;
+
     private String imagen;
     private String precio;
 

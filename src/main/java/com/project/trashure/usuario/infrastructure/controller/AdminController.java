@@ -137,7 +137,7 @@ public class AdminController {
 
         //MIRAR ESTO
         //EL UPDATE NOP ME GFUSTA. COMPARAR CON EL SUYO EN MIN 13.50 VIDEO 18
-        updateUsuarioPort.update(usuarioHttp.getIdUsuario(), usuario.getNombre(), usuario.getApellidos(), usuario.getEmail(), usuario.getTelefono(),
+        updateUsuarioPort.updateInfo(usuarioHttp.getIdUsuario(), usuario.getNombre(), usuario.getApellidos(), usuario.getEmail(), usuario.getTelefono(),
                 usuario.getDireccion(), usuario.getLocalidad());
 
         return "admin/usuarios";
