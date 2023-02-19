@@ -1,6 +1,8 @@
 package com.project.trashure.usuario.infrastructure.controller;
 
 import com.project.trashure.error.ErrorPropio;
+import com.project.trashure.producto.domain.Producto;
+import com.project.trashure.producto.infrastructure.repository.port.FindProductoPort;
 import com.project.trashure.usuario.application.port.UpdateUsuarioPort;
 import com.project.trashure.usuario.domain.Usuario;
 import com.project.trashure.usuario.infrastructure.repository.port.FindUsuarioPort;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.List;
 
 @AllArgsConstructor
 @Controller
@@ -22,10 +25,12 @@ public class UpdateUsuarioController {
 
     private UpdateUsuarioPort updateUsuarioPort;
 
+    private FindProductoPort findProductoPort;
+
     @PostMapping("/update")
     public String updateUsuario(Usuario usuario, Model model, HttpSession httpSession) throws Exception {
         System.out.println("heyy qué pasa makinasa");
-        //Usuario usuario1 = findUsuarioPort.findById(usuario.getIdUsuario());
+        Usuario usuario1 = findUsuarioPort.findById(usuario.getIdUsuario());
 
 
         System.out.println("usuario id parametro " + usuario.getIdUsuario());
@@ -40,8 +45,14 @@ public class UpdateUsuarioController {
 
         //MIRAR ESTO
         //EL UPDATE NOP ME GFUSTA. COMPARAR CON EL SUYO EN MIN 13.50 VIDEO 18
-        updateUsuarioPort.updateInfo(usuarioHttp.getIdUsuario(), usuario.getNombre(), usuario.getApellidos(), usuario.getEmail(), usuario.getTelefono(),
+        updateUsuarioPort.updateInfo(usuario.getIdUsuario(), usuario.getNombre(), usuario.getApellidos(), usuario.getEmail(), usuario.getTelefono(),
                 usuario.getDireccion(), usuario.getLocalidad());
+
+        /*
+        List<Producto> productoList = findProductoPort.findAllByPropietario(usuarioUpdated);
+
+        System.out.println("productos en lista " + productoList.size());
+        System.out.println("productos " + productoList);*/
 
         return "redirect:/api/v0/usuarios/miPerfil";
     }

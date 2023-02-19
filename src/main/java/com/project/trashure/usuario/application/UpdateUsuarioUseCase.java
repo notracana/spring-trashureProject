@@ -24,7 +24,7 @@ public class UpdateUsuarioUseCase implements UpdateUsuarioPort {
 
 
     @Override
-    public Usuario updateInfo(Integer idUsuario, String nombre, String apellidos, String email, String telefono, String direccion, String localidad) throws Exception {
+    public void updateInfo(Integer idUsuario, String nombre, String apellidos, String email, String telefono, String direccion, String localidad) throws Exception {
         Usuario usuario = findUsuarioPort.findById(idUsuario);
         List<Producto> productosSubidos = usuario.getProductosSubidos();
         List<Producto> productoList = findProductoPort.findAllByPropietario(usuario);
@@ -35,13 +35,14 @@ public class UpdateUsuarioUseCase implements UpdateUsuarioPort {
         if (telefono != null) usuario.setTelefono(telefono);
         if (direccion != null) usuario.setDireccion(direccion);
         if (localidad != null) usuario.setLocalidad(localidad);
-        usuario.setProductosSubidos(productosSubidos);
+        //usuario.setProductosSubidos(productosSubidos);
 
 
         Usuario usuarioSaved = saveUsuarioPort.save(usuario);
         System.out.println("id usuario que viene por parametro " + idUsuario);
         System.out.println("id usuario una vez se ha actualizado " + usuarioSaved.getIdUsuario());
         System.out.println("tamaño de la lista de productos " + productoList.size());
+        System.out.println("productos del señor este "+ usuarioSaved.getProductosSubidos().size());
 
         /*
         for (Producto p : productoList) {
@@ -56,7 +57,7 @@ public class UpdateUsuarioUseCase implements UpdateUsuarioPort {
 
             System.out.println(" product " + p.getNombre() + ", " + p.getIdUsuario() );
         }
-        return usuarioSaved;
+        //return usuarioSaved;
     }
 
     @Override

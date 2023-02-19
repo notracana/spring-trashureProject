@@ -1,5 +1,6 @@
 package com.project.trashure.producto.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.trashure.transaccion.domain.TransaccionJpa;
 import com.project.trashure.usuario.domain.Usuario;
 import com.project.trashure.usuario.domain.UsuarioJpa;
@@ -75,6 +76,7 @@ public class ProductoJpa {
     private String idUsuario;*/
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name="id_usuario", updatable = false, insertable = false)
     private UsuarioJpa propietarioJpa;
 
@@ -110,6 +112,7 @@ public class ProductoJpa {
         if(producto == null) return;
 
         this.setIdProducto(producto.getIdProducto());
+        this.setIdUsuario(producto.getIdUsuario());
         this.setNombre(producto.getNombre());
         this.setDescripcion(producto.getDescripcion());
         this.setEstado(producto.getEstado());
@@ -121,11 +124,12 @@ public class ProductoJpa {
         //this.setIdUsuario(producto.getIdUsuario());
         this.setDisponibilidad(producto.getDisponibilidad());
 
+        /*
         if(producto.getPropietario() != null){
             Usuario u = producto.getPropietario();
             updatePropietario(u);
             this.setIdUsuario(u.getIdUsuario());
-        }
+        }*/
         if(producto.getUsuarios() != null && !producto.getUsuarios().isEmpty()){
             List<Usuario> usuarios = producto.getUsuarios();
             updateUsuarios(usuarios);

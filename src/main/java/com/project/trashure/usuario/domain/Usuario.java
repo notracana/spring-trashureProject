@@ -70,7 +70,7 @@ public class Usuario {
         this.setTelefono(usuarioJpa.getTelefono());
         this.setTipoUsuario(usuarioJpa.getTipoUsuario());
         this.setIdProductosFavoritos(usuarioJpa.getIdProductosFavoritos());
-        //this.setProductosSubidos(usuarioJpa.getProductosSubidos());
+        this.setProductosSubidos(usuarioJpa.getProductosSubidosJpa().stream().map(Producto::new).collect(Collectors.toList()));
         //this.setListaCompras(usuarioJpa.getListaCompras());
         //this.setListaVentas(usuarioJpa.getListaVentas());
         //this.setListaFavs(usuarioJpa.getListFavs());

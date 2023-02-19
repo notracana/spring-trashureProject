@@ -68,9 +68,9 @@ public class Producto {
 
 
     public Usuario getPropietario(){
-        if(propietario != null) return propietario;
-        if(productoJpa == null) return null;
-        UsuarioJpa propietarioJpa = productoJpa.getPropietarioJpa();
+        if(this.propietario != null) return propietario;
+        if(this.productoJpa == null) return null;
+        UsuarioJpa propietarioJpa = this.productoJpa.getPropietarioJpa();
 
         if(propietarioJpa == null) return null;
         Usuario propietario = new Usuario(propietarioJpa);
