@@ -1,5 +1,6 @@
 package com.project.trashure.usuario.infrastructure.controller;
 
+import com.project.trashure.email.Email;
 import com.project.trashure.error.ErrorPropio;
 import com.project.trashure.producto.domain.Producto;
 import com.project.trashure.producto.infrastructure.repository.port.FindProductoPort;
@@ -11,6 +12,8 @@ import com.project.trashure.usuario.domain.Usuario;
 import com.project.trashure.usuario.infrastructure.repository.port.FindUsuarioPort;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +36,9 @@ public class AdminController {
     private CreateUsuarioPort createUsuarioPort;
 
     private UpdateUsuarioPort updateUsuarioPort;
+
+    private JavaMailSender javaMailSender;
+
 
     @GetMapping("/principal")
     public String principal(Model model, HttpSession httpSession) {
@@ -205,4 +211,85 @@ public class AdminController {
         return "admin/perfil_usuario";
     }
 
+    @PostMapping("avisar/{idUsuario}")
+    public String avisar(@RequestParam Integer idUsuario, Model model, HttpSession httpSession) throws Exception {
+        //primero comprobar que quien está accediendo es un admin
+        if(httpSession.getAttribute("idAdmin")==null){
+            ErrorPropio errorPropio = new ErrorPropio();
+            errorPropio.setTexto("No tienes autorización para realizar esta petición.");
+            model.addAttribute("error", errorPropio);
+            return "usuario/modal_error";
+        }
+        String admin = httpSession.getAttribute("idAdmin").toString();
+        Integer idAdminInt = Integer.parseInt(admin);
+        Usuario adminActual = findUsuarioPort.findById(idAdminInt);
+
+        Usuario usuarioPropietario = findUsuarioPort.findById(idUsuario);
+
+        model.addAttribute("usuarioInteresado", adminActual);
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idAdmin").toString());
+        //Usuario usuario = findUsuarioPort.findById(idUsuario);
+        model.addAttribute("usuarioPropietario", usuarioPropietario);
+        //redirige a la vista de registro del usuario en la app
+        return "admin/enviar_aviso";
+    }
+
+    @PostMapping("enviarAviso")
+    public String enviarAviso(Email email, Model model, HttpSession httpSession) throws Exception {
+        //Necesitamos saber quién es el propietario
+        //Usuario usuarioPropietario = findUsuarioPort.findById(idUsuario);
+
+        System.out.println("hola");
+        Integer idPropietario = Integer.parseInt(email.getDestinatario());
+        Usuario usuarioPropietario = findUsuarioPort.findById(idPropietario);
+
+        //Necesitamos saber quién es el interesado
+        //String idUserInteresado = httpSession.getAttribute("idUsuario").toString();
+
+        System.out.println("ktal");
+
+        String idUserInteresado = email.getEmisor();
+        Integer idUserInteresadoInt = Integer.parseInt(idUserInteresado);
+        Usuario usuarioActual = findUsuarioPort.findById(idUserInteresadoInt);
+
+        String para = usuarioPropietario.getEmail();
+
+        System.out.println("bien  y tu");
+
+        //String para = email.getDestinatario();
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setFrom("trashureappteam@gmail.com");
+        System.out.println("from : " + simpleMailMessage.getFrom());
+        simpleMailMessage.setTo(para);
+        System.out.println("to : " + simpleMailMessage.getTo());
+        System.out.println("to clarificado " + para);
+
+        simpleMailMessage.setSubject("Un administrador te ha enviado un aviso.");
+        System.out.println("subject : " + simpleMailMessage.getSubject());
+
+        //simpleMailMessage.setText(mensaje);
+        simpleMailMessage.setText("Un administrador del equipo de Trashure te ha enviado un aviso:" + "\n '"
+                + email.getTexto() + "'. \n" +
+                "-- \n Te solicitamos que gestiones el aviso con la mayor brevedad posible." +
+                " \n \n "
+                + "¡Gracias por depositar tu confianza en Trashure!");
+        System.out.println("mensaje : '" + simpleMailMessage.getText() + "'. \n" +
+                "Puedes contactar con el usuario a través de su dirección de correo electrónico: " + usuarioActual.getEmail());
+
+
+        try {
+            javaMailSender.send(simpleMailMessage);
+        } catch (Exception e) {
+            ErrorPropio err = new ErrorPropio();
+            err.setTexto("Error al enviar un aviso al propietario.");
+            model.addAttribute("error", err);
+            return "usuario/modal_error";
+            //System.out.println("Error al enviar email");
+            //e.printStackTrace();
+        }
+        System.out.println("fin mensaje");
+
+        return "redirect:/";
+
+    }
 }

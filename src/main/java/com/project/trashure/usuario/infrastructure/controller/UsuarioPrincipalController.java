@@ -623,7 +623,7 @@ public class UsuarioPrincipalController {
 
         //String para = email.getDestinatario();
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setFrom("trashureteam@gmail.com");
+        simpleMailMessage.setFrom("trashureappteam@gmail.com");
         System.out.println("from : " + simpleMailMessage.getFrom());
         simpleMailMessage.setTo(para);
         System.out.println("to : " + simpleMailMessage.getTo());
@@ -675,7 +675,7 @@ public class UsuarioPrincipalController {
     public String enviarNotificacion(Transaccion transaccion, Model model) throws Exception {
 
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setFrom("trashureteam@gmail.com");
+        simpleMailMessage.setFrom("trashureappteam@gmail.com");
         System.out.println("from : " + simpleMailMessage.getFrom());
         Usuario propietario = findUsuarioPort.findById(transaccion.getIdVendedor());
         Usuario interesado = findUsuarioPort.findById(transaccion.getIdComprador());

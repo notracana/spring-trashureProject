@@ -26,28 +26,8 @@
 </head>
 
 <body>
+<div th:include="usuario/template_usuario.html::headerUsuarioLogged" th:unless="${usuarioLogged==null}"></div>
 
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container" style="padding-top:80px">
-        <a class="navbar-brand" th:href="@{/}"><img src="/imagenes/logo2.png" alt="Logo Trashure" width="60" height="40" align="left"/></a>
-
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse"
-                data-target="#navbarResponsive" aria-controls="navbarResponsive"
-                aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a class="nav-link" th:href="@{/api/v0/usuarios/logIn}">Iniciar sesión</a>
-                </li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/api/v0/usuarios/signUp}">Registrarse</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
 
 </form>
 <!-- Page Content -->
@@ -58,7 +38,7 @@
             <div class="col-md-4"></div>
             <div class="col-md-8">
                 <div class="card-body">
-                    <h2>Contactar</h2>
+                    <h2>Formulario de Contacto</h2>
 
                 </div>
             </div>
@@ -87,6 +67,7 @@
                     <button type="submit" class="btn btn-success">
                         <span class="glyphicon glyphicon-saved"></span>Enviar mensaje</button>
                 </form>
+                <p></p>
             </div>
         </div>
     </form>

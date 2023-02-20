@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Trashure App</title>
+
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
+        rel="stylesheet">
+
+
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+
+  <link rel="icon" href="imagenes/favicon-32x32.png">
+
+
+</head>
+
+<body>
+<div th:include="admin/template_admin.html::header" th:unless="${adminLogged==null}"></div>
+
+
+</form>
+<!-- Page Content -->
+<div class="container" style="padding-top:80px">
+
+  <div class="card mb-3">
+    <div class="row no-gutters">
+      <div class="col-md-4"></div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h2>Formulario de Aviso</h2>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <h2>Avisar a propietario</h2>
+
+  </div>
+  <!--form th:action="@{/enviarEmail/{idPropietario} (idPropietario=${usuarioPropietario.idUsuario})}" method="post"-->
+  <form th:action="@{/api/v0/admin/enviarAviso}" method="post">
+    <input type="hidden" th:value="${usuarioPropietario.idUsuario}" name="destinatario">
+    <input type="hidden" th:value="${usuarioInteresado.idUsuario}" name="emisor">
+
+
+    <div class="form-group">
+      <label for="texto">Mensaje:</label>
+      <textarea id="texto" name="texto" required  class="form-control" rows="10" cols="40">Introduce el mensaje que quieres enviar al propietario</textarea>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-sm-2">
+        <form th:action="@{/api/v0/admin/enviarAviso/{idPropietario} (idPropietario=${usuarioPropietario.idUsuario})}" method="POST">
+          <button type="submit" class="btn btn-success">
+            <span class="glyphicon glyphicon-saved"></span>Enviar mensaje</button>
+        </form>
+        <p></p>
+      </div>
+    </div>
+  </form>
+
+</div>
+
+<!-- /.container -->
+
+<!-- Footer -->
+<div th:include="usuario/template_usuario.html::footer"></div>
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+
+</html>

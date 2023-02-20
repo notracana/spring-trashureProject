@@ -72,6 +72,8 @@
       <input type="text" class="form-control" id="nombre" name="nombre"
              required
              placeholder="Introduce el nombre del usuario"
+             pattern="/^[ A-Za-zÀ-ÿ\u00f1\u00d1]*$/g{3,20}"
+             title="Longitud mínima de 3 caracteres y máxima 20. Solo letras."
              autocomplete="off">
     </div>
 
@@ -79,7 +81,7 @@
       <label for="apellidos">Apellidos:</label>
       <input type="text"
              class="form-control" id="apellidos" name="apellidos" required
-             pattern="[A-Za-z]{3,30}"
+             pattern="/^[ A-Za-zÀ-ÿ\u00f1\u00d1]*$/g{3,30}"
              title="Longitud mínima de 3 caracteres y máxima 30. Solo letras."
              placeholder="Introduce los apellidos del usuario" autocomplete="off">
     </div>
