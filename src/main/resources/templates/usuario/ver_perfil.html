@@ -59,7 +59,7 @@
             </ul>
 
           <ul class="list-group">
-            <li class="list-group-item"><h5 th:text="'Reviews ' "></h5> <p th:text=" ${usuario.username} "><p></li>
+            <li class="list-group-item"><h5 th:text="'Opiniones sobre el usuario ' "></h5> <!--p th:text=" ${usuario.username} "><p--></li>
 
           </ul>
 
@@ -72,6 +72,28 @@
         </div>
       </div>
     </div>
+  </div>
+  <li class="list-group-item"><h5 th:text="'Productos del usuario' "></h5> <!--p th:text=" ${usuario.username} "><p--></li>
+
+  <div class="row text-center">
+
+
+    <div class="col-lg-3 col-md-6 mb-4" th:each="producto: ${productosDelPerfil}">
+      <div class="card h-100">
+        <!-- se establece el source de donde obtiene las imágenes: el directorio imagenes
+        llamamos img a la variable-->
+        <img class="card-img-top"
+             th:src="@{/imagenes/{img} (img=${producto.imagen})} " alt="">
+        <div class="card-body">
+          <p class="card-text" th:text="${producto.nombre}"></p>
+        </div>
+        <!-- así se muestra la imagen y el nombre del producto-->
+        <div class="card-footer">
+          <a th:href="@{/detalleProducto/{idProducto} (idProducto=${producto.idProducto})}" class="btn btn-success">Ver producto</a>
+        </div>
+      </div>
+    </div>
+    </form>
   </div>
 
 

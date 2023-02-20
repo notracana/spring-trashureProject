@@ -12,4 +12,6 @@ public interface FindProductoPort {
     List<Producto> findAll ();
 
     List<Producto> findAllByPropietario (Usuario propietario);
+
+    List<Producto> findAllByIdUsuario(Integer idUsuario);
 }

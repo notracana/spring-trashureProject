@@ -206,8 +206,10 @@ public class AdminController {
     @GetMapping("visitarPerfil/{idUsuario}")
     public String visitarPerfil(@PathVariable Integer idUsuario, Model model, HttpSession httpSession) throws Exception {
         Usuario usuario = findUsuarioPort.findById(idUsuario);
+        List<Producto> productosDelPerfil = findProductoPort.findAllByIdUsuario(usuario.getIdUsuario());
         model.addAttribute("usuario", usuario);
         model.addAttribute("adminLogged", httpSession.getAttribute("idAdmin").toString());
+        model.addAttribute("productosDelPerfil", productosDelPerfil);
         return "admin/perfil_usuario";
     }
 

@@ -578,8 +578,10 @@ public class UsuarioPrincipalController {
     @GetMapping("visitarPerfil/{idUsuario}")
     public String visitarPerfil(@PathVariable Integer idUsuario, Model model, HttpSession httpSession) throws Exception {
         Usuario usuario = findUsuarioPort.findById(idUsuario);
+        List<Producto> productosDelPerfil = findProductoPort.findAllByIdUsuario(usuario.getIdUsuario());
         model.addAttribute("usuario", usuario);
         model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+        model.addAttribute("productosDelPerfil", productosDelPerfil);
         return "usuario/ver_perfil";
     }
 

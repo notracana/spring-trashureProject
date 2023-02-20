@@ -38,5 +38,11 @@ public class FindProductoRepository implements FindProductoPort {
         return productoJpaList.stream().map(Producto::new).collect(Collectors.toList());
     }
 
+    @Override
+    public List<Producto> findAllByIdUsuario(Integer idUsuario) {
+        List<ProductoJpa> productoJpaList = productoRepositoryJpa.findAllByIdUsuario(idUsuario);
+        return productoJpaList.stream().map(Producto::new).collect(Collectors.toList());
+    }
+
 
 }

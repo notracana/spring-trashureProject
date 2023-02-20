@@ -13,4 +13,5 @@ import java.util.List;
 public interface ProductoRepositoryJpa extends JpaRepository<ProductoJpa, Integer> {
 
     List<ProductoJpa> findAllByPropietarioJpa(UsuarioJpa propietario);
+    List<ProductoJpa> findAllByIdUsuario(Integer idUsuario);
 }
