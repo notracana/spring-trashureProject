@@ -1,11 +1,14 @@
 package com.project.trashure.usuario.application;
 
+import com.project.trashure.error.ErrorPropio;
 import com.project.trashure.usuario.application.port.CreateUsuarioPort;
 import com.project.trashure.usuario.domain.Usuario;
 import com.project.trashure.usuario.domain.UsuarioJpa;
 import com.project.trashure.usuario.infrastructure.repository.jpa.UsuarioRepositoryJpa;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -17,7 +20,20 @@ public class CreateUsuarioUseCase implements CreateUsuarioPort {
 
     private UsuarioRepositoryJpa usuarioRepositoryJpa;
     @Override
-    public Usuario create(Usuario usuario) throws NoSuchAlgorithmException {
+    public Usuario create(Usuario usuario) throws Exception {
+        //primero se comprueba que el username y el email facilitados no es´ten registrados en la base de datos
+        String username = usuario.getUsername();
+        if(usuarioRepositoryJpa.findByUsername(username)!=null){
+
+            throw new Exception("Ya existe un usuario registrado con ese nombre de usuario.");
+
+        }
+        String email = usuario.getEmail();
+        if(usuarioRepositoryJpa.findByEmail(email)!=null){
+
+            throw new Exception("Ya existe un usuario registrado con ese email.");
+
+        }
         String passwordHashed = toHexString(obtenerSHA(usuario.getPassword()));
         usuario.setPassword(passwordHashed);
         UsuarioJpa usuarioJpa = new UsuarioJpa(usuario);

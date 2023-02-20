@@ -106,7 +106,7 @@ public class AdminController {
     }
 
     @PostMapping("registrarUsuario")
-    public String registrarUsuario(Usuario usuario) throws NoSuchAlgorithmException {
+    public String registrarUsuario(Usuario usuario) throws Exception {
 
         //El usuario que llega como parámetro viene de los datos del formulario de la vista sign_up
         //hay que determinar que el usuario que se registra es de tipo normal, es decir, no es administrador

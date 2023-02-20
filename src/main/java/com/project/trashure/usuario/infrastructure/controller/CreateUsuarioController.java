@@ -43,7 +43,14 @@ public class CreateUsuarioController {
         usuario.setTipoUsuario("USER");
 
         //se crea el usuario con los datos aportados
-        createUsuarioPort.create(usuario);
+        try{
+        createUsuarioPort.create(usuario);}
+        catch(Exception e){
+            ErrorPropio errorPropio = new ErrorPropio();
+            errorPropio.setTexto(e.getMessage());
+            model.addAttribute("error", errorPropio);
+            return "usuario/modal_error";
+        }
 
         Exito exito = new Exito();
         exito.setTexto("Te has registrado exitosamente.");

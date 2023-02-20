@@ -6,5 +6,5 @@ import java.security.NoSuchAlgorithmException;
 
 public interface CreateUsuarioPort {
 
-    Usuario create(Usuario usuario) throws NoSuchAlgorithmException;
+    Usuario create(Usuario usuario) throws Exception;
 }
