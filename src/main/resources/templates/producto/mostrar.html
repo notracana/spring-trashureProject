@@ -43,6 +43,27 @@
 
     <!--a class="btn btn-primary" th:href="@{/api/v0/productos/crearProductos}" >Subir producto</a-->
     <h2>Productos</h2>
+    <form class="form-inline" method="GET" th:action="@{/api/v0/admin/filtrarProductos}">
+        <div class="col-xs-12 col-md-6 col-lg-3">
+
+
+            <p class="control-label" for="textoBusqueda">ID Producto:</p>
+            <input class="form-control" type="search"
+                   id="textoBusqueda"
+                   placeholder="ID producto" aria-label="Search" name="textoBusqueda"
+                   autocomplete="off">
+        </div>
+        <!--button class="btn btn-outline-success my-2 my-sm-0" type="submit">BUSCAR</button-->
+
+        <div class="col-xs-12 col-md-6 col-lg-3 mt-8">
+
+            <button class="btn btn-success" type="submit">
+                Buscar producto</button>
+
+            <!--/form-->
+        </div>
+    </form>
+    <p></p>
     <table class="table">
         <thead>
         <tr>

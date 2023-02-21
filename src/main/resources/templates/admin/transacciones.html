@@ -43,6 +43,39 @@
     <li class="breadcrumb-item active">Transacciones</li>
   </ol>
 
+  <form class="form-inline" method="GET" th:action="@{/api/v0/admin/filtrarTransacciones}">
+    <div class="col-xs-12 col-md-6 col-lg-3">
+
+
+      <p class="control-label" for="textoBusqueda">ID:</p>
+      <input class="form-control" type="search"
+             id="textoBusqueda"
+             placeholder="ID..." aria-label="Search" name="textoBusqueda"
+             autocomplete="off">
+    </div>
+    <!--button class="btn btn-outline-success my-2 my-sm-0" type="submit">BUSCAR</button-->
+
+    <div class="col-xs-12 col-md-6 col-lg-3">
+      <p class="control-label" for="tipoId">Tipo de ID:</p>
+
+      <!--form th:action="@{/filtrarProductos}" method="GET"-->
+      <select class="form-control" id="tipoId" name="tipoId">
+        <option value="Transaccion" selected>ID Transacción</option>
+        <option value="Solicitante" >ID Solicitante</option>
+        <option value="Donante">ID Donante</option>
+        <option value="Producto">ID Producto</option>
+      </select>
+    </div>
+
+    <div class="col-xs-12 col-md-6 col-lg-3">
+      <button class="btn btn-success" type="submit">
+        Filtrar transacciones</button>
+
+    </div>
+
+  </form>
+
+<p></p>
   <!-- Blog Post -->
   <div class="card mb-4">
     <div class="card-body">

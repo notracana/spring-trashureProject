@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -286,5 +287,104 @@ public class AdminController {
         System.out.println("fin mensaje");
 
         return "redirect:/api/v0/admin/principal";
+    }
+
+
+    //Método para filtrar usuarios por id de usuario
+
+    @GetMapping("filtrarUsers")
+    public String filtrarUsuarios(Model model, @RequestParam String textoBusqueda, HttpSession httpSession) {
+
+        List<Usuario> usuariosTotales = new ArrayList<>();
+
+        if (textoBusqueda == null) {
+            usuariosTotales = findUsuarioPort.findAll();
+        } else {
+            usuariosTotales = findUsuarioPort.findAll().stream().filter
+                    (x -> String.valueOf(x.getIdUsuario()).contentEquals((textoBusqueda).toString())).collect(Collectors.toList());
+        }
+
+        System.out.println("numero de usuarios en total " + usuariosTotales.size());
+
+        model.addAttribute("adminLogged", httpSession.getAttribute("idAdmin").toString());
+
+
+        model.addAttribute("listaUsuarios", usuariosTotales);
+        //redirige a la vista
+        return "admin/usuarios";
+
+    }
+
+    //Método para filtrar productos por id de producto
+    @GetMapping("filtrarProductos")
+    public String filtrarProductos(Model model, @RequestParam String textoBusqueda, HttpSession httpSession) {
+
+        List<Producto> productos = new ArrayList<>();
+
+        if (textoBusqueda == null) {
+            productos = findProductoPort.findAll();
+        } else {
+            productos = findProductoPort.findAll().stream().filter
+                    (x -> String.valueOf(x.getIdProducto()).contentEquals((textoBusqueda).toString())).collect(Collectors.toList());
+        }
+
+        System.out.println("numero de usuarios en total " + productos.size());
+
+
+        model.addAttribute("adminLogged", httpSession.getAttribute("idAdmin").toString());
+
+        model.addAttribute("listaProductos", productos);
+        //redirige a la vista
+        return "producto/mostrar";
+
+    }
+
+    //Método para filtrar transacciones por id de transaccion, por id de donante, por id de solicitante o por id de producto
+    @GetMapping("filtrarTransacciones")
+    public String filtrarTransacciones(Model model, @RequestParam String textoBusqueda, @RequestParam String tipoId, HttpSession httpSession) {
+
+        System.out.println("tipo id seleccionado " + tipoId);
+        List<Transaccion> transaccionList = new ArrayList<>();
+
+
+        if (textoBusqueda == null) {
+            transaccionList = findTransaccionPort.findAll();
+        }
+        if(textoBusqueda != null){
+            switch (tipoId){
+                case "Transaccion":
+                    transaccionList = findTransaccionPort.findAll().stream().filter
+                            (x -> String.valueOf(x.getIdTransaccion()).contentEquals((textoBusqueda).toString())).collect(Collectors.toList());
+                    break;
+                case "Solicitante":
+                    transaccionList = findTransaccionPort.findAll().stream().filter
+                            (x -> String.valueOf(x.getIdComprador()).contentEquals((textoBusqueda).toString())).collect(Collectors.toList());
+
+                    break;
+                case "Donante":
+                    transaccionList = findTransaccionPort.findAll().stream().filter
+                            (x -> String.valueOf(x.getIdVendedor()).contentEquals((textoBusqueda).toString())).collect(Collectors.toList());
+
+                    break;
+                case "Producto":
+                    transaccionList = findTransaccionPort.findAll().stream().filter
+                            (x -> String.valueOf(x.getIdProducto()).contentEquals((textoBusqueda).toString())).collect(Collectors.toList());
+
+                    break;
+
+
+            }
+
+            }
+
+        System.out.println("numero de usuarios en total " + transaccionList.size());
+
+        model.addAttribute("adminLogged", httpSession.getAttribute("idAdmin").toString());
+
+
+        model.addAttribute("listaTransacciones", transaccionList);
+        //redirige a la vista
+        return "admin/transacciones";
+
     }
 }
