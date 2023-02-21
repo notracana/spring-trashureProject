@@ -214,7 +214,7 @@ public class AdminController {
     }
 
     @PostMapping("avisar/{idUsuario}")
-    public String avisar(@RequestParam Integer idUsuario, Model model, HttpSession httpSession) throws Exception {
+    public String avisar(@RequestParam Integer idUsuario, @RequestParam Integer idProducto, Model model, HttpSession httpSession) throws Exception {
         //primero comprobar que quien está accediendo es un admin
         if(httpSession.getAttribute("idAdmin")==null){
             ErrorPropio errorPropio = new ErrorPropio();
@@ -226,58 +226,52 @@ public class AdminController {
         Integer idAdminInt = Integer.parseInt(admin);
         Usuario adminActual = findUsuarioPort.findById(idAdminInt);
 
+        String idProductoString = String.valueOf(idProducto);
         Usuario usuarioPropietario = findUsuarioPort.findById(idUsuario);
 
+        model.addAttribute("idProducto", idProductoString);
         model.addAttribute("usuarioInteresado", adminActual);
-        model.addAttribute("usuarioLogged", httpSession.getAttribute("idAdmin").toString());
-        //Usuario usuario = findUsuarioPort.findById(idUsuario);
+        model.addAttribute("adminLogged", httpSession.getAttribute("idAdmin").toString());
         model.addAttribute("usuarioPropietario", usuarioPropietario);
-        //redirige a la vista de registro del usuario en la app
+
+        //redirige al formulario de envío de avisos
         return "admin/enviar_aviso";
     }
 
     @PostMapping("enviarAviso")
     public String enviarAviso(Email email, Model model, HttpSession httpSession) throws Exception {
         //Necesitamos saber quién es el propietario
-        //Usuario usuarioPropietario = findUsuarioPort.findById(idUsuario);
 
-        System.out.println("hola");
         Integer idPropietario = Integer.parseInt(email.getDestinatario());
         Usuario usuarioPropietario = findUsuarioPort.findById(idPropietario);
 
         //Necesitamos saber quién es el interesado
-        //String idUserInteresado = httpSession.getAttribute("idUsuario").toString();
-
-        System.out.println("ktal");
 
         String idUserInteresado = email.getEmisor();
         Integer idUserInteresadoInt = Integer.parseInt(idUserInteresado);
         Usuario usuarioActual = findUsuarioPort.findById(idUserInteresadoInt);
-
         String para = usuarioPropietario.getEmail();
 
-        System.out.println("bien  y tu");
+        Integer idObjetoInt = Integer.parseInt(email.getIdObjeto());
+        Producto producto = findProductoPort.findById(idObjetoInt);
+        String url = "http://localhost:8080/detalleProducto/" + email.getIdObjeto();
 
-        //String para = email.getDestinatario();
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom("trashureappteam@gmail.com");
-        System.out.println("from : " + simpleMailMessage.getFrom());
         simpleMailMessage.setTo(para);
-        System.out.println("to : " + simpleMailMessage.getTo());
-        System.out.println("to clarificado " + para);
 
         simpleMailMessage.setSubject("Un administrador te ha enviado un aviso.");
-        System.out.println("subject : " + simpleMailMessage.getSubject());
-
-        //simpleMailMessage.setText(mensaje);
-        simpleMailMessage.setText("Un administrador del equipo de Trashure te ha enviado un aviso:" + "\n '"
+        simpleMailMessage.setText("Un administrador del equipo de Trashure te ha enviado un aviso sobre tu anuncio del " +
+                "producto '" + producto.getNombre() +"':" + "\n '"
                 + email.getTexto() + "'. \n" +
                 "-- \n Te solicitamos que gestiones el aviso con la mayor brevedad posible." +
-                " \n \n "
+                " \n Puedes acceder al anuncio desde el siguiente enlace: " + url + " \n "
                 + "¡Gracias por depositar tu confianza en Trashure!");
         System.out.println("mensaje : '" + simpleMailMessage.getText() + "'. \n" +
                 "Puedes contactar con el usuario a través de su dirección de correo electrónico: " + usuarioActual.getEmail());
 
+
+        model.addAttribute("adminLogged", httpSession.getAttribute("idAdmin").toString());
 
         try {
             javaMailSender.send(simpleMailMessage);
@@ -291,7 +285,6 @@ public class AdminController {
         }
         System.out.println("fin mensaje");
 
-        return "redirect:/";
-
+        return "redirect:/api/v0/admin/principal";
     }
 }

@@ -1,10 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Trashure App</title>
+
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+
+    <link rel="icon" href="imagenes/favicon-32x32.png">
 </head>
+
 <body>
 
+<!-- Navigation -->
+<div th:include="usuario/template_usuario.html::headerUsuarioLogged" th:unless="${usuarioLogged==null}"></div>
+<div th:include="usuario/template_usuario.html::headerUsuarioNoLogged" th:if="${usuarioLogged==null}"></div>
+
+
+    <div class="container">
+
+        <!-- Jumbotron Header -->
+        <header class="jumbotron my-4 pt-16 pb-2">
+            <h3 class="display-3" style="text-align: center;">Trashure</h3>
+
+            <h3 style="text-align: center;"> Sobre nosotros</h3>
+
+        </header>
+
+        <p>
+            En la actualidad, es más importante que nunca prolongar la vida útil de todo aquello
+            que compramos o adquirimos, ya que la salud del planeta depende de ello.
+            La reutilización de productos es aplicable a todo tipo de enseres, desde dispositivos electrónicos,
+            hasta la ropa, pasando por objetos cotidianos del día a día como libros o muebles.
+            </p>
+
+        <p>Muchas veces nos
+            vemos rodeados de pertenencias que ya no utilizamos a pesar de no estar en mal estado,
+            por lo que la opción de llevarlas al punto limpio es contraproducente.
+            Además, en muchos puntos de recogida, solo aceptan objetos muy concretos como prendas de ropa o libros. ¿Qué hacer en esas ocasiones?
+            </p>
+        <p>
+
+            Por todas estas razones, surgió la idea de crear una app que ayudase a combatir el mundo del consumo y producción desenfrenados: Trashure.
+
+            Trashure tiene como objetivo promover el dar una segunda, tercera e incluso cuarta vida a nuestros objetos. ¿No lo quieres? ¿No lo usas? ¡Alguien lo está buscando! ¡Los trastos de una persona pueden ser los tesoros de otra! (“One man’s trash is another man’s treasure). De ahí el nombre de la app: Trashure, un concepto derivado de las palabras “trash” (“basura” en inglés) y “treasure” (“tesoro”).
+        </p>
+        <p>
+
+            Así pues, la idea detrás del proyecto es fomentar esta filosofía de consumo lento (o “slow shopping”) que no solo ayude a la gente a consumir menos y mejor, sino también a la creación de redes y de una comunidad donde se disminuye el malgasto y se incentiva el altruismo, ya que los productos listados son totalmente gratuitos o están subjetivados a un sistema de trueque en el que los usuarios pueden intercambiar sus pertenencias. La idea principal se basa en crear una aplicación web donde la gente pueda subir los objetos que ya no necesite en su vida y los ponga a disposición de todo aquel que esté interesado en darle un segundo uso. De esta forma, todos los agentes involucrados salen ganando: el “donante”, el “adquisidor” y el planeta.
+
+            </p>
+
+        <p> ¡Esperemos que encuentres lo que estás buscando! :)  </p>
+
+       <p>     - Equipo Trashure
+
+        </p>
+</div>
+
+<div th:include="~{usuario/template_usuario.html::footer}"></div>
+
+<!--div th:include="~{usuario/template_usuario.html::headerUsuarioNoLogged}"></div-->
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
 </body>
+
 </html>

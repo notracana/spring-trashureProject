@@ -92,6 +92,7 @@
 
             <form th:action="@{/api/v0/admin/avisar/{idUsuario} (idUsuario=${producto.idUsuario})}" method="POST">
               <input type="hidden" th:value="${producto.idUsuario}" name="idUsuario">
+              <input type="hidden" th:value="${producto.idProducto}" name="idProducto">
               <button type="submit" class="btn btn-warning">Enviar aviso</button>
 
             </form>

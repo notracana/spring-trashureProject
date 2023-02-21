@@ -331,7 +331,9 @@ public class UsuarioPrincipalController {
             //throw new Exception("Ya eres el propietario de este producto.");
         }
 
-        if (producto.getDisponibilidad() != "Disponible") {
+        System.out.println("disponible ? " + producto.getDisponibilidad());
+
+        if (!producto.getDisponibilidad().toString().contentEquals("Disponible")) {
             ErrorPropio e = new ErrorPropio();
             e.setTexto("El producto no está disponible en estos momentos.");
             model.addAttribute("error", e);
@@ -339,6 +341,8 @@ public class UsuarioPrincipalController {
             //throw new Exception("El producto no está disponible en estos momentos.");
 
         }
+
+        System.out.println("después del if ");
 
         producto.setDisponibilidad("No disponible");
         Integer idVendedor = producto.getIdUsuario();
@@ -586,14 +590,15 @@ public class UsuarioPrincipalController {
     }
 
     @PostMapping("contactar/{idUsuario}")
-    public String contactar(@RequestParam Integer idUsuario, Model model, HttpSession httpSession) throws Exception {
+    public String contactar(@RequestParam Integer idUsuario, @RequestParam Integer idProducto, Model model, HttpSession httpSession) throws Exception {
         String idUserComprador = httpSession.getAttribute("idUsuario").toString();
         Integer idUserCompradorInt = Integer.parseInt(idUserComprador);
         Usuario usuarioActual = findUsuarioPort.findById(idUserCompradorInt);
 
         Usuario usuarioPropietario = findUsuarioPort.findById(idUsuario);
-
+        String idProductoString = String.valueOf(idProducto);
         model.addAttribute("usuarioInteresado", usuarioActual);
+        model.addAttribute("idProducto" , idProductoString);
         model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
         //Usuario usuario = findUsuarioPort.findById(idUsuario);
         model.addAttribute("usuarioPropietario", usuarioPropietario);
@@ -604,16 +609,11 @@ public class UsuarioPrincipalController {
     @PostMapping("enviarEmail")
     public String enviarEmail(Email email, Model model, HttpSession httpSession) throws Exception {
         //Necesitamos saber quién es el propietario
-        //Usuario usuarioPropietario = findUsuarioPort.findById(idUsuario);
 
-        System.out.println("hola");
         Integer idPropietario = Integer.parseInt(email.getDestinatario());
         Usuario usuarioPropietario = findUsuarioPort.findById(idPropietario);
 
         //Necesitamos saber quién es el interesado
-        //String idUserInteresado = httpSession.getAttribute("idUsuario").toString();
-
-        System.out.println("ktal");
 
         String idUserInteresado = email.getEmisor();
         Integer idUserInteresadoInt = Integer.parseInt(idUserInteresado);
@@ -621,7 +621,9 @@ public class UsuarioPrincipalController {
 
         String para = usuarioPropietario.getEmail();
 
-        System.out.println("bien  y tu");
+        Integer idObjetoInt = Integer.parseInt(email.getIdObjeto());
+        Producto producto = findProductoPort.findById(idObjetoInt);
+        String url = "http://localhost:8080/detalleProducto/" + email.getIdObjeto();
 
         //String para = email.getDestinatario();
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
@@ -635,10 +637,10 @@ public class UsuarioPrincipalController {
         System.out.println("subject : " + simpleMailMessage.getSubject());
 
         //simpleMailMessage.setText(mensaje);
-        simpleMailMessage.setText("El usuario '" + usuarioActual.getUsername() + "' te ha enviado un mensaje:" + "\n '"
+        simpleMailMessage.setText("El usuario '" + usuarioActual.getUsername() + "' te ha enviado un mensaje acerca de tu producto '" + producto.getNombre() +  "':" + "\n '"
                 + email.getTexto() + "'. \n" +
                 "-- \n Puedes contactar con el usuario a través de su dirección de correo electrónico: " + usuarioActual.getEmail() + "" +
-                " \n \n "
+                " \n También puedes acceder directamente al enlace del producto: " + url + "\n "
                 + "¡Gracias por depositar tu confianza en Trashure!");
         System.out.println("mensaje : '" + simpleMailMessage.getText() + "'. \n" +
                 "Puedes contactar con el usuario a través de su dirección de correo electrónico: " + usuarioActual.getEmail());
@@ -730,6 +732,72 @@ public class UsuarioPrincipalController {
         //Tras guardar el nuevo usuario en la base de datos, redirige a la página principal de usuario
         return "redirect:/";
     }
+
+    @GetMapping("/termsAndConditions")
+    public String termsAndConditions(Model model, HttpSession httpSession){
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+
+        return "usuario/terminos_condiciones";
+    }
+
+    @GetMapping("/FAQ")
+    public String faq(Model model, HttpSession httpSession){
+
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+        return "usuario/faq";
+    }
+
+    @GetMapping("/politicaCookies")
+    public String politicaCookies(Model model, HttpSession httpSession){
+
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+
+        return "usuario/politica_cookies";
+    }
+    @GetMapping("/publicationRules")
+    public String publicationRules(Model model, HttpSession httpSession){
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+
+        return "usuario/publication_rules";
+    }
+
+    @GetMapping("/securityTips")
+    public String securityTips(Model model, HttpSession httpSession){
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+
+        return "usuario/security_tips";
+    }
+
+
+    @GetMapping("/aboutUs")
+    public String aboutUs(Model model, HttpSession httpSession){
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+
+        return "usuario/about_us";
+    }
+
+    @GetMapping("/cookiesPolicy")
+    public String cookiesPolicy(Model model, HttpSession httpSession){
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+
+        return "usuario/cookies_policy";
+    }
+
+    @GetMapping("/privacyPolicy")
+    public String privacyPolicy(Model model, HttpSession httpSession){
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+
+        return "usuario/privacy_policy";
+    }
+
+    @GetMapping("/legal")
+    public String legal(Model model, HttpSession httpSession){
+        model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+
+        return "usuario/legal";
+    }
+
+
 
 
 }

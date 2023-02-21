@@ -93,6 +93,7 @@
 
                         <form th:action="@{/contactar/{idUsuario} (idUsuario=${producto.idUsuario})}" method="POST">
                             <input type="hidden" th:value="${producto.idUsuario}" name="idUsuario">
+                            <input type="hidden" th:value="${producto.idProducto}" name="idProducto">
                             <button type="submit" class="btn btn-primary">Contactar</button>
 
                         </form>

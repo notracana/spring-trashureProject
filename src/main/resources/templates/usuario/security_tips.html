@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Trashure App</title>
+
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+
+    <link rel="icon" href="imagenes/favicon-32x32.png">
+</head>
+
+<body>
+
+<!-- Navigation -->
+<div th:include="usuario/template_usuario.html::headerUsuarioLogged" th:unless="${usuarioLogged==null}"></div>
+<div th:include="usuario/template_usuario.html::headerUsuarioNoLogged" th:if="${usuarioLogged==null}"></div>
+
+<div class="container">
+
+    <!-- Jumbotron Header -->
+    <header class="jumbotron my-4 pt-16 pb-2">
+        <h1 class="display-3" style="text-align: center;">Trashure</h1>
+
+        <h3 style="text-align: center;"> Consejos de Seguridad</h3>
+
+    </header>
+
+   <h4>Consejos de seguridad en línea</h4>
+
+    <p>
+    </p>
+
+    <p></p>
+       <h5>No compartas tus datos personales</h5>
+    <p> Desde Trashure protegemos la identidad y los datos privados de nuestros usuarios registrados al máximo de nuestras capacidades.
+        Por ello, te recomendamos que nunca compartas datos privados con gente desconocida.
+        </p>
+    <p>
+        Si dudas de algún usuario, háznoslo saber a través de nuestro email: "trashureappteam@gmail.com".
+        </p>
+
+    <p></p>
+
+    <h5>Cierra siempre tu sesión cuando termines</h5>
+    <p>
+        Así evitarás que otras personas usen tu cuenta sin tu conocimiento.
+        </p>
+
+
+    <p></p>
+
+      <h5>Borra tus cookies</h5>
+      <p>  Las cookies almacenan información que guarda tu navegador web. Cada vez que visitas un sitio web,
+          este coloca una cookie en su navegador. Esto ayuda al sitio a recordarte,
+          tus preferencias, tu cuenta y los anuncios que ves, entre otras cosas.
+          </p>
+    <p>
+          Son una puerta de acceso a tu información personal identificable, y cualquiera que las tenga puede acceder
+        a tus cuentas. Los ciberdelincuentes pueden utilizar tus cookies para saber más de ti y aprovecharse
+        de tus datos privados, por lo que intentarán robarlas.
+</p>
+
+    <p></p>
+
+    <h5>Ten cuidado con las estafas de phishing</h5>
+       <p> Siempre que nos pongamos en contacto contigo será a través de nuestra cuenta de correo oficial: trashureappteam@gmail.com
+           </p>
+
+    <p>
+        Si dudas de algún usuario o de algún mensaje, háznoslo saber a través de nuestro email: "trashureappteam@gmail.com".
+    </p>
+
+    <p></p>
+
+
+      <h5>Para comunicarte con otros usuarios, utiliza el formulario de contacto</h5>
+    <p>
+        Desde Trashure te ofrecemos un formulario para contactar con otros usuarios en el que usaremos nuestra cuenta corporativa de correo
+        para enviar al usuario tu mensaje.
+        </p>
+
+    <p></p>
+    <h5>Utiliza una contraseña segura</h5>
+    <p>
+     Para que una contraseña sea considerada segura ha de contener una combinación de letras, mayúsculas, números
+        y caracteres especiales. No utilices la misma clave para varios sitios web y cámbiala periódicamente.</p>
+
+    <p></p>
+
+       <h5>No hace falta que realices ningún pago</h5>
+    <p>
+    En Trashure ningún producto ofertado tiene precio porque están todos disponibles para ser DONADOS. El único pago que podrías
+    tener que realizar sería para cubrir los gastos de envío en caso de ser necesarios y siempre lo puedes hacer una vez entregado el paquete.
+    </p>
+
+    <p>
+
+    </p>
+
+    <p>Si sigues estos sencillos pasos estarás más seguro en tu actividad en la aplicación y en internet en general. </p>
+    <p></p>
+
+</div>
+
+<div th:include="~{usuario/template_usuario.html::footer}"></div>
+
+<!--div th:include="~{usuario/template_usuario.html::headerUsuarioNoLogged}"></div-->
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+
+</html>

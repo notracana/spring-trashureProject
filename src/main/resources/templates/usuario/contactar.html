@@ -52,6 +52,7 @@
     <form th:action="@{/enviarEmail}" method="post">
     <input type="hidden" th:value="${usuarioPropietario.idUsuario}" name="destinatario">
         <input type="hidden" th:value="${usuarioInteresado.idUsuario}" name="emisor">
+        <input type="hidden" th:value="${idProducto}" name="idObjeto">
 
 
         <div class="form-group">

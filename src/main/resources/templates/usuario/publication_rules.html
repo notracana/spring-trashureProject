@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Trashure App</title>
+
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+
+    <link rel="icon" href="imagenes/favicon-32x32.png">
+</head>
+
+<body>
+
+<!-- Navigation -->
+<div th:include="usuario/template_usuario.html::headerUsuarioLogged" th:unless="${usuarioLogged==null}"></div>
+<div th:include="usuario/template_usuario.html::headerUsuarioNoLogged" th:if="${usuarioLogged==null}"></div>
+
+<div class="container">
+
+    <!-- Jumbotron Header -->
+    <header class="jumbotron my-4 pt-16 pb-2">
+        <h1 class="display-3" style="text-align: center;">Trashure</h1>
+
+        <h3 style="text-align: center;"> Reglas de publicación</h3>
+
+    </header>
+
+    <h4>¿Qué contenido no está permitido en Trashure?</h4>
+
+    <p>
+        Para asegurar la comunidad de Trashure, no se permiten determinados comportamientos y acciones que no están
+        permitidos.
+
+    </p>
+    <p>
+        El contenido debe cumplir con nuestros Términos y Condiciones de uso. De lo contrario, el anuncio será eliminado
+        por el equipo de administradores.
+        No se permite la publicación de productos ilegales. Si un usuario ignora de manera reiterada las normas, su
+        cuenta será eliminada.
+
+    </p>
+    <p>
+        A continuación se lista una serie de productos que están prohibidos en Trashure. Puedes consultarla
+        frecuentemente para estar al tanto de las actualizaciones.
+
+    </p>
+
+    <h5>Anuncios duplicados</h5>
+    <p> No se puede subir el mismo producto más de una vez a la aplicación si el primer anuncio sigue
+    activo.</p>
+    <p></p>
+
+
+    <h5>Productos prohibidos</h5>
+<p>
+    <ol>
+        <li> Partes o simulaciones del cuerpo humano, fluidos corporales o restos humanos.</li>
+        <li> Equipamiento propiedad del Estado o productos recibidos por asistencia del Gobierno.</li>
+        <li> Dispositivos móviles bloqueados.</li>
+        <li> Preventa o reservas de productos sin existencias.</li>
+        <li> Promoción de la preventa o reserva de productos fuera de la aplicación.</li>
+        <li> Emuladores u otro software que permita ejecutar un programa en un dispositivo para el que no fue
+            diseñado.
+        </li>
+        <li> Decodificadores, Raspberries o Tecnología Kodi programados para uso ilegal.</li>
+        <li> Artículos relacionados o recuperados de desastres naturales, escenas de crimen, accidentes o tragedias.
+        </li>
+        <li> Tarjetas SIM o de prepago para teléfonos móviles y números de teléfono.</li>
+        <li> Artículos robados.</li>
+        <li> Dispositivos de radar o de interferencia de frecuencias.</li>
+        <li> Lingotes de oro o plata.</li>
+        <li> Testers de maquillaje y perfumería.</li>
+        <li> Piezas o componentes de vehículos (recambios).</li>
+    </ol>
+    </p>
+    <p></p>
+    <h5>Productos insalubres</h5>
+    <p> Productos usados que requieren esterilización, artículos sin lavar o sucios, ropa, toallas, juegos de cama,
+        artículos de cosmética o perfumería desprecintados y/o usados,
+        material quirúrgico, instrumentación médica de uso profesional, ropa interior usada.
+    </p>
+
+    <p></p>
+    <h5>Bienes virtuales</h5>
+    <p>Cualquier tipo de billetes, entradas o abonos, tarjetas de regalo, monedas de juegos y monedas de la web, libros
+        digitales,
+        acciones o participaciones, suscripciones a canales, sitios web u otras membresías, criptomonedas.
+    </p>
+
+    <p></p>
+    <h5>Falsificaciones y propiedad intelectual</h5>
+    <p> Cualquier producto que haya sido replicado, reproducido o fabricado
+        ilegalmente; infracción de derechos de propiedad intelectual o industrial, incluyendo patentes, marcas, derechos
+        de autor, falsificaciones o secretos comerciales.
+        Servicios de redistribución de software para los que se requiere una licencia; infracción de derechos de
+        privacidad, productos electrónicos modificados,
+        fotocopias de libros, cuadernillos o temarios de oposiciones.
+    </p>
+
+    <p></p>
+    <h5> Bienes consumibles</h5>
+    <p> Alimentos o bebidas.</p>
+    <p></p>
+    <h5>Drogas y productos médicos</h5>
+
+    <p>Cigarrillos electrónicos o vapers, piezas de cigarrillos electrónicos y accesorios, tabaco y
+        productos relacionados, medicamentos que
+        requieran receta o prescripción médica, drogas ilegales o recreativas, semillas de marihuana,
+        medicamentos y suplementos de venta libre,
+        preservativos, conservantes, lubricantes, geles estimulantes y geles retardantes, pruebas de drogas
+        en orina, prótesis que requieran cirugía o vayan dentro del cuerpo,
+        productos que deban ser aplicados por un profesional de la salud, pruebas para la detección de
+        COVID-19, sean o no de venta libre, collares antipulgas y antiparasitarios para animales.
+    </p>
+    <p></p>
+    <h5>Anuncios incongruentes</h5>
+    <p> Imágenes inexactas o que no muestren correctamente el producto ofrecido,
+        contenido falso, deshonesto, ambiguo,
+        incorrecto o engañoso.
+    </p>
+
+
+    <p></p>
+    <h5> Animales y productos derivados</h5>
+
+    <p></p>
+    <h5>Anuncios de tipo "Busco/Compro"</h5>
+    <p></p>
+    <h5>Imágenes</h5>
+    <p></p>
+    <h5>Links y publicidad</h5>
+    <p> Enlaces para dirigir el tráfico a otras páginas web o
+        aplicaciones, publicidad o promociones no solicitadas, venta piramidal,
+        solicitudes de donaciones o "spam".
+    </p>
+
+    <p></p>
+    <h5> Armas y otros objetos peligrosos</h5>
+    <p>Cuchillos, armas de fuego, municiones y
+        accesorios, armas de defensa personal,
+        productos retirados del mercado por un fabricante o una agencia
+        gubernamental, bastón de estoque, armas de AirSoft, de balines u otras armas
+        de juguete similares,
+        trampas de caza y jaulas de captura, láseres de largo alcance o
+        potencialmente peligrosos, gases lacrimógenos, pistolas paralizantes o
+        tasers,
+        herramientas de robo, materiales peligrosos como carcinógenos, combustibles,
+        precursores de explosivos, productos químicos que agotan la capa de ozono,
+        venenos, materiales radiactivos y artículos que contienen o liberan dichas
+        sustancias,
+        lo cual incluye, aunque no se limita a, cualquier tipo de combustible y
+        cilindros de butano.
+    </p>
+    <p></p>
+
+    <h5>Contenido para adultos</h5>
+    <p> Contenido sexual de cualquier tipo; quedan
+        prohibidos los anuncios relacionados con el sexo, el erotismo o el
+        fetichismo, ni relacionados con el masaje sexual, la compañía y/o la
+        prostitución,
+        desnudos de individuos con genitales visibles, pezones femeninos, ano o
+        nalgas, juguetes para adultos y accesorios relacionados que se utilicen
+        con fines sexuales.
+    </p>
+
+    <p></p>
+    <h5> Servicios prohibidos</h5>
+    <p>Servicios ilegales o que pueden incluir
+        actividad ilegal, cambio de moneda real o virtual,
+        servicios de apuestas, servicios de tratamientos estéticos que deban
+        ser realizados por profesionales de la salud,
+        profesionales de la salud no colegiados y sin número de registro,
+        servicios de magia negra, lectura del tarot, vudú o similares,
+        servicios de modificación de dispositivos electrónicos, concesión de
+        préstamos, servicios de juegos de azar,
+        servicios de venta o compra de cuentas o seguidores de redes
+        sociales, canales de YouTube, páginas web, dominios, se rvicios de
+        afiliación o esquemas piramidales,
+        servicios de trader, tipstering y asesoramiento de apuestas
+        deportivas, servicios para subir de nivel en juegos digitales,
+        servicios de conductor/taxi, servicios de alquiler de máquinas de
+        tabaco, servicios de reuniones a domicilio como Tupperware,
+        Tuppersex o
+        Thermomix, servicios de seguros y asesores inmobiliarios, servicios
+        de tramitación de contratos de vivienda, multipropiedad o
+        empadronamiento,
+        servicios regulados por el gobierno, servicios de reprogramación del
+        kilometraje, ofertas de empleo sin título, especificación y
+        condiciones
+        de trabajo, servicios de acompañamiento de pareja, servicios de
+        realización de tareas, proyectos de fin de carrera, tesis, servicios
+        de caza.
+    </p>
+    <p></p>
+
+    <h5> Material ofensivo</h5>
+    <p>Cualquier forma de discriminación, intolerancia y/o insulto
+        racial, contenidos que promuevan, apoyen, conmemoren o respalden
+        el odio o la violencia hacia un grupo de personas por motivos de
+        raza, orientación sexual, afiliación religiosa, discapacidad u
+        otras formas de intolerancia discriminatoria,
+        productos que inciten a la violencia contra personas, animales o
+        cosas, bromas o contenidos que contengan insultos.
+    </p>
+    <p></p>
+    <p></p>
+    Última actualización: Febrero 2023
+
+
+    </p>
+</div>
+
+<div th:include="~{usuario/template_usuario.html::footer}"></div>
+
+<!--div th:include="~{usuario/template_usuario.html::headerUsuarioNoLogged}"></div-->
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Trashure App</title>
+
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+
+    <link rel="icon" href="imagenes/favicon-32x32.png">
+</head>
+
+<body>
+
+<!-- Navigation -->
+<div th:include="usuario/template_usuario.html::headerUsuarioLogged" th:unless="${usuarioLogged==null}"></div>
+<div th:include="usuario/template_usuario.html::headerUsuarioNoLogged" th:if="${usuarioLogged==null}"></div>
+
+<div class="container">
+
+    <!-- Jumbotron Header -->
+    <header class="jumbotron my-4 pt-16 pb-2">
+        <h1 class="display-3" style="text-align: center;">Trashure</h1>
+
+        <h3 style="text-align: center;"> Frequently Asked Questions (FAQ)</h3>
+
+    </header>
+    <h4>¿Es necesario crear una cuenta?</h4>
+    <p> En Trashure queremos crear una comunidad donde los usuarios se sientan seguros y pueda haber una trazabilidad
+    de todas las interacciones y transacciones, de manera que, aunque cualquier persona está invitada a utilizar nuestra app
+    y buscar tesoros, para adquirir estos será necesario que se registre.
+    Podrás encontrar el botón para realizar el registro en la barra de navegación. ¡Es muy fácil y apenas te llevará un minuto!
+    </p>
+
+    <h4>¿Quién puede ver mi perfil?</h4>
+    <p> En Trashure nos tomamos muy en serio la privacidad de los datos que nos facilitan nuestros usuarios, de manera que
+    los perfiles son accesibles únicamente por parte de otros usuarios registrados. Además, solo se podrá ver el nombre de usuario,
+    la localidad y los productos subidos por el usuario. El resto de datos privados, como número de teléfono o correo electrónico quedan
+    ocultos. </p>
+
+    <h4>¿Quién puede contactar conmigo?</h4>
+    <p> Siguiendo la lógica ya comentada en los apartados anteriores, en Trashure solo se permite realizar contacto con otros usuarios
+    si la persona está registrada en el servicio. Incluso entonces, tan solo tendrá acceso a un formulario de contacto donde podrá rellenar el mensaje
+    que quiere enviarte, pero no podrá conocer tu dirección de email, puesto que el mensaje se enviará desde
+    el correo corporativo de Trashure. Siempre serás quien decida si ponerte en contacto de vuelta y en qué términos hacerlo. </p>
+
+    <h4>¿Puedo borrar mi cuenta?</h4>
+    <p> ¡Por supuesto! Aunque nos apena verte ir, podrás dar de baja tu cuenta de manera definitiva desde tu perfil. En la parte baja encontrarás
+    un botón para "Eliminar cuenta". Con esta acción, se borrarán también tus productos y tus historiales y tu lista de favoritos.
+        ¡Es así de fácil!</p>
+
+    <h4>¿Cómo se paga en la aplicación?</h4>
+    <p> En Trashure queremos fomentar la creación de una comunidad altruista donde se donen los productos que se oferten. No se busca ganar dinero con este proyecto,
+    sino simplemente ofrecer una plataforma de conexión entre personas con los mismos ideales y ganas de dar una segunda, tercera o cuarta vida a sus posesiones.
+    Es por esto que la aplicación no tiene ninguna pasarela de pago ni se te pedirá nunca tu información bancaria.
+    Todas las transacciones que tengan lugar desde nuestra aplicación serán totalmente gratuitas, excepto por otros acuerdos a los que puedan
+    llegar los involucrados. </p>
+
+    <h4>¿Puedo añadir un producto a mi lista de favoritos?</h4>
+    <p> Para poder añadir productos a tu lista de favoritos podrás hacerlo desde la página de "Detalle del producto"
+    del producto en cuestión, es decir, del anuncio. Ahí encontrarás un botón para hacerlo. </p>
+
+    <h4>¿Puedo contactar con el equipo de Trashure para tratar un tema?</h4>
+    <p> Desde luego. Siempre estamos disponibles para tratar cualquier aspecto con nuestros usuarios. Nos puedes contactar fácilmente
+    mediante correo electrónico, escribiéndonos a la dirección "trashureappteam@gmail.com". Estaremos encantados de atenderte. </p>
+
+
+
+
+
+
+</div>
+
+<div th:include="~{usuario/template_usuario.html::footer}"></div>
+
+<!--div th:include="~{usuario/template_usuario.html::headerUsuarioNoLogged}"></div-->
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+
+</html>

@@ -15,6 +15,8 @@ public class Email {
     String destinatario;
     String asunto;
 
+    String idObjeto;
+
     String texto;
 
 }

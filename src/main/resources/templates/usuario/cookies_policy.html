@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Trashure App</title>
+
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+
+    <link rel="icon" href="imagenes/favicon-32x32.png">
+</head>
+
+<body>
+
+<!-- Navigation -->
+<div th:include="usuario/template_usuario.html::headerUsuarioLogged" th:unless="${usuarioLogged==null}"></div>
+<div th:include="usuario/template_usuario.html::headerUsuarioNoLogged" th:if="${usuarioLogged==null}"></div>
+
+<div class="container">
+
+    <!-- Jumbotron Header -->
+    <header class="jumbotron my-4 pt-16 pb-2">
+        <h1 class="display-3" style="text-align: center;">Trashure</h1>
+
+        <h3 style="text-align: center;"> Política de cookies</h3>
+    </header>
+</div>
+
+<div th:include="~{usuario/template_usuario.html::footer}"></div>
+
+<!--div th:include="~{usuario/template_usuario.html::headerUsuarioNoLogged}"></div-->
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+
+</html>

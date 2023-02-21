@@ -123,6 +123,7 @@ public class CreateUsuarioController {
         if (tipo.equals("ADMINISTRADOR")) {
 
             httpSession.setAttribute("idAdmin", String.valueOf(id));
+            model.addAttribute("adminLogged", httpSession.getAttribute("idAdmin").toString());
 
             //Si es administrador, se le redirige a la vista del admin
 
@@ -133,6 +134,8 @@ public class CreateUsuarioController {
         if (tipo.equals("USER")) {
             //Si es de tipo usuario genérico, se le redirige a la página principal
             httpSession.setAttribute("idUsuario", String.valueOf(id));
+            model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
+
             return "redirect:/";
         }
 
@@ -141,12 +144,17 @@ public class CreateUsuarioController {
     }
 
     @GetMapping("logOut")
-    public String logOut(HttpSession httpSession) {
+    public String logOut(HttpSession httpSession, Model model) {
         //Hacemos que la variable idUsuario sea null, de manera que ya no se tenga acceso a
         //apartados destinados para los usuarios logueados
         httpSession.removeAttribute("idUsuario");
         //Tras cerrar sesión, se devuelve a la página principal
-        return "redirect:/";
+
+        Exito e = new Exito();
+        e.setTexto("Has cerrado la sesión correctamente. Esperamos volver a verte pronto.");
+        model.addAttribute("success", e);
+        return "usuario/modal_exito";
+        //return "redirect:/";
     }
 
     @PutMapping("/update")

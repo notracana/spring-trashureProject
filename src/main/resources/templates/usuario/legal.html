@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Trashure App</title>
+
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+
+    <link rel="icon" href="imagenes/favicon-32x32.png">
+</head>
+
+<body>
+
+<!-- Navigation -->
+<div th:include="usuario/template_usuario.html::headerUsuarioLogged" th:unless="${usuarioLogged==null}"></div>
+<div th:include="usuario/template_usuario.html::headerUsuarioNoLogged" th:if="${usuarioLogged==null}"></div>
+<div class="container">
+
+    <!-- Jumbotron Header -->
+    <header class="jumbotron my-4 pt-16 pb-2">
+        <h1 class="display-3" style="text-align: center;">Trashure</h1>
+
+        <h3 style="text-align: center;"> Aviso Legal</h3>
+
+    </header>
+
+    <h4>  AVISO LEGAL DEL SITIO WEB Y LA APLICACIÓN TRASHURE</h4>
+
+
+    <p>
+        El titular de este sitio web www.trashureapp.com (el “Sitio Web”) y de la aplicación Trashure (la “Aplicación”) es Trashure.
+    </p>
+<p>
+        El nombre completo de Trashure es Trashure, S.L. (“Trashure”), nuestro NIF es el B-00000000 y nuestro domicilio social está en
+    Calle de la Pólvora, 123, 3ª planta, C.P. 28012, Madrid (España). Asimismo, Trashure está inscrita en el Registro Mercantil de Madrid,
+        en el tomo 99999, folio 999 y hoja B-900000, Inscripción 1ª.
+
+</p>
+<p>
+        Este aviso legal establece las condiciones mediante las cuales se rige el uso y acceso a nuestro Sitio Web y a nuestra Aplicación, incluida la mera navegación.
+
+    </p>
+
+
+    <h4>ACCESIBILIDAD</h4>
+    <p>
+
+        Trashure tiene pensado implementar todos los métodos para permitir el acceso a la plataforma a cualquier persona, cualesquiera sean sus
+        características personales o las limitaciones de su contexto (ambientales, luminosidad, tecnológicas, etc.).
+    </p>
+
+
+    <h4>ACCESO Y USO DEL SITIO WEB Y DE LA APLICACIÓN</h4>
+
+    <p>
+        El acceso, navegación o uso del Sitio Web y de la Aplicación de Trashure atribuye a quien lo realiza la condición de usuario,
+        que conlleva la aceptación, desde dicho acceso, navegación o uso, de las condiciones de este aviso legal.
+    </p>
+    <p>
+        Por otra parte, el acceso a determinados servicios es exclusivo para nuestros usuarios registrados y se requiere el registro previo y
+        la aceptación, antes de iniciarse la prestación, de los Términos y Condiciones de Uso de Trashure, que sustituirán,
+        completarán o modificarán los establecidos en el presente aviso legal, así como la Política de Privacidad y Política de Cookies de Trashure.
+</p>
+    <p>        Recuerda que Trashure no es propietaria de ninguno de los artículos publicados en nuestra plataforma y, por lo tanto,
+        no es parte vendedora en las transacciones que realicen los usuarios.
+
+
+</p>
+    <h4>  PROTECCIÓN DE DATOS Y COOKIES</h4>
+
+      <p>  Trashure como titular del Sitio Web y de la Aplicación cumple con el Reglamento (UE) 2016/679 del Parlamento y del Consejo de 27 de abril de 2016 relativo a la protección de las personas físicas
+          en lo que respecta al tratamiento de sus datos personales y la libre circulación de éstos y demás normativa vigente en cada momento,
+          y vela por garantizar un correcto uso y tratamiento de los datos personales del usuario.
+      </p>
+    <p>
+          Del mismo modo, Trashure cumple con la citada normativa de protección de datos, así como con la Ley 34/2002, de 11 de julio,
+          de servicios de la sociedad de la información y de comercio electrónico.
+
+        </p>
+    <p>
+        Para más información, accede a nuestra Política de Privacidad.
+
+      </p>
+
+
+    <h4>   MODIFICACIONES</h4>
+
+      <p>  Trashure se reserva el derecho a modificar en cualquier momento este aviso legal, así como el diseño,
+          la configuración, las especificaciones técnicas, los contenidos y los servicios del Sitio Web o de la Aplicación,
+          y su acceso, en cualquier momento, de forma unilateral y sin previa notificación al usuario.
+      </p>
+
+
+    <h4 >   ENLACES</h4>
+
+<p>        En el caso de que en nombre del dominio se dispusiesen enlaces o hipervínculos hacía otros sitios de internet,
+    Trashure no ejercerá ningún tipo de control sobre dichos sitios y contenidos.
+    </p>
+    <p>
+    En ningún caso Trashure, creadora del Sitio Web y la Aplicación, asumirá responsabilidad alguna por los contenidos
+    de algún enlace perteneciente a un sitio web ajeno, ni garantizará la disponibilidad técnica, calidad, fiabilidad, exactitud, amplitud,
+    veracidad, validez y constitucionalidad de cualquier material o información contenida en ninguno de dichos hipervíncaculos u otros
+    sitios de internet.
+    </p>
+    <p>Igualmente, la inclusión de estas conexiones externas no implicará ningún tipo de asociación, fusión o participación
+        con las entidades conectadas.
+
+</p>
+
+
+       <h4> GENERALIDADES</h4>
+
+      <p>  El usuario se compromete a hacer un uso correcto del Sitio Web, de la Aplicación y del contenido incluido en los mismos,
+          así como de los productos y servicios que adquiera, de conformidad con lo previsto en las leyes aplicables,
+          en las presentes condiciones de acceso y navegación, en los Términos y Condiciones de uso, Política de Privacidad, así como de conformidad
+          con la buena fe, las buenas costumbres y el orden público.
+          </p>
+    <p>
+    Trashure perseguirá el incumplimiento de las presentes condiciones de acceso y navegación, así como cualquier utilización indebida
+        de su Sitio Web o Aplicación ejerciendo todas las acciones civiles y penales que le puedan corresponder en derecho.
+        </p>
+    <p>
+        El usuario será responsable frente a Trashure o frente a terceros, de cualquier daño o perjuicio que pudiera causar
+        al vulnerar la normativa aplicable en el acceso, el uso o la navegación en el Sitio Web o en la Aplicación.
+
+      </p>
+
+
+      <h4> REGLAMENTO DE SERVICIOS DIGITALES</h4>
+
+ <p>   De conformidad con el artículo 24, apartado 2, del Reglamento (UE) 2022/2065 del Parlamento Europeo y del Consejo,
+     de 19 de octubre de 2022, relativo a un mercado único de servicios digitales y por el que se modifica la Directiva 2000/31/CE (DSA),
+     las plataformas en línea deben publicar información sobre el promedio mensual de destinatarios del servicio activos
+     en la Unión Europea (UE), que se determinará de conformidad con el considerando 77 del DSA.
+     </p>
+    <p>Sobre esta base, nuestro promedio mensual de destinatarios del servicio activos en la UE,
+        basado en el periodo comprendido entre el 1 de agosto de 2022 y el 31 de enero de 2023, es de 12.980.031.
+
+        </p>
+    <p>
+        Última actualización: 20 Febrero 2023
+    </p>
+</div>
+
+<div th:include="~{usuario/template_usuario.html::footer}"></div>
+
+<!--div th:include="~{usuario/template_usuario.html::headerUsuarioNoLogged}"></div-->
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+
+</html>

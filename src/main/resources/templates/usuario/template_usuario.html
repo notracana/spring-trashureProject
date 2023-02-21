@@ -65,7 +65,7 @@
               <a class="dropdown-item" th:href="@{/getFavoritos}">Mis favoritos</a>
               <a class="dropdown-item" th:href="@{/getCompras}">Historial de compras</a>
               <a class="dropdown-item" th:href="@{/getVentas}">Historial de ventas</a>
-              <a class="dropdown-item" th:href="@{api/v0/usuarios/logOut}">Cerrar sesión</a>
+              <a class="dropdown-item" th:href="@{/api/v0/usuarios/logOut}">Cerrar sesión</a>
 
             </div>
 
@@ -93,55 +93,45 @@
       <p></p>
       <!--p class="text-white">Contacto:</p-->
       <p class="text-white">trashurappteam@gmail.com</p>
-
-
     </div>
 
-    <div class="col-xs-12 col-md-6 col-lg-3">
-      <p class="h5 mb-3">Enlaces de interés</p>
-      <div class="mb-2">
-      <a class="text-white" href="#terminos_condiciones">Términos y condiciones</a>
-      </div>
-      <div class="mb-2">
-        <a class="text-white" href="">Política de privacidad</a>
-      </div>
-      <div class="mb-2">
-        <a class="text-white" href="">Política de cookies</a>
-      </div>
-      <div class="mb-2">
-        <a class="text-white" href="">Aviso legal</a>
-      </div>
-    </div>
     <div class="col-xs-12 col-md-6 col-lg-3">
       <p class="h5 mb-3">Trashure</p>
       <div class="mb-2">
-        <a class="text-white" href="">Sobre nosotros</a>
+        <a class="text-white" th:href="@{/aboutUs}">Sobre nosotros</a>
       </div>
       <div class="mb-2">
-        <a class="text-white" href="">Reglas de publicación</a>
-      </div>
-      <div class="mb-2">
-        <a class="text-white" href="">Consejos de seguridad</a>
+        <a class="text-white" th:href="@{/publicationRules}">Reglas de publicación</a>
       </div>
     </div>
     <div class="col-xs-12 col-md-6 col-lg-3">
       <p class="h5 mb-3">Soporte</p>
+
       <div class="mb-2">
-        <a class="text-white" href="">Preguntas frecuentes (FAQ)</a>
+        <a class="text-white" th:href="@{/securityTips}">Consejos de seguridad</a>
       </div>
       <div class="mb-2">
-        <a class="text-white" href="">Reglas de publicación</a>
-      </div>
-      <div class="mb-2">
-        <a class="text-white" href="">Consejos de seguridad</a>
+        <a class="text-white" th:href="@{/FAQ}">Preguntas frecuentes (FAQ)</a>
       </div>
     </div>
-    <!--div class="col-xs-12 col-md-6 col-lg-3">
-      <p class="h5 mb-3">Información de contacto</p>
+    <div class="col-xs-12 col-md-6 col-lg-3">
+      <p class="h5 mb-3">Enlaces de interés</p>
       <div class="mb-2">
-        <a class="text-white" href="">trashurappteam@gmail.com</a>
+        <a class="text-white" th:href="@{/legal}">Aviso legal</a>
       </div>
-    </div-->
+      <div class="mb-2">
+        <a class="text-white" th:href="@{/cookiesPolicy}">Política de cookies</a>
+      </div>
+      <div class="mb-2">
+        <a class="text-white" th:href="@{/privacyPolicy}">Política de privacidad</a>
+      </div>
+      <div class="mb-2">
+      <a class="text-white" th:href="@{/termsAndConditions}">Términos y condiciones</a>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-md-6 col-lg-3">
+    </div>
     <div class="col-xs-12 pt-4">
       <p class="text-white text-center"> Copyright &copy; Trashure - Todos los derechos reservados - 2023</p>
     </div>
