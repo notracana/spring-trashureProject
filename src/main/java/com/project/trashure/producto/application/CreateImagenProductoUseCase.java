@@ -15,8 +15,7 @@ import java.nio.file.Paths;
 public class CreateImagenProductoUseCase implements CreateImagenProductoPort {
 
     //Se crea una variable de tipo String que contiene la ubicación donde se van a cargar las imágenes
-    //en el proyecto
-    //Las imágenes van a estar en el directorio imagenes dentro de la raiz del proyecto
+    //van a estar en el directorio imagenes dentro de la raiz del proyecto
     private String carpetaImagenes = "imagenes//";
 
     //El primer método sirve para subir imágenes y como parámetro recibe un objeto de tipo MultipartFile
@@ -40,8 +39,7 @@ public class CreateImagenProductoUseCase implements CreateImagenProductoPort {
             return multipartFile.getOriginalFilename();
 
         }
-        //Si, en cambio, al subir un producto, no se sube una imagen del mismo...
-        //en ese caso usamos una imagen por defecto y se va a guardar
+        //Si al subir un producto, no se sube una imagen, usamos una imagen por defecto
 
         return "No_image_available.png";
 

@@ -31,14 +31,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/") //apunta a la raíz
 public class UsuarioPrincipalController {
 
-    //MIRAR ESTO: CREO QUE NO LO NECESITO PORQUE NO TENGO CARRITO > COMPRA
-    // List<DetalleTransaccion> detalleTransaccionList = new ArrayList<DetalleTransaccion>();
-
-    //MIRAR ESTO: LO QUE SÍ NECESITO ES UNA LISTA DE LOS PRODUCTOS FAVORITOS
-    //List<Producto> listaFavoritos = new ArrayList<Producto>();
-
-    //MIRAR ESTO: ES POSIBLE QUE SÍ LO NECESITE CUANDO AÑADA EL BOTÓN DE COMPRAR EN EL DETALLE DE UN PRODUCTO
-    //Transaccion transaccion = new Transaccion();
 
     private FindProductoPort findProductoPort;
     private FindUsuarioPort findUsuarioPort;
@@ -46,18 +38,13 @@ public class UsuarioPrincipalController {
     private FindTransaccionPort findTransaccionPort;
 
     private SaveProductoPort saveProductoPort;
-
     private SaveTransaccionPort saveTransaccionPort;
-
     private CreateTransaccionPort createTransaccionPort;
-
     private SaveUsuarioPort saveUsuarioPort;
-
     private JavaMailSender javaMailSender;
 
 
     //Este método retorna a la vista de la página principal del usuario
-
     @GetMapping("")
     public String principal(Model model, HttpSession httpSession) {
         List<Producto> productoList = findProductoPort.findAll();
@@ -400,7 +387,7 @@ public class UsuarioPrincipalController {
 
         List<Producto> productosTotales = new ArrayList<>();
 
-        if (textoBusqueda == null) {
+        if (textoBusqueda == null || textoBusqueda.isEmpty()) {
             productosTotales = findProductoPort.findAll();
         } else {
             productosTotales = findProductoPort.findAll().stream().filter
@@ -563,6 +550,36 @@ public class UsuarioPrincipalController {
         Producto producto = findProductoPort.findById(transaccion.getProducto().getIdProducto());
         producto.setDisponibilidad("Disponible");
         saveProductoPort.save(producto);
+
+        String url = "http://localhost:8080/getCompras";
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setFrom("trashureappteam@gmail.com");
+        Usuario solicitante = findUsuarioPort.findById(transaccion.getIdComprador());
+        simpleMailMessage.setTo(solicitante.getEmail());
+
+        simpleMailMessage.setSubject("El propietario del producto '"+ producto.getNombre()+"' ha rechazado tu solicitud.");
+        simpleMailMessage.setText("Lamentamos comunicarte que el propietario del producto que solicitaste ('" +  producto.getNombre()
+                +"') ha rechazado tu solicitud, de manera que la transacción ha pasado a estado RECHAZADA. " +
+                        " \n Te recordamos que esta situación puede cambiar, en cuyo caso te volveremos a enviar un correo notificándotelo."
+                + " \n Puedes hacer seguimiento de esta transacción desde el enlace " + url + " y del resto de transacciones " +
+                "desde la aplicación, en el apartado de 'Mi historial de compras'. "
+                +" \n Asimismo, desde Trashure te invitamos a buscar otros productos en nuestra plataforma que puedan interesarte." +
+                "\n " +
+                "-- \n ¡Gracias por depositar tu confianza en Trashure!");
+        /*System.out.println("mensaje : '" + simpleMailMessage.getText() + "'. \n" +
+                "Puedes contactar con el usuario a través de su dirección de correo electrónico: " + usuarioActual.getEmail());
+*/
+
+        try {
+            javaMailSender.send(simpleMailMessage);
+        } catch (Exception e) {
+            ErrorPropio err = new ErrorPropio();
+            err.setTexto("Error al enviar un mensaje al solicitante.");
+            model.addAttribute("error", err);
+            return "usuario/modal_error";
+            //System.out.println("Error al enviar email");
+            //e.printStackTrace();
+        }
         model.addAttribute("usuarioLogged", httpSession.getAttribute("idUsuario").toString());
         return "usuario/ventas";
     }

@@ -36,7 +36,6 @@ public class SaveProductoController {
             HttpSession httpSession) throws Exception {
 
         //El nombre del imgFile entre paréntesis es el nombre que se le da en la vista crear.html
-        //el noombre del campo en el formulario --> víd 16 min 4.50
 
         String idUsuario = httpSession.getAttribute("idUsuario").toString();
        //Al producto se le setea el id del usuario logueado

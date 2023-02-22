@@ -41,14 +41,12 @@
     <!-- Page Features -->
     <div class="row text-center">
 
-
         <div class="container">
             <a th:href="@{/busquedaAvanzada}">¿Necesitas una herramienta de búsqueda más potente?</a>
             <p></p>
         </div>
-
         <!-- recorremos para que en cada variable producto aparezca lo que trae la variable productoList desde
-         AdminController para mostrar su imagen y su nombre-->
+         el controlador para mostrar sus valores-->
         <div class="col-lg-3 col-md-6 mb-4" th:each="producto: ${productoList}">
             <div class="card h-100 border-light mb-3">
                 <!-- se establece el source de donde obtiene las imágenes: el directorio imagenes

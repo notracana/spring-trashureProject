@@ -11,13 +11,10 @@ import java.io.File;
 @AllArgsConstructor
 public class DeleteImagenProductoRepository implements DeleteImagenProductoPort {
 
-    //MIRAR ESTO:
-
-    //DEBERÍA ESTAR EN DELETEIMAGENPRODUCTO??
     //Método para borrar una imagen de producto
     //Recibe como parámetro el nombre de la imagen
-    //Si, pore ejemplo, se borra el producto, también se tiene que borrar su imagen
-    //y si quiero borrar la foto para subir otra?
+    //Si se borra el producto, también se tiene que borrar su imagen
+
     @Override
     public void deleteImagenProducto (String nombreImagen){
         //Variable String con la ruta donde está guardada la imagen

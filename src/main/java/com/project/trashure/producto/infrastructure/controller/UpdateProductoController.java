@@ -49,18 +49,10 @@ public class UpdateProductoController {
     public String editarProducto(
             @PathVariable Integer idProducto, Model model, HttpSession httpSession) throws Exception {
 
-
         System.out.println("id producto en editarproducto/idproducto " + idProducto);
         //Se guarda el producto encontrado con el id en un objeto de tipo Producto
         Producto producto = findProductoPort.findById(idProducto);
 
-        //MIRAR ESTO:
-        //aQUÍ podríamos usar un Optional
-        //  Producto producto = new Producto();
-        // Optinal <Producto> optProducto = findProductoPort.findById(idProducto);
-        //producto = optProducto.get();
-
-        //
         model.addAttribute("producto", producto); //con esto, se envía a la plantillña de editar el
         //objeto buscado
 

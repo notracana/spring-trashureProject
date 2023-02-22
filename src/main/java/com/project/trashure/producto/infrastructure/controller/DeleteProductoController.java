@@ -22,14 +22,6 @@ public class DeleteProductoController {
 
     private DeleteImagenProductoPort deleteImagenProductoPort;
 
-
-    @DeleteMapping("{idProducto}")
-    @Transactional(rollbackFor = Exception.class)
-    public void delete(@PathVariable("idProducto") Integer idProducto) {
-        deleteProductoPort.deleteById(idProducto);
-    }
-
-    //endpoint para redirigir a la vista de todos los productos una vez borrado un producto
     @GetMapping("/delete/{idProducto}")
     public String deleteProducto(@PathVariable Integer idProducto, HttpSession httpSession, Model model) throws Exception {
 
@@ -92,6 +84,12 @@ public class DeleteProductoController {
 
         deleteProductoPort.deleteById(idProducto);
         return "redirect:/api/v0/productos/getProductos";
+    }
+
+    @DeleteMapping("{idProducto}")
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(@PathVariable("idProducto") Integer idProducto) {
+        deleteProductoPort.deleteById(idProducto);
     }
 
 }

@@ -297,7 +297,7 @@ public class AdminController {
 
         List<Usuario> usuariosTotales = new ArrayList<>();
 
-        if (textoBusqueda == null) {
+        if (textoBusqueda == null || textoBusqueda.isEmpty()) {
             usuariosTotales = findUsuarioPort.findAll();
         } else {
             usuariosTotales = findUsuarioPort.findAll().stream().filter
@@ -321,7 +321,7 @@ public class AdminController {
 
         List<Producto> productos = new ArrayList<>();
 
-        if (textoBusqueda == null) {
+        if (textoBusqueda == null || textoBusqueda.isEmpty()) {
             productos = findProductoPort.findAll();
         } else {
             productos = findProductoPort.findAll().stream().filter
@@ -347,10 +347,10 @@ public class AdminController {
         List<Transaccion> transaccionList = new ArrayList<>();
 
 
-        if (textoBusqueda == null) {
+        if (textoBusqueda == null || textoBusqueda.isEmpty()) {
             transaccionList = findTransaccionPort.findAll();
         }
-        if(textoBusqueda != null){
+        if(textoBusqueda != null && !textoBusqueda.isEmpty()){
             switch (tipoId){
                 case "Transaccion":
                     transaccionList = findTransaccionPort.findAll().stream().filter
